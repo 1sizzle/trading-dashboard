@@ -1,5 +1,5 @@
 import { db } from "@/lib/core/db";
-import { Field, inputClass } from "@/components/ui/Field";
+import { Field, inputClass, secondaryButtonClass } from "@/components/ui/Field";
 import { ScreenshotGalleryGrid, type GalleryScreenshot } from "@/components/trading/ScreenshotGalleryGrid";
 import { formatNewYorkDateTime } from "@/lib/trading/calc";
 
@@ -90,10 +90,7 @@ export default async function GalleryPage({
           </select>
         </Field>
 
-        <button
-          type="submit"
-          className="rounded-lg border border-neutral-800 px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-900"
-        >
+        <button type="submit" className={secondaryButtonClass}>
           Filter
         </button>
 

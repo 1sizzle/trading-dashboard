@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/Card";
-import { Field, inputClass } from "@/components/ui/Field";
+import { Field, inputClass, primaryButtonClass } from "@/components/ui/Field";
 import { saveRiskSettings } from "@/app/dashboard/trading/risk/actions";
 import type { RiskSettings } from "@/lib/generated/prisma/client";
 
@@ -42,10 +42,7 @@ export function RiskSettingsForm({ settings }: { settings: RiskSettings | null }
         </Field>
 
         <div className="col-span-3 flex justify-end">
-          <button
-            type="submit"
-            className="rounded-lg bg-neutral-50 px-4 py-2 text-sm font-medium text-neutral-950 transition hover:bg-neutral-200"
-          >
+          <button type="submit" className={primaryButtonClass}>
             Save settings
           </button>
         </div>

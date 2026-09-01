@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/Card";
-import { Field, inputClass } from "@/components/ui/Field";
+import { Field, inputClass, primaryButtonClass } from "@/components/ui/Field";
 import { saveRule } from "@/app/dashboard/trading/playbook/actions";
 import type { PlaybookRule } from "@/lib/generated/prisma/client";
 
@@ -53,10 +53,7 @@ export function PlaybookRuleForm({
         <input type="hidden" name="order" value={rule?.order ?? nextOrder ?? 0} />
 
         <div className="flex justify-end">
-          <button
-            type="submit"
-            className="rounded-lg bg-neutral-50 px-4 py-2 text-sm font-medium text-neutral-950 transition hover:bg-neutral-200"
-          >
+          <button type="submit" className={primaryButtonClass}>
             {rule ? "Save changes" : "Add rule"}
           </button>
         </div>

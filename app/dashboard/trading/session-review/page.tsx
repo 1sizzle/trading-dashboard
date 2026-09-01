@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { db } from "@/lib/core/db";
 import { Card } from "@/components/ui/Card";
-import { Field, inputClass } from "@/components/ui/Field";
+import { Field, inputClass, secondaryButtonClass } from "@/components/ui/Field";
 import { PremarketChecklistCard } from "@/components/trading/PremarketChecklistCard";
 import { SessionSummary } from "@/components/trading/SessionSummary";
 import { SessionTradeTable } from "@/components/trading/SessionTradeTable";
@@ -63,7 +63,7 @@ export default async function SessionReviewPage({
           <div className="flex items-end gap-3">
             <Link
               href={`/dashboard/trading/session-review?date=${prevDate}`}
-              className="rounded-lg border border-neutral-800 px-3 py-2 text-sm text-neutral-300 hover:bg-neutral-900"
+              className={secondaryButtonClass}
             >
               Previous day
             </Link>
@@ -71,16 +71,13 @@ export default async function SessionReviewPage({
               <Field label="Jump to date">
                 <input type="date" name="date" defaultValue={dateValue} className={inputClass} />
               </Field>
-              <button
-                type="submit"
-                className="rounded-lg border border-neutral-800 px-3 py-2 text-sm text-neutral-300 hover:bg-neutral-900"
-              >
+              <button type="submit" className={secondaryButtonClass}>
                 Go
               </button>
             </form>
             <Link
               href={`/dashboard/trading/session-review?date=${nextDate}`}
-              className="rounded-lg border border-neutral-800 px-3 py-2 text-sm text-neutral-300 hover:bg-neutral-900"
+              className={secondaryButtonClass}
             >
               Next day
             </Link>

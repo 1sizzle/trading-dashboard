@@ -92,7 +92,7 @@ export default async function JournalPage({
           href="/dashboard/trading/journal?tab=futures"
           className={`px-4 py-2 text-sm font-medium ${
             tab === "futures"
-              ? "border-b-2 border-neutral-50 text-neutral-50"
+              ? "border-b-2 border-violet-500 text-neutral-50"
               : "text-neutral-400 hover:text-neutral-200"
           }`}
         >
@@ -102,7 +102,7 @@ export default async function JournalPage({
           href="/dashboard/trading/journal?tab=crypto"
           className={`px-4 py-2 text-sm font-medium ${
             tab === "crypto"
-              ? "border-b-2 border-neutral-50 text-neutral-50"
+              ? "border-b-2 border-violet-500 text-neutral-50"
               : "text-neutral-400 hover:text-neutral-200"
           }`}
         >

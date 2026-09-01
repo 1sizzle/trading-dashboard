@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/Card";
-import { Field, inputClass } from "@/components/ui/Field";
+import { Field, inputClass, primaryButtonClass } from "@/components/ui/Field";
 import { saveChecklist } from "@/app/dashboard/trading/premarket/actions";
 import { dateToDateInputValue, getTodayNewYorkDateValue } from "@/lib/trading/calc";
 import type { PremarketChecklist } from "@/lib/generated/prisma/client";
@@ -67,10 +67,7 @@ export function PremarketChecklistForm({ checklist }: { checklist?: PremarketChe
         </div>
 
         <div className="col-span-2 flex justify-end">
-          <button
-            type="submit"
-            className="rounded-lg bg-neutral-50 px-4 py-2 text-sm font-medium text-neutral-950 transition hover:bg-neutral-200"
-          >
+          <button type="submit" className={primaryButtonClass}>
             {checklist ? "Save changes" : "Save checklist"}
           </button>
         </div>

@@ -11,7 +11,7 @@ export function PlaybookRuleCard({ rule }: { rule: PlaybookRule }) {
     <Card>
       <div className="mb-3 flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
-          <span className="rounded-full border border-neutral-700 px-2.5 py-0.5 text-xs font-medium text-neutral-300">
+          <span className="rounded-full border border-violet-500/30 bg-violet-500/10 px-2.5 py-0.5 text-xs font-medium text-violet-300">
             {rule.setupGrade}
           </span>
           <h2 className="text-lg font-semibold">{rule.title}</h2>

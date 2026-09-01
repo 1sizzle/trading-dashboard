@@ -10,7 +10,7 @@ export function PremarketChecklistCard({ checklist }: { checklist: PremarketChec
       <div className="mb-2 flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
           <h3 className="font-medium">{formatDateOnly(checklist.date)}</h3>
-          <span className="rounded-full border border-neutral-700 px-2.5 py-0.5 text-xs font-medium text-neutral-300">
+          <span className="rounded-full border border-violet-500/30 bg-violet-500/10 px-2.5 py-0.5 text-xs font-medium text-violet-300">
             {checklist.bias}
           </span>
         </div>
