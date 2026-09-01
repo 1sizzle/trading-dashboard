@@ -1,0 +1,144 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Trading section models.
+// Prefixed conceptually as "trading" domain data; kept in the same database
+// as future sections (Etsy, Life) since this is a single-user dashboard, but
+// nothing outside /app/dashboard/trading and /lib/trading should reference
+// these models directly.
+// ---------------------------------------------------------------------------
+
+enum TradeDirection {
+  LONG
+  SHORT
+}
+
+enum AssetClass {
+  FUTURES_METALS
+  CRYPTO
+}
+
+enum TradingSession {
+  ASIA
+  LONDON
+  NEW_YORK
+  OTHER
+}
+
+enum TradeSource {
+  MANUAL
+  CSV_IMPORT
+}
+
+model Trade {
+  id              String          @id @default(cuid())
+  symbol          String
+  direction       TradeDirection
+  assetClass      AssetClass
+  entryPrice      Decimal?
+  exitPrice       Decimal?
+  positionSize    Decimal?
+  stopLoss        Decimal?
+  riskDollars     Decimal?
+  entryTime       DateTime
+  exitTime        DateTime
+  pnl             Decimal
+  rMultiple       Decimal?
+  durationMinutes Int
+  session         TradingSession
+  source          TradeSource     @default(MANUAL)
+  externalId      String?         @unique // broker fill-id pair, for CSV re-import de-dupe
+  notes           String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  tags        TradeTag[]
+  psychology  PsychologyEntry?
+  screenshots TradeScreenshot[]
+
+  @@index([entryTime])
+  @@index([session])
+  @@index([assetClass])
+}
+
+model TradeScreenshot {
+  id        String   @id @default(cuid())
+  tradeId   String
+  trade     Trade    @relation(fields: [tradeId], references: [id], onDelete: Cascade)
+  url       String
+  caption   String?
+  createdAt DateTime @default(now())
+}
+
+model Tag {
+  id       String     @id @default(cuid())
+  name     String     @unique
+  category String?
+  trades   TradeTag[]
+}
+
+model TradeTag {
+  tradeId String
+  tagId   String
+  trade   Trade  @relation(fields: [tradeId], references: [id], onDelete: Cascade)
+  tag     Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([tradeId, tagId])
+}
+
+model PsychologyEntry {
+  id          String  @id @default(cuid())
+  tradeId     String  @unique
+  trade       Trade   @relation(fields: [tradeId], references: [id], onDelete: Cascade)
+  preEmotion  String?
+  postEmotion String?
+  notes       String?
+}
+
+model PlaybookRule {
+  id         String   @id @default(cuid())
+  title      String
+  content    String
+  setupGrade String
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model PremarketChecklist {
+  id        String   @id @default(cuid())
+  date      DateTime @unique
+  bias      String
+  keyLevels String
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model RiskSettings {
+  id                String @id @default(cuid())
+  accountSize       Decimal
+  dailyLossLimit    Decimal
+  maxRiskPerTrade   Decimal
+  updatedAt         DateTime @updatedAt
+}
+
+model SignalLogEntry {
+  id        String   @id @default(cuid())
+  timestamp DateTime @default(now())
+  rawText   String
+  symbol    String?
+  source    String   @default("manual")
+}
