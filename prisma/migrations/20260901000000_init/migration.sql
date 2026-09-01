@@ -37,6 +37,17 @@ CREATE TABLE "Trade" (
 );
 
 -- CreateTable
+CREATE TABLE "TradeScreenshot" (
+    "id" TEXT NOT NULL,
+    "tradeId" TEXT NOT NULL,
+    "url" TEXT NOT NULL,
+    "caption" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "TradeScreenshot_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Tag" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -57,7 +68,7 @@ CREATE TABLE "TradeTag" (
 CREATE TABLE "PsychologyEntry" (
     "id" TEXT NOT NULL,
     "tradeId" TEXT NOT NULL,
-    "preEmotion" TEXT NOT NULL,
+    "preEmotion" TEXT,
     "postEmotion" TEXT,
     "notes" TEXT,
 
@@ -132,6 +143,9 @@ CREATE UNIQUE INDEX "PsychologyEntry_tradeId_key" ON "PsychologyEntry"("tradeId"
 
 -- CreateIndex
 CREATE UNIQUE INDEX "PremarketChecklist_date_key" ON "PremarketChecklist"("date");
+
+-- AddForeignKey
+ALTER TABLE "TradeScreenshot" ADD CONSTRAINT "TradeScreenshot_tradeId_fkey" FOREIGN KEY ("tradeId") REFERENCES "Trade"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "TradeTag" ADD CONSTRAINT "TradeTag_tradeId_fkey" FOREIGN KEY ("tradeId") REFERENCES "Trade"("id") ON DELETE CASCADE ON UPDATE CASCADE;
