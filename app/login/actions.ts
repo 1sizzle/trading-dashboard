@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import {
   checkPassword,
+  checkTotpCode,
   createSessionToken,
   SESSION_COOKIE_NAME,
   SESSION_MAX_AGE_SECONDS,
@@ -11,10 +12,15 @@ import {
 
 export async function login(formData: FormData) {
   const password = String(formData.get("password") ?? "");
+  const code = String(formData.get("code") ?? "").trim();
   const redirectTo = String(formData.get("redirectTo") ?? "/dashboard");
 
   if (!checkPassword(password)) {
-    redirect(`/login?error=1&from=${encodeURIComponent(redirectTo)}`);
+    redirect(`/login?error=password&from=${encodeURIComponent(redirectTo)}`);
+  }
+
+  if (!checkTotpCode(code)) {
+    redirect(`/login?error=code&from=${encodeURIComponent(redirectTo)}`);
   }
 
   const token = await createSessionToken();

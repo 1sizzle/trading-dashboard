@@ -18,7 +18,7 @@ export default async function LoginPage({
       <div className="relative w-full max-w-sm space-y-6">
         <div className="space-y-1 text-center">
           <h1 className="text-2xl font-semibold text-neutral-50">Dashboard</h1>
-          <p className="text-sm text-neutral-400">Enter your password to continue</p>
+          <p className="text-sm text-neutral-400">Enter your password and authenticator code</p>
         </div>
         <form action={login} className="space-y-4">
           <input type="hidden" name="redirectTo" value={redirectTo} />
@@ -30,8 +30,21 @@ export default async function LoginPage({
             required
             className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2.5 text-neutral-50 placeholder:text-neutral-500 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
           />
-          {params.error && (
+          <input
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]{6}"
+            maxLength={6}
+            name="code"
+            placeholder="6-digit code"
+            required
+            className="w-full rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2.5 text-center tracking-[0.5em] text-neutral-50 placeholder:tracking-normal placeholder:text-neutral-500 focus:border-violet-500 focus:outline-none focus:ring-1 focus:ring-violet-500"
+          />
+          {params.error === "password" && (
             <p className="text-sm text-red-400">Incorrect password. Try again.</p>
+          )}
+          {params.error === "code" && (
+            <p className="text-sm text-red-400">Incorrect or expired code. Try again.</p>
           )}
           <button type="submit" className={`w-full ${primaryButtonClass}`}>
             Sign in

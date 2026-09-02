@@ -1,3 +1,5 @@
+import * as OTPAuth from "otpauth";
+
 export const SESSION_COOKIE_NAME = "dashboard_session";
 const SESSION_DURATION_MS = 1000 * 60 * 60 * 24 * 30; // 30 days
 export const SESSION_MAX_AGE_SECONDS = SESSION_DURATION_MS / 1000;
@@ -43,6 +45,27 @@ export function checkPassword(candidate: string): boolean {
     throw new Error("DASHBOARD_PASSWORD environment variable is not set");
   }
   return timingSafeEqual(candidate, expected);
+}
+
+export function checkTotpCode(candidate: string): boolean {
+  const secret = process.env.TOTP_SECRET;
+  if (!secret) {
+    throw new Error("TOTP_SECRET environment variable is not set");
+  }
+  if (!/^\d{6}$/.test(candidate)) return false;
+
+  const totp = new OTPAuth.TOTP({
+    issuer: "Trading Dashboard",
+    label: "Dashboard",
+    algorithm: "SHA1",
+    digits: 6,
+    period: 30,
+    secret: OTPAuth.Secret.fromBase32(secret),
+  });
+
+  // window: 1 tolerates the previous/next 30s step for clock drift.
+  const delta = totp.validate({ token: candidate, window: 1 });
+  return delta !== null;
 }
 
 export async function createSessionToken(): Promise<string> {
