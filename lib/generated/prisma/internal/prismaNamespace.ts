@@ -405,6 +405,7 @@ export const ModelName = {
   PlaybookRule: 'PlaybookRule',
   PremarketChecklist: 'PremarketChecklist',
   RiskSettings: 'RiskSettings',
+  TradingRulesNote: 'TradingRulesNote',
   SignalLogEntry: 'SignalLogEntry'
 } as const
 
@@ -421,7 +422,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "trade" | "tradeScreenshot" | "tag" | "tradeTag" | "psychologyEntry" | "playbookRule" | "premarketChecklist" | "riskSettings" | "signalLogEntry"
+    modelProps: "trade" | "tradeScreenshot" | "tag" | "tradeTag" | "psychologyEntry" | "playbookRule" | "premarketChecklist" | "riskSettings" | "tradingRulesNote" | "signalLogEntry"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1017,6 +1018,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TradingRulesNote: {
+      payload: Prisma.$TradingRulesNotePayload<ExtArgs>
+      fields: Prisma.TradingRulesNoteFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TradingRulesNoteFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingRulesNotePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TradingRulesNoteFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingRulesNotePayload>
+        }
+        findFirst: {
+          args: Prisma.TradingRulesNoteFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingRulesNotePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TradingRulesNoteFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingRulesNotePayload>
+        }
+        findMany: {
+          args: Prisma.TradingRulesNoteFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingRulesNotePayload>[]
+        }
+        create: {
+          args: Prisma.TradingRulesNoteCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingRulesNotePayload>
+        }
+        createMany: {
+          args: Prisma.TradingRulesNoteCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TradingRulesNoteCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingRulesNotePayload>[]
+        }
+        delete: {
+          args: Prisma.TradingRulesNoteDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingRulesNotePayload>
+        }
+        update: {
+          args: Prisma.TradingRulesNoteUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingRulesNotePayload>
+        }
+        deleteMany: {
+          args: Prisma.TradingRulesNoteDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TradingRulesNoteUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TradingRulesNoteUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingRulesNotePayload>[]
+        }
+        upsert: {
+          args: Prisma.TradingRulesNoteUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingRulesNotePayload>
+        }
+        aggregate: {
+          args: Prisma.TradingRulesNoteAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTradingRulesNote>
+        }
+        groupBy: {
+          args: Prisma.TradingRulesNoteGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TradingRulesNoteGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TradingRulesNoteCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TradingRulesNoteCountAggregateOutputType> | number
+        }
+      }
+    }
     SignalLogEntry: {
       payload: Prisma.$SignalLogEntryPayload<ExtArgs>
       fields: Prisma.SignalLogEntryFieldRefs
@@ -1230,6 +1305,15 @@ export const RiskSettingsScalarFieldEnum = {
 } as const
 
 export type RiskSettingsScalarFieldEnum = (typeof RiskSettingsScalarFieldEnum)[keyof typeof RiskSettingsScalarFieldEnum]
+
+
+export const TradingRulesNoteScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TradingRulesNoteScalarFieldEnum = (typeof TradingRulesNoteScalarFieldEnum)[keyof typeof TradingRulesNoteScalarFieldEnum]
 
 
 export const SignalLogEntryScalarFieldEnum = {
@@ -1557,6 +1641,7 @@ export type GlobalOmitConfig = {
   playbookRule?: Prisma.PlaybookRuleOmit
   premarketChecklist?: Prisma.PremarketChecklistOmit
   riskSettings?: Prisma.RiskSettingsOmit
+  tradingRulesNote?: Prisma.TradingRulesNoteOmit
   signalLogEntry?: Prisma.SignalLogEntryOmit
 }
 

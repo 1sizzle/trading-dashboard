@@ -59,6 +59,7 @@ export const ModelName = {
   PlaybookRule: 'PlaybookRule',
   PremarketChecklist: 'PremarketChecklist',
   RiskSettings: 'RiskSettings',
+  TradingRulesNote: 'TradingRulesNote',
   SignalLogEntry: 'SignalLogEntry'
 } as const
 
@@ -178,6 +179,15 @@ export const RiskSettingsScalarFieldEnum = {
 } as const
 
 export type RiskSettingsScalarFieldEnum = (typeof RiskSettingsScalarFieldEnum)[keyof typeof RiskSettingsScalarFieldEnum]
+
+
+export const TradingRulesNoteScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TradingRulesNoteScalarFieldEnum = (typeof TradingRulesNoteScalarFieldEnum)[keyof typeof TradingRulesNoteScalarFieldEnum]
 
 
 export const SignalLogEntryScalarFieldEnum = {

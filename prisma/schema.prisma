@@ -135,6 +135,12 @@ model RiskSettings {
   updatedAt         DateTime @updatedAt
 }
 
+model TradingRulesNote {
+  id        String   @id @default(cuid())
+  content   String
+  updatedAt DateTime @updatedAt
+}
+
 model SignalLogEntry {
   id        String   @id @default(cuid())
   timestamp DateTime @default(now())

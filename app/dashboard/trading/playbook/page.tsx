@@ -1,6 +1,6 @@
 import { db } from "@/lib/core/db";
-import { PlaybookRuleForm } from "@/components/trading/PlaybookRuleForm";
 import { PlaybookRuleCard } from "@/components/trading/PlaybookRuleCard";
+import { TradingRulesNoteCard } from "@/components/trading/TradingRulesNoteCard";
 
 export const dynamic = "force-dynamic";
 
@@ -9,18 +9,26 @@ export default async function PlaybookPage() {
     orderBy: [{ order: "asc" }, { createdAt: "asc" }],
   });
 
-  const nextOrder = rules.length > 0 ? Math.max(...rules.map((r) => r.order)) + 1 : 0;
+  let rulesNote = await db.tradingRulesNote.findFirst();
+  if (!rulesNote) {
+    rulesNote = await db.tradingRulesNote.create({
+      data: {
+        content: "Max 2 losses a day of $200 each\nDon't trade on phone\nWait for confirmation",
+      },
+    });
+  }
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Playbook</h1>
-        <p className="mt-1 text-neutral-400">
-          Your trading rules and setup-quality definitions. Edit freely as your rules evolve.
-        </p>
+      <div className="flex items-start justify-between gap-6">
+        <div>
+          <h1 className="text-2xl font-semibold">Playbook</h1>
+          <p className="mt-1 text-neutral-400">
+            Your trading rules and setup-quality definitions. Edit freely as your rules evolve.
+          </p>
+        </div>
+        <TradingRulesNoteCard content={rulesNote.content} />
       </div>
-
-      <PlaybookRuleForm nextOrder={nextOrder} />
 
       {rules.length === 0 ? (
         <p className="text-sm text-neutral-500">No rules written yet.</p>

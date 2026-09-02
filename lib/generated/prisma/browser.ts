@@ -58,6 +58,11 @@ export type PremarketChecklist = Prisma.PremarketChecklistModel
  */
 export type RiskSettings = Prisma.RiskSettingsModel
 /**
+ * Model TradingRulesNote
+ * 
+ */
+export type TradingRulesNote = Prisma.TradingRulesNoteModel
+/**
  * Model SignalLogEntry
  * 
  */

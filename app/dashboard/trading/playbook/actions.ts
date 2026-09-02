@@ -29,3 +29,16 @@ export async function deleteRule(formData: FormData) {
   revalidatePath("/dashboard/trading/playbook");
   redirect("/dashboard/trading/playbook");
 }
+
+export async function saveTradingRulesNote(formData: FormData) {
+  const content = String(formData.get("content") ?? "").trim();
+  const existing = await db.tradingRulesNote.findFirst();
+
+  if (existing) {
+    await db.tradingRulesNote.update({ where: { id: existing.id }, data: { content } });
+  } else {
+    await db.tradingRulesNote.create({ data: { content } });
+  }
+
+  revalidatePath("/dashboard/trading/playbook");
+}
