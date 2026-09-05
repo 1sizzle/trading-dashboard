@@ -41,3 +41,11 @@ export const TradeSource = {
 } as const
 
 export type TradeSource = (typeof TradeSource)[keyof typeof TradeSource]
+
+
+export const LifeEntryType = {
+  PERSONAL: 'PERSONAL',
+  BUSINESS: 'BUSINESS'
+} as const
+
+export type LifeEntryType = (typeof LifeEntryType)[keyof typeof LifeEntryType]

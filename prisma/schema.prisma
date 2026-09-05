@@ -148,3 +148,42 @@ model SignalLogEntry {
   symbol    String?
   source    String   @default("manual")
 }
+
+// ---------------------------------------------------------------------------
+// Life section models (income/expenses). Kept entirely separate from the
+// trading models above — no shared tables, no reads of Trade P&L. Only
+// lib/core/sections.ts is touched to register this section.
+// ---------------------------------------------------------------------------
+
+enum LifeEntryType {
+  PERSONAL
+  BUSINESS
+}
+
+model Expense {
+  id        String        @id @default(cuid())
+  amount    Decimal
+  category  String
+  type      LifeEntryType
+  note      String?
+  date      DateTime
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([date])
+  @@index([type])
+}
+
+model IncomeEntry {
+  id        String        @id @default(cuid())
+  amount    Decimal
+  source    String
+  type      LifeEntryType
+  note      String?
+  date      DateTime
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([date])
+  @@index([type])
+}

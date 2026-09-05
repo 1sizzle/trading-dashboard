@@ -259,6 +259,23 @@ export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedStringNullableFilter<$PrismaModel>
 }
 
+export type EnumLifeEntryTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.LifeEntryType | Prisma.EnumLifeEntryTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.LifeEntryType[] | Prisma.ListEnumLifeEntryTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LifeEntryType[] | Prisma.ListEnumLifeEntryTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLifeEntryTypeFilter<$PrismaModel> | $Enums.LifeEntryType
+}
+
+export type EnumLifeEntryTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.LifeEntryType | Prisma.EnumLifeEntryTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.LifeEntryType[] | Prisma.ListEnumLifeEntryTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LifeEntryType[] | Prisma.ListEnumLifeEntryTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLifeEntryTypeWithAggregatesFilter<$PrismaModel> | $Enums.LifeEntryType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumLifeEntryTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumLifeEntryTypeFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -515,6 +532,23 @@ export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedStringNullableFilter<$PrismaModel>
   _max?: Prisma.NestedStringNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumLifeEntryTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.LifeEntryType | Prisma.EnumLifeEntryTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.LifeEntryType[] | Prisma.ListEnumLifeEntryTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LifeEntryType[] | Prisma.ListEnumLifeEntryTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLifeEntryTypeFilter<$PrismaModel> | $Enums.LifeEntryType
+}
+
+export type NestedEnumLifeEntryTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.LifeEntryType | Prisma.EnumLifeEntryTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.LifeEntryType[] | Prisma.ListEnumLifeEntryTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.LifeEntryType[] | Prisma.ListEnumLifeEntryTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumLifeEntryTypeWithAggregatesFilter<$PrismaModel> | $Enums.LifeEntryType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumLifeEntryTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumLifeEntryTypeFilter<$PrismaModel>
 }
 
 

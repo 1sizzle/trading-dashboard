@@ -60,7 +60,9 @@ export const ModelName = {
   PremarketChecklist: 'PremarketChecklist',
   RiskSettings: 'RiskSettings',
   TradingRulesNote: 'TradingRulesNote',
-  SignalLogEntry: 'SignalLogEntry'
+  SignalLogEntry: 'SignalLogEntry',
+  Expense: 'Expense',
+  IncomeEntry: 'IncomeEntry'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -199,6 +201,34 @@ export const SignalLogEntryScalarFieldEnum = {
 } as const
 
 export type SignalLogEntryScalarFieldEnum = (typeof SignalLogEntryScalarFieldEnum)[keyof typeof SignalLogEntryScalarFieldEnum]
+
+
+export const ExpenseScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  category: 'category',
+  type: 'type',
+  note: 'note',
+  date: 'date',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
+
+
+export const IncomeEntryScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  source: 'source',
+  type: 'type',
+  note: 'note',
+  date: 'date',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type IncomeEntryScalarFieldEnum = (typeof IncomeEntryScalarFieldEnum)[keyof typeof IncomeEntryScalarFieldEnum]
 
 
 export const SortOrder = {

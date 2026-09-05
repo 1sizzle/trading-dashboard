@@ -67,3 +67,13 @@ export type TradingRulesNote = Prisma.TradingRulesNoteModel
  * 
  */
 export type SignalLogEntry = Prisma.SignalLogEntryModel
+/**
+ * Model Expense
+ * 
+ */
+export type Expense = Prisma.ExpenseModel
+/**
+ * Model IncomeEntry
+ * 
+ */
+export type IncomeEntry = Prisma.IncomeEntryModel
