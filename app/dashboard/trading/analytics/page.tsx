@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { db } from "@/lib/core/db";
 import { SessionSummary } from "@/components/trading/SessionSummary";
 import { EquityCurveChart } from "@/components/trading/EquityCurveChart";
@@ -12,8 +13,16 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function AnalyticsPage() {
+export default async function AnalyticsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string }>;
+}) {
+  const params = await searchParams;
+  const tab: "futures" | "crypto" = params.tab === "crypto" ? "crypto" : "futures";
+
   const trades = await db.trade.findMany({
+    where: { assetClass: tab === "crypto" ? "CRYPTO" : "FUTURES_METALS" },
     orderBy: { entryTime: "asc" },
     include: { tags: { include: { tag: true } } },
   });
@@ -37,8 +46,33 @@ export default async function AnalyticsPage() {
       <div>
         <h1 className="text-2xl font-semibold">Performance Analytics</h1>
         <p className="mt-1 text-neutral-400">
-          Across all trades — futures/metals and crypto combined.
+          {tab === "crypto"
+            ? "Crypto trades only (Bitunix)."
+            : "Futures & Metals trades only (prop firm)."}
         </p>
+      </div>
+
+      <div className="flex gap-2 border-b border-neutral-800">
+        <Link
+          href="/dashboard/trading/analytics?tab=futures"
+          className={`px-4 py-2 text-sm font-medium ${
+            tab === "futures"
+              ? "border-b-2 border-violet-500 text-neutral-50"
+              : "text-neutral-400 hover:text-neutral-200"
+          }`}
+        >
+          Futures & Metals
+        </Link>
+        <Link
+          href="/dashboard/trading/analytics?tab=crypto"
+          className={`px-4 py-2 text-sm font-medium ${
+            tab === "crypto"
+              ? "border-b-2 border-violet-500 text-neutral-50"
+              : "text-neutral-400 hover:text-neutral-200"
+          }`}
+        >
+          Crypto
+        </Link>
       </div>
 
       <SessionSummary summary={summary} />
@@ -50,8 +84,12 @@ export default async function AnalyticsPage() {
         hint="Tags are the closest thing to a setup type here — doubles as that breakdown."
         data={byTag}
       />
-      <PnlBreakdownChart title="P&L by session" data={bySession} />
-      <PnlBreakdownChart title="P&L by day of week" data={byDayOfWeek} />
+      {tab === "futures" && <PnlBreakdownChart title="P&L by session" data={bySession} />}
+      <PnlBreakdownChart
+        title="P&L by day of week"
+        hint="Each bar sums every trade that ever fell on that weekday across your whole history — not a single date."
+        data={byDayOfWeek}
+      />
     </div>
   );
 }

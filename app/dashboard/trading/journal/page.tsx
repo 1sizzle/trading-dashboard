@@ -3,6 +3,7 @@ import { db } from "@/lib/core/db";
 import { FuturesMetalsTradeForm } from "@/components/trading/FuturesMetalsTradeForm";
 import { CryptoTradeForm } from "@/components/trading/CryptoTradeForm";
 import { CsvImportForm } from "@/components/trading/CsvImportForm";
+import { BitunixImportForm } from "@/components/trading/BitunixImportForm";
 import { TradeTable } from "@/components/trading/TradeTable";
 
 export const dynamic = "force-dynamic";
@@ -116,7 +117,10 @@ export default async function JournalPage({
           <CsvImportForm />
         </>
       ) : (
-        <CryptoTradeForm tagSuggestions={tagSuggestions} />
+        <>
+          <CryptoTradeForm tagSuggestions={tagSuggestions} />
+          <BitunixImportForm />
+        </>
       )}
 
       <TradeTable trades={trades} tab={tab} />

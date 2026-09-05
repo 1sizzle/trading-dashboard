@@ -13,7 +13,7 @@ import {
   detectSession,
   newYorkWallTimeToUtc,
 } from "@/lib/trading/calc";
-import { parseTradovatePerformanceCsv } from "@/lib/trading/csv";
+import { parseBitunixCsv, parseTradovatePerformanceCsv } from "@/lib/trading/csv";
 import { del, put } from "@vercel/blob";
 
 const MAX_SCREENSHOT_BYTES = 8 * 1024 * 1024;
@@ -257,6 +257,56 @@ export async function importTradovateCsv(formData: FormData) {
     skipped: String(trades.length - result.count),
   });
   if (unknownSymbols.length > 0) params.set("unknownSymbols", unknownSymbols.join(","));
+  if (errors.length > 0) params.set("parseErrors", String(errors.length));
+
+  redirect(`/dashboard/trading/journal?${params.toString()}`);
+}
+
+export async function importBitunixCsv(formData: FormData) {
+  const file = formData.get("file");
+  if (!(file instanceof File) || file.size === 0) {
+    redirect("/dashboard/trading/journal?tab=crypto&importError=no_file");
+  }
+
+  const text = await file.text();
+  const { trades, errors } = parseBitunixCsv(text);
+
+  if (trades.length === 0) {
+    const message = errors[0] ?? "No trade rows found in that file.";
+    redirect(
+      `/dashboard/trading/journal?tab=crypto&importError=bad_format&importErrorMessage=${encodeURIComponent(message)}`,
+    );
+  }
+
+  const data = trades.map((trade) => ({
+    symbol: trade.symbol,
+    direction: trade.direction,
+    assetClass: "CRYPTO" as const,
+    entryPrice: null,
+    exitPrice: null,
+    positionSize: null,
+    stopLoss: null,
+    riskDollars: null,
+    entryTime: trade.entryTime,
+    exitTime: trade.exitTime,
+    pnl: trade.pnl,
+    rMultiple: null,
+    durationMinutes: calculateDurationMinutes(trade.entryTime, trade.exitTime),
+    session: detectSession(trade.entryTime),
+    source: "CSV_IMPORT" as const,
+    externalId: trade.externalId,
+    notes: trade.notes,
+  }));
+
+  const result = await db.trade.createMany({ data, skipDuplicates: true });
+
+  revalidatePath("/dashboard/trading/journal");
+
+  const params = new URLSearchParams({
+    tab: "crypto",
+    imported: String(result.count),
+    skipped: String(trades.length - result.count),
+  });
   if (errors.length > 0) params.set("parseErrors", String(errors.length));
 
   redirect(`/dashboard/trading/journal?${params.toString()}`);
