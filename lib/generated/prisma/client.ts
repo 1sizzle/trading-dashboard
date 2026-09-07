@@ -72,6 +72,16 @@ export type PsychologyEntry = Prisma.PsychologyEntryModel
  */
 export type PlaybookRule = Prisma.PlaybookRuleModel
 /**
+ * Model SetupOccurrence
+ * 
+ */
+export type SetupOccurrence = Prisma.SetupOccurrenceModel
+/**
+ * Model MarketBreakdownPost
+ * 
+ */
+export type MarketBreakdownPost = Prisma.MarketBreakdownPostModel
+/**
  * Model PremarketChecklist
  * 
  */

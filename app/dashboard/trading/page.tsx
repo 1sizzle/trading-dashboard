@@ -57,6 +57,12 @@ export default function TradingOverviewPage() {
             <p className="mt-1 text-sm text-neutral-400">Browse every chart screenshot you&apos;ve saved.</p>
           </Card>
         </Link>
+        <Link href="/dashboard/trading/market-breakdown">
+          <Card className="transition hover:border-violet-500/50">
+            <h2 className="font-medium">Market Breakdown</h2>
+            <p className="mt-1 text-sm text-neutral-400">NQ session bias and key levels, 4x daily.</p>
+          </Card>
+        </Link>
       </div>
     </div>
   );

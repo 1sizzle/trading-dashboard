@@ -57,6 +57,8 @@ export const ModelName = {
   TradeTag: 'TradeTag',
   PsychologyEntry: 'PsychologyEntry',
   PlaybookRule: 'PlaybookRule',
+  SetupOccurrence: 'SetupOccurrence',
+  MarketBreakdownPost: 'MarketBreakdownPost',
   PremarketChecklist: 'PremarketChecklist',
   RiskSettings: 'RiskSettings',
   TradingRulesNote: 'TradingRulesNote',
@@ -152,11 +154,63 @@ export const PlaybookRuleScalarFieldEnum = {
   content: 'content',
   setupGrade: 'setupGrade',
   order: 'order',
+  strategyKey: 'strategyKey',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type PlaybookRuleScalarFieldEnum = (typeof PlaybookRuleScalarFieldEnum)[keyof typeof PlaybookRuleScalarFieldEnum]
+
+
+export const SetupOccurrenceScalarFieldEnum = {
+  id: 'id',
+  playbookRuleId: 'playbookRuleId',
+  symbol: 'symbol',
+  direction: 'direction',
+  status: 'status',
+  entryPrice: 'entryPrice',
+  exitPrice: 'exitPrice',
+  stopPrice: 'stopPrice',
+  targetPrice: 'targetPrice',
+  contracts: 'contracts',
+  pnlPoints: 'pnlPoints',
+  pnlDollars: 'pnlDollars',
+  entryTime: 'entryTime',
+  exitTime: 'exitTime',
+  source: 'source',
+  externalId: 'externalId',
+  entryRawPayload: 'entryRawPayload',
+  exitRawPayload: 'exitRawPayload',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SetupOccurrenceScalarFieldEnum = (typeof SetupOccurrenceScalarFieldEnum)[keyof typeof SetupOccurrenceScalarFieldEnum]
+
+
+export const MarketBreakdownPostScalarFieldEnum = {
+  id: 'id',
+  symbol: 'symbol',
+  postType: 'postType',
+  tradingDate: 'tradingDate',
+  postedAt: 'postedAt',
+  price: 'price',
+  vix: 'vix',
+  sessionVolumePct: 'sessionVolumePct',
+  ibHigh: 'ibHigh',
+  ibLow: 'ibLow',
+  keyLevelsData: 'keyLevelsData',
+  structureData: 'structureData',
+  valueAreaData: 'valueAreaData',
+  historicalStatsData: 'historicalStatsData',
+  narrative: 'narrative',
+  rawPayload: 'rawPayload',
+  externalId: 'externalId',
+  createdAt: 'createdAt'
+} as const
+
+export type MarketBreakdownPostScalarFieldEnum = (typeof MarketBreakdownPostScalarFieldEnum)[keyof typeof MarketBreakdownPostScalarFieldEnum]
 
 
 export const PremarketChecklistScalarFieldEnum = {
@@ -239,6 +293,21 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -253,4 +322,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

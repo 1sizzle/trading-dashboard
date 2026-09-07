@@ -43,6 +43,34 @@ export const TradeSource = {
 export type TradeSource = (typeof TradeSource)[keyof typeof TradeSource]
 
 
+export const SetupOccurrenceStatus = {
+  PENDING: 'PENDING',
+  WIN: 'WIN',
+  LOSS: 'LOSS',
+  BREAKEVEN: 'BREAKEVEN'
+} as const
+
+export type SetupOccurrenceStatus = (typeof SetupOccurrenceStatus)[keyof typeof SetupOccurrenceStatus]
+
+
+export const SetupOccurrenceSource = {
+  WEBHOOK: 'WEBHOOK',
+  CSV_IMPORT: 'CSV_IMPORT'
+} as const
+
+export type SetupOccurrenceSource = (typeof SetupOccurrenceSource)[keyof typeof SetupOccurrenceSource]
+
+
+export const MarketBreakdownPostType = {
+  NY_OPEN: 'NY_OPEN',
+  FIRST_HOUR: 'FIRST_HOUR',
+  MIDDAY: 'MIDDAY',
+  DAILY_RECAP: 'DAILY_RECAP'
+} as const
+
+export type MarketBreakdownPostType = (typeof MarketBreakdownPostType)[keyof typeof MarketBreakdownPostType]
+
+
 export const LifeEntryType = {
   PERSONAL: 'PERSONAL',
   BUSINESS: 'BUSINESS'

@@ -10,8 +10,10 @@ export async function saveRule(formData: FormData) {
   const setupGrade = String(formData.get("setupGrade") ?? "").trim();
   const content = String(formData.get("content") ?? "");
   const order = Number(formData.get("order") ?? 0);
+  const strategyKeyRaw = String(formData.get("strategyKey") ?? "").trim().toLowerCase();
+  const strategyKey = strategyKeyRaw || null;
 
-  const data = { title, setupGrade, content, order };
+  const data = { title, setupGrade, content, order, strategyKey };
 
   if (id) {
     await db.playbookRule.update({ where: { id }, data });

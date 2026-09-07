@@ -43,7 +43,7 @@ enum TradeSource {
 }
 
 model Trade {
-  id              String          @id @default(cuid())
+  id              String         @id @default(cuid())
   symbol          String
   direction       TradeDirection
   assetClass      AssetClass
@@ -58,11 +58,11 @@ model Trade {
   rMultiple       Decimal?
   durationMinutes Int
   session         TradingSession
-  source          TradeSource     @default(MANUAL)
-  externalId      String?         @unique // broker fill-id pair, for CSV re-import de-dupe
+  source          TradeSource    @default(MANUAL)
+  externalId      String?        @unique // broker fill-id pair, for CSV re-import de-dupe
   notes           String?
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
 
   tags        TradeTag[]
   psychology  PsychologyEntry?
@@ -108,13 +108,96 @@ model PsychologyEntry {
 }
 
 model PlaybookRule {
-  id         String   @id @default(cuid())
-  title      String
-  content    String
-  setupGrade String
-  order      Int      @default(0)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  setupGrade  String
+  order       Int      @default(0)
+  strategyKey String?  @unique // stable machine key (e.g. "golden-pocket") matched against TradingView webhook/CSV payloads — nullable since existing rules predate this, assigned one at a time as each strategy is wired up
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  occurrences SetupOccurrence[]
+}
+
+enum SetupOccurrenceStatus {
+  PENDING // setup fired, exit not yet resolved
+  WIN
+  LOSS
+  BREAKEVEN
+}
+
+enum SetupOccurrenceSource {
+  WEBHOOK // live, pushed from a TradingView alert
+  CSV_IMPORT // backfilled from a Strategy Tester "List of Trades" export
+}
+
+// A detected occurrence of a playbook strategy's setup in the real NQ market,
+// sourced from a TradingView Pine strategy (backtest CSV or live webhook) —
+// independent of whether the user actually traded it. See Trade for the
+// user's own trade log; this is market behavior, not personal trade history.
+model SetupOccurrence {
+  id              String                @id @default(cuid())
+  playbookRuleId  String
+  playbookRule    PlaybookRule          @relation(fields: [playbookRuleId], references: [id], onDelete: Restrict)
+  symbol          String                @default("NQ")
+  direction       TradeDirection
+  status          SetupOccurrenceStatus @default(PENDING)
+  entryPrice      Decimal
+  exitPrice       Decimal?
+  stopPrice       Decimal?
+  targetPrice     Decimal?
+  contracts       Int                   @default(1)
+  pnlPoints       Decimal?
+  pnlDollars      Decimal?
+  entryTime       DateTime
+  exitTime        DateTime?
+  source          SetupOccurrenceSource
+  externalId      String?               @unique
+  entryRawPayload Json?
+  exitRawPayload  Json?
+  notes           String?
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  @@index([playbookRuleId, entryTime])
+  @@index([entryTime])
+  @@index([status])
+}
+
+enum MarketBreakdownPostType {
+  NY_OPEN
+  FIRST_HOUR
+  MIDDAY
+  DAILY_RECAP
+}
+
+// A session-level NQ bias/levels snapshot, computed from the user's own
+// TradingView Pine indicator (not scraped from any third-party Discord) and
+// narrated via Gemini in a similar style to the reference format the user
+// showed. Independent of Trade/SetupOccurrence — this is broad market
+// context, not personal trade history or a specific setup's occurrences.
+model MarketBreakdownPost {
+  id                  String                  @id @default(cuid())
+  symbol              String                  @default("NQ")
+  postType            MarketBreakdownPostType
+  tradingDate         DateTime // NY calendar day this post belongs to, UTC-midnight date label (same convention as PremarketChecklist.date)
+  postedAt            DateTime // real alert-fire time
+  price               Decimal
+  vix                 Decimal?
+  sessionVolumePct    Decimal? // session volume as % of 30-day average at this point in the day
+  ibHigh              Decimal?
+  ibLow               Decimal?
+  keyLevelsData       Json // [{name, price, distanceFromPrice, tapped}] — VWAP stack, PDH/PDL, PWH/PWL, PMH/PML, opens, PM high/low
+  structureData       Json? // phase 2: {daily:{bias,label}, h4:{...}, h1:{...}, m5:{...}}
+  valueAreaData       Json? // phase 3: {poc, vah, val} for prior session
+  historicalStatsData Json? // phase 4: base-rate stats, nullable unless/until a historical data source exists
+  narrative           Json? // AI-generated prose sections, cached at ingest time: {alignment, bias, priorValue, gameplan, lineInSand, tradeLocation, whatNotToDo}
+  rawPayload          Json // full webhook body, durability log
+  externalId          String                  @unique
+  createdAt           DateTime                @default(now())
+
+  @@index([tradingDate, postType])
 }
 
 model PremarketChecklist {
@@ -128,11 +211,11 @@ model PremarketChecklist {
 }
 
 model RiskSettings {
-  id                String @id @default(cuid())
-  accountSize       Decimal
-  dailyLossLimit    Decimal
-  maxRiskPerTrade   Decimal
-  updatedAt         DateTime @updatedAt
+  id              String   @id @default(cuid())
+  accountSize     Decimal
+  dailyLossLimit  Decimal
+  maxRiskPerTrade Decimal
+  updatedAt       DateTime @updatedAt
 }
 
 model TradingRulesNote {

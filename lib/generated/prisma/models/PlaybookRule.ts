@@ -40,6 +40,7 @@ export type PlaybookRuleMinAggregateOutputType = {
   content: string | null
   setupGrade: string | null
   order: number | null
+  strategyKey: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -50,6 +51,7 @@ export type PlaybookRuleMaxAggregateOutputType = {
   content: string | null
   setupGrade: string | null
   order: number | null
+  strategyKey: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -60,6 +62,7 @@ export type PlaybookRuleCountAggregateOutputType = {
   content: number
   setupGrade: number
   order: number
+  strategyKey: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -80,6 +83,7 @@ export type PlaybookRuleMinAggregateInputType = {
   content?: true
   setupGrade?: true
   order?: true
+  strategyKey?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -90,6 +94,7 @@ export type PlaybookRuleMaxAggregateInputType = {
   content?: true
   setupGrade?: true
   order?: true
+  strategyKey?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -100,6 +105,7 @@ export type PlaybookRuleCountAggregateInputType = {
   content?: true
   setupGrade?: true
   order?: true
+  strategyKey?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -197,6 +203,7 @@ export type PlaybookRuleGroupByOutputType = {
   content: string
   setupGrade: string
   order: number
+  strategyKey: string | null
   createdAt: Date
   updatedAt: Date
   _count: PlaybookRuleCountAggregateOutputType | null
@@ -230,8 +237,10 @@ export type PlaybookRuleWhereInput = {
   content?: Prisma.StringFilter<"PlaybookRule"> | string
   setupGrade?: Prisma.StringFilter<"PlaybookRule"> | string
   order?: Prisma.IntFilter<"PlaybookRule"> | number
+  strategyKey?: Prisma.StringNullableFilter<"PlaybookRule"> | string | null
   createdAt?: Prisma.DateTimeFilter<"PlaybookRule"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PlaybookRule"> | Date | string
+  occurrences?: Prisma.SetupOccurrenceListRelationFilter
 }
 
 export type PlaybookRuleOrderByWithRelationInput = {
@@ -240,12 +249,15 @@ export type PlaybookRuleOrderByWithRelationInput = {
   content?: Prisma.SortOrder
   setupGrade?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  strategyKey?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  occurrences?: Prisma.SetupOccurrenceOrderByRelationAggregateInput
 }
 
 export type PlaybookRuleWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  strategyKey?: string
   AND?: Prisma.PlaybookRuleWhereInput | Prisma.PlaybookRuleWhereInput[]
   OR?: Prisma.PlaybookRuleWhereInput[]
   NOT?: Prisma.PlaybookRuleWhereInput | Prisma.PlaybookRuleWhereInput[]
@@ -255,7 +267,8 @@ export type PlaybookRuleWhereUniqueInput = Prisma.AtLeast<{
   order?: Prisma.IntFilter<"PlaybookRule"> | number
   createdAt?: Prisma.DateTimeFilter<"PlaybookRule"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PlaybookRule"> | Date | string
-}, "id">
+  occurrences?: Prisma.SetupOccurrenceListRelationFilter
+}, "id" | "strategyKey">
 
 export type PlaybookRuleOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -263,6 +276,7 @@ export type PlaybookRuleOrderByWithAggregationInput = {
   content?: Prisma.SortOrder
   setupGrade?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  strategyKey?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PlaybookRuleCountOrderByAggregateInput
@@ -281,6 +295,7 @@ export type PlaybookRuleScalarWhereWithAggregatesInput = {
   content?: Prisma.StringWithAggregatesFilter<"PlaybookRule"> | string
   setupGrade?: Prisma.StringWithAggregatesFilter<"PlaybookRule"> | string
   order?: Prisma.IntWithAggregatesFilter<"PlaybookRule"> | number
+  strategyKey?: Prisma.StringNullableWithAggregatesFilter<"PlaybookRule"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"PlaybookRule"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"PlaybookRule"> | Date | string
 }
@@ -291,8 +306,10 @@ export type PlaybookRuleCreateInput = {
   content: string
   setupGrade: string
   order?: number
+  strategyKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  occurrences?: Prisma.SetupOccurrenceCreateNestedManyWithoutPlaybookRuleInput
 }
 
 export type PlaybookRuleUncheckedCreateInput = {
@@ -301,8 +318,10 @@ export type PlaybookRuleUncheckedCreateInput = {
   content: string
   setupGrade: string
   order?: number
+  strategyKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  occurrences?: Prisma.SetupOccurrenceUncheckedCreateNestedManyWithoutPlaybookRuleInput
 }
 
 export type PlaybookRuleUpdateInput = {
@@ -311,8 +330,10 @@ export type PlaybookRuleUpdateInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   setupGrade?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  strategyKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  occurrences?: Prisma.SetupOccurrenceUpdateManyWithoutPlaybookRuleNestedInput
 }
 
 export type PlaybookRuleUncheckedUpdateInput = {
@@ -321,8 +342,10 @@ export type PlaybookRuleUncheckedUpdateInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   setupGrade?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  strategyKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  occurrences?: Prisma.SetupOccurrenceUncheckedUpdateManyWithoutPlaybookRuleNestedInput
 }
 
 export type PlaybookRuleCreateManyInput = {
@@ -331,6 +354,7 @@ export type PlaybookRuleCreateManyInput = {
   content: string
   setupGrade: string
   order?: number
+  strategyKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -341,6 +365,7 @@ export type PlaybookRuleUpdateManyMutationInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   setupGrade?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  strategyKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -351,6 +376,7 @@ export type PlaybookRuleUncheckedUpdateManyInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   setupGrade?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  strategyKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -361,6 +387,7 @@ export type PlaybookRuleCountOrderByAggregateInput = {
   content?: Prisma.SortOrder
   setupGrade?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  strategyKey?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -375,6 +402,7 @@ export type PlaybookRuleMaxOrderByAggregateInput = {
   content?: Prisma.SortOrder
   setupGrade?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  strategyKey?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -385,6 +413,7 @@ export type PlaybookRuleMinOrderByAggregateInput = {
   content?: Prisma.SortOrder
   setupGrade?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  strategyKey?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -393,6 +422,114 @@ export type PlaybookRuleSumOrderByAggregateInput = {
   order?: Prisma.SortOrder
 }
 
+export type PlaybookRuleScalarRelationFilter = {
+  is?: Prisma.PlaybookRuleWhereInput
+  isNot?: Prisma.PlaybookRuleWhereInput
+}
+
+export type PlaybookRuleCreateNestedOneWithoutOccurrencesInput = {
+  create?: Prisma.XOR<Prisma.PlaybookRuleCreateWithoutOccurrencesInput, Prisma.PlaybookRuleUncheckedCreateWithoutOccurrencesInput>
+  connectOrCreate?: Prisma.PlaybookRuleCreateOrConnectWithoutOccurrencesInput
+  connect?: Prisma.PlaybookRuleWhereUniqueInput
+}
+
+export type PlaybookRuleUpdateOneRequiredWithoutOccurrencesNestedInput = {
+  create?: Prisma.XOR<Prisma.PlaybookRuleCreateWithoutOccurrencesInput, Prisma.PlaybookRuleUncheckedCreateWithoutOccurrencesInput>
+  connectOrCreate?: Prisma.PlaybookRuleCreateOrConnectWithoutOccurrencesInput
+  upsert?: Prisma.PlaybookRuleUpsertWithoutOccurrencesInput
+  connect?: Prisma.PlaybookRuleWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PlaybookRuleUpdateToOneWithWhereWithoutOccurrencesInput, Prisma.PlaybookRuleUpdateWithoutOccurrencesInput>, Prisma.PlaybookRuleUncheckedUpdateWithoutOccurrencesInput>
+}
+
+export type PlaybookRuleCreateWithoutOccurrencesInput = {
+  id?: string
+  title: string
+  content: string
+  setupGrade: string
+  order?: number
+  strategyKey?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type PlaybookRuleUncheckedCreateWithoutOccurrencesInput = {
+  id?: string
+  title: string
+  content: string
+  setupGrade: string
+  order?: number
+  strategyKey?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type PlaybookRuleCreateOrConnectWithoutOccurrencesInput = {
+  where: Prisma.PlaybookRuleWhereUniqueInput
+  create: Prisma.XOR<Prisma.PlaybookRuleCreateWithoutOccurrencesInput, Prisma.PlaybookRuleUncheckedCreateWithoutOccurrencesInput>
+}
+
+export type PlaybookRuleUpsertWithoutOccurrencesInput = {
+  update: Prisma.XOR<Prisma.PlaybookRuleUpdateWithoutOccurrencesInput, Prisma.PlaybookRuleUncheckedUpdateWithoutOccurrencesInput>
+  create: Prisma.XOR<Prisma.PlaybookRuleCreateWithoutOccurrencesInput, Prisma.PlaybookRuleUncheckedCreateWithoutOccurrencesInput>
+  where?: Prisma.PlaybookRuleWhereInput
+}
+
+export type PlaybookRuleUpdateToOneWithWhereWithoutOccurrencesInput = {
+  where?: Prisma.PlaybookRuleWhereInput
+  data: Prisma.XOR<Prisma.PlaybookRuleUpdateWithoutOccurrencesInput, Prisma.PlaybookRuleUncheckedUpdateWithoutOccurrencesInput>
+}
+
+export type PlaybookRuleUpdateWithoutOccurrencesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  setupGrade?: Prisma.StringFieldUpdateOperationsInput | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  strategyKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PlaybookRuleUncheckedUpdateWithoutOccurrencesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  setupGrade?: Prisma.StringFieldUpdateOperationsInput | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  strategyKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type PlaybookRuleCountOutputType
+ */
+
+export type PlaybookRuleCountOutputType = {
+  occurrences: number
+}
+
+export type PlaybookRuleCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  occurrences?: boolean | PlaybookRuleCountOutputTypeCountOccurrencesArgs
+}
+
+/**
+ * PlaybookRuleCountOutputType without action
+ */
+export type PlaybookRuleCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PlaybookRuleCountOutputType
+   */
+  select?: Prisma.PlaybookRuleCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * PlaybookRuleCountOutputType without action
+ */
+export type PlaybookRuleCountOutputTypeCountOccurrencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SetupOccurrenceWhereInput
+}
 
 
 export type PlaybookRuleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -401,8 +538,11 @@ export type PlaybookRuleSelect<ExtArgs extends runtime.Types.Extensions.Internal
   content?: boolean
   setupGrade?: boolean
   order?: boolean
+  strategyKey?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  occurrences?: boolean | Prisma.PlaybookRule$occurrencesArgs<ExtArgs>
+  _count?: boolean | Prisma.PlaybookRuleCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["playbookRule"]>
 
 export type PlaybookRuleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -411,6 +551,7 @@ export type PlaybookRuleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   content?: boolean
   setupGrade?: boolean
   order?: boolean
+  strategyKey?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["playbookRule"]>
@@ -421,6 +562,7 @@ export type PlaybookRuleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   content?: boolean
   setupGrade?: boolean
   order?: boolean
+  strategyKey?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["playbookRule"]>
@@ -431,21 +573,31 @@ export type PlaybookRuleSelectScalar = {
   content?: boolean
   setupGrade?: boolean
   order?: boolean
+  strategyKey?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PlaybookRuleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "content" | "setupGrade" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["playbookRule"]>
+export type PlaybookRuleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "content" | "setupGrade" | "order" | "strategyKey" | "createdAt" | "updatedAt", ExtArgs["result"]["playbookRule"]>
+export type PlaybookRuleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  occurrences?: boolean | Prisma.PlaybookRule$occurrencesArgs<ExtArgs>
+  _count?: boolean | Prisma.PlaybookRuleCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type PlaybookRuleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type PlaybookRuleIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $PlaybookRulePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PlaybookRule"
-  objects: {}
+  objects: {
+    occurrences: Prisma.$SetupOccurrencePayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
     content: string
     setupGrade: string
     order: number
+    strategyKey: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["playbookRule"]>
@@ -842,6 +994,7 @@ readonly fields: PlaybookRuleFieldRefs;
  */
 export interface Prisma__PlaybookRuleClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  occurrences<T extends Prisma.PlaybookRule$occurrencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PlaybookRule$occurrencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SetupOccurrencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -876,6 +1029,7 @@ export interface PlaybookRuleFieldRefs {
   readonly content: Prisma.FieldRef<"PlaybookRule", 'String'>
   readonly setupGrade: Prisma.FieldRef<"PlaybookRule", 'String'>
   readonly order: Prisma.FieldRef<"PlaybookRule", 'Int'>
+  readonly strategyKey: Prisma.FieldRef<"PlaybookRule", 'String'>
   readonly createdAt: Prisma.FieldRef<"PlaybookRule", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"PlaybookRule", 'DateTime'>
 }
@@ -895,6 +1049,10 @@ export type PlaybookRuleFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.PlaybookRuleOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlaybookRuleInclude<ExtArgs> | null
+  /**
    * Filter, which PlaybookRule to fetch.
    */
   where: Prisma.PlaybookRuleWhereUniqueInput
@@ -913,6 +1071,10 @@ export type PlaybookRuleFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.PlaybookRuleOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlaybookRuleInclude<ExtArgs> | null
+  /**
    * Filter, which PlaybookRule to fetch.
    */
   where: Prisma.PlaybookRuleWhereUniqueInput
@@ -930,6 +1092,10 @@ export type PlaybookRuleFindFirstArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the PlaybookRule
    */
   omit?: Prisma.PlaybookRuleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlaybookRuleInclude<ExtArgs> | null
   /**
    * Filter, which PlaybookRule to fetch.
    */
@@ -979,6 +1145,10 @@ export type PlaybookRuleFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.PlaybookRuleOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlaybookRuleInclude<ExtArgs> | null
+  /**
    * Filter, which PlaybookRule to fetch.
    */
   where?: Prisma.PlaybookRuleWhereInput
@@ -1026,6 +1196,10 @@ export type PlaybookRuleFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the PlaybookRule
    */
   omit?: Prisma.PlaybookRuleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlaybookRuleInclude<ExtArgs> | null
   /**
    * Filter, which PlaybookRules to fetch.
    */
@@ -1075,6 +1249,10 @@ export type PlaybookRuleCreateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   omit?: Prisma.PlaybookRuleOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlaybookRuleInclude<ExtArgs> | null
+  /**
    * The data needed to create a PlaybookRule.
    */
   data: Prisma.XOR<Prisma.PlaybookRuleCreateInput, Prisma.PlaybookRuleUncheckedCreateInput>
@@ -1122,6 +1300,10 @@ export type PlaybookRuleUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the PlaybookRule
    */
   omit?: Prisma.PlaybookRuleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlaybookRuleInclude<ExtArgs> | null
   /**
    * The data needed to update a PlaybookRule.
    */
@@ -1189,6 +1371,10 @@ export type PlaybookRuleUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   omit?: Prisma.PlaybookRuleOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlaybookRuleInclude<ExtArgs> | null
+  /**
    * The filter to search for the PlaybookRule to update in case it exists.
    */
   where: Prisma.PlaybookRuleWhereUniqueInput
@@ -1215,6 +1401,10 @@ export type PlaybookRuleDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   omit?: Prisma.PlaybookRuleOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlaybookRuleInclude<ExtArgs> | null
+  /**
    * Filter which PlaybookRule to delete.
    */
   where: Prisma.PlaybookRuleWhereUniqueInput
@@ -1235,6 +1425,30 @@ export type PlaybookRuleDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
+ * PlaybookRule.occurrences
+ */
+export type PlaybookRule$occurrencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SetupOccurrence
+   */
+  select?: Prisma.SetupOccurrenceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SetupOccurrence
+   */
+  omit?: Prisma.SetupOccurrenceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SetupOccurrenceInclude<ExtArgs> | null
+  where?: Prisma.SetupOccurrenceWhereInput
+  orderBy?: Prisma.SetupOccurrenceOrderByWithRelationInput | Prisma.SetupOccurrenceOrderByWithRelationInput[]
+  cursor?: Prisma.SetupOccurrenceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SetupOccurrenceScalarFieldEnum | Prisma.SetupOccurrenceScalarFieldEnum[]
+}
+
+/**
  * PlaybookRule without action
  */
 export type PlaybookRuleDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1246,4 +1460,8 @@ export type PlaybookRuleDefaultArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the PlaybookRule
    */
   omit?: Prisma.PlaybookRuleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PlaybookRuleInclude<ExtArgs> | null
 }

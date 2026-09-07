@@ -126,15 +126,22 @@ export function formatCurrency(value: number): string {
   })}`;
 }
 
-export function getTodayNewYorkDateValue(): string {
+// The New York calendar date a UTC instant falls on — e.g. for labeling
+// which trading day a webhook-received timestamp belongs to, regardless of
+// the server's own timezone.
+export function getNewYorkDateValue(date: Date): string {
   const formatter = new Intl.DateTimeFormat("en-US", {
     timeZone: "America/New_York",
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
   });
-  const parts = Object.fromEntries(formatter.formatToParts(new Date()).map((p) => [p.type, p.value]));
+  const parts = Object.fromEntries(formatter.formatToParts(date).map((p) => [p.type, p.value]));
   return `${parts.year}-${parts.month}-${parts.day}`;
+}
+
+export function getTodayNewYorkDateValue(): string {
+  return getNewYorkDateValue(new Date());
 }
 
 // Date-only values (e.g. a pre-market checklist's date) are stored as literal

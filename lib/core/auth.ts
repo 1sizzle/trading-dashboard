@@ -4,7 +4,7 @@ export const SESSION_COOKIE_NAME = "dashboard_session";
 const SESSION_DURATION_MS = 1000 * 60 * 60 * 24 * 30; // 30 days
 export const SESSION_MAX_AGE_SECONDS = SESSION_DURATION_MS / 1000;
 
-function timingSafeEqual(a: string, b: string): boolean {
+export function timingSafeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
   let mismatch = 0;
   for (let i = 0; i < a.length; i++) {

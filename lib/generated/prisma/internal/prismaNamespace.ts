@@ -403,6 +403,8 @@ export const ModelName = {
   TradeTag: 'TradeTag',
   PsychologyEntry: 'PsychologyEntry',
   PlaybookRule: 'PlaybookRule',
+  SetupOccurrence: 'SetupOccurrence',
+  MarketBreakdownPost: 'MarketBreakdownPost',
   PremarketChecklist: 'PremarketChecklist',
   RiskSettings: 'RiskSettings',
   TradingRulesNote: 'TradingRulesNote',
@@ -424,7 +426,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "trade" | "tradeScreenshot" | "tag" | "tradeTag" | "psychologyEntry" | "playbookRule" | "premarketChecklist" | "riskSettings" | "tradingRulesNote" | "signalLogEntry" | "expense" | "incomeEntry"
+    modelProps: "trade" | "tradeScreenshot" | "tag" | "tradeTag" | "psychologyEntry" | "playbookRule" | "setupOccurrence" | "marketBreakdownPost" | "premarketChecklist" | "riskSettings" | "tradingRulesNote" | "signalLogEntry" | "expense" | "incomeEntry"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -869,6 +871,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.PlaybookRuleCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.PlaybookRuleCountAggregateOutputType> | number
+        }
+      }
+    }
+    SetupOccurrence: {
+      payload: Prisma.$SetupOccurrencePayload<ExtArgs>
+      fields: Prisma.SetupOccurrenceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SetupOccurrenceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SetupOccurrencePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SetupOccurrenceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SetupOccurrencePayload>
+        }
+        findFirst: {
+          args: Prisma.SetupOccurrenceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SetupOccurrencePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SetupOccurrenceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SetupOccurrencePayload>
+        }
+        findMany: {
+          args: Prisma.SetupOccurrenceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SetupOccurrencePayload>[]
+        }
+        create: {
+          args: Prisma.SetupOccurrenceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SetupOccurrencePayload>
+        }
+        createMany: {
+          args: Prisma.SetupOccurrenceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SetupOccurrenceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SetupOccurrencePayload>[]
+        }
+        delete: {
+          args: Prisma.SetupOccurrenceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SetupOccurrencePayload>
+        }
+        update: {
+          args: Prisma.SetupOccurrenceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SetupOccurrencePayload>
+        }
+        deleteMany: {
+          args: Prisma.SetupOccurrenceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SetupOccurrenceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SetupOccurrenceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SetupOccurrencePayload>[]
+        }
+        upsert: {
+          args: Prisma.SetupOccurrenceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SetupOccurrencePayload>
+        }
+        aggregate: {
+          args: Prisma.SetupOccurrenceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSetupOccurrence>
+        }
+        groupBy: {
+          args: Prisma.SetupOccurrenceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SetupOccurrenceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SetupOccurrenceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SetupOccurrenceCountAggregateOutputType> | number
+        }
+      }
+    }
+    MarketBreakdownPost: {
+      payload: Prisma.$MarketBreakdownPostPayload<ExtArgs>
+      fields: Prisma.MarketBreakdownPostFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MarketBreakdownPostFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBreakdownPostPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MarketBreakdownPostFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBreakdownPostPayload>
+        }
+        findFirst: {
+          args: Prisma.MarketBreakdownPostFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBreakdownPostPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MarketBreakdownPostFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBreakdownPostPayload>
+        }
+        findMany: {
+          args: Prisma.MarketBreakdownPostFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBreakdownPostPayload>[]
+        }
+        create: {
+          args: Prisma.MarketBreakdownPostCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBreakdownPostPayload>
+        }
+        createMany: {
+          args: Prisma.MarketBreakdownPostCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MarketBreakdownPostCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBreakdownPostPayload>[]
+        }
+        delete: {
+          args: Prisma.MarketBreakdownPostDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBreakdownPostPayload>
+        }
+        update: {
+          args: Prisma.MarketBreakdownPostUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBreakdownPostPayload>
+        }
+        deleteMany: {
+          args: Prisma.MarketBreakdownPostDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MarketBreakdownPostUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MarketBreakdownPostUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBreakdownPostPayload>[]
+        }
+        upsert: {
+          args: Prisma.MarketBreakdownPostUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBreakdownPostPayload>
+        }
+        aggregate: {
+          args: Prisma.MarketBreakdownPostAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMarketBreakdownPost>
+        }
+        groupBy: {
+          args: Prisma.MarketBreakdownPostGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MarketBreakdownPostGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MarketBreakdownPostCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MarketBreakdownPostCountAggregateOutputType> | number
         }
       }
     }
@@ -1426,11 +1576,63 @@ export const PlaybookRuleScalarFieldEnum = {
   content: 'content',
   setupGrade: 'setupGrade',
   order: 'order',
+  strategyKey: 'strategyKey',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type PlaybookRuleScalarFieldEnum = (typeof PlaybookRuleScalarFieldEnum)[keyof typeof PlaybookRuleScalarFieldEnum]
+
+
+export const SetupOccurrenceScalarFieldEnum = {
+  id: 'id',
+  playbookRuleId: 'playbookRuleId',
+  symbol: 'symbol',
+  direction: 'direction',
+  status: 'status',
+  entryPrice: 'entryPrice',
+  exitPrice: 'exitPrice',
+  stopPrice: 'stopPrice',
+  targetPrice: 'targetPrice',
+  contracts: 'contracts',
+  pnlPoints: 'pnlPoints',
+  pnlDollars: 'pnlDollars',
+  entryTime: 'entryTime',
+  exitTime: 'exitTime',
+  source: 'source',
+  externalId: 'externalId',
+  entryRawPayload: 'entryRawPayload',
+  exitRawPayload: 'exitRawPayload',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SetupOccurrenceScalarFieldEnum = (typeof SetupOccurrenceScalarFieldEnum)[keyof typeof SetupOccurrenceScalarFieldEnum]
+
+
+export const MarketBreakdownPostScalarFieldEnum = {
+  id: 'id',
+  symbol: 'symbol',
+  postType: 'postType',
+  tradingDate: 'tradingDate',
+  postedAt: 'postedAt',
+  price: 'price',
+  vix: 'vix',
+  sessionVolumePct: 'sessionVolumePct',
+  ibHigh: 'ibHigh',
+  ibLow: 'ibLow',
+  keyLevelsData: 'keyLevelsData',
+  structureData: 'structureData',
+  valueAreaData: 'valueAreaData',
+  historicalStatsData: 'historicalStatsData',
+  narrative: 'narrative',
+  rawPayload: 'rawPayload',
+  externalId: 'externalId',
+  createdAt: 'createdAt'
+} as const
+
+export type MarketBreakdownPostScalarFieldEnum = (typeof MarketBreakdownPostScalarFieldEnum)[keyof typeof MarketBreakdownPostScalarFieldEnum]
 
 
 export const PremarketChecklistScalarFieldEnum = {
@@ -1513,6 +1715,21 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -1527,6 +1744,15 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -1644,6 +1870,62 @@ export type EnumTradeSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'TradeSource[]'
  */
 export type ListEnumTradeSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TradeSource[]'>
+    
+
+
+/**
+ * Reference to a field of type 'SetupOccurrenceStatus'
+ */
+export type EnumSetupOccurrenceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SetupOccurrenceStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'SetupOccurrenceStatus[]'
+ */
+export type ListEnumSetupOccurrenceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SetupOccurrenceStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'SetupOccurrenceSource'
+ */
+export type EnumSetupOccurrenceSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SetupOccurrenceSource'>
+    
+
+
+/**
+ * Reference to a field of type 'SetupOccurrenceSource[]'
+ */
+export type ListEnumSetupOccurrenceSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SetupOccurrenceSource[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'MarketBreakdownPostType'
+ */
+export type EnumMarketBreakdownPostTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MarketBreakdownPostType'>
+    
+
+
+/**
+ * Reference to a field of type 'MarketBreakdownPostType[]'
+ */
+export type ListEnumMarketBreakdownPostTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MarketBreakdownPostType[]'>
     
 
 
@@ -1831,6 +2113,8 @@ export type GlobalOmitConfig = {
   tradeTag?: Prisma.TradeTagOmit
   psychologyEntry?: Prisma.PsychologyEntryOmit
   playbookRule?: Prisma.PlaybookRuleOmit
+  setupOccurrence?: Prisma.SetupOccurrenceOmit
+  marketBreakdownPost?: Prisma.MarketBreakdownPostOmit
   premarketChecklist?: Prisma.PremarketChecklistOmit
   riskSettings?: Prisma.RiskSettingsOmit
   tradingRulesNote?: Prisma.TradingRulesNoteOmit

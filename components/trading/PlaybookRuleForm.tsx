@@ -40,6 +40,20 @@ export function PlaybookRuleForm({
           </Field>
         </div>
 
+        <Field
+          label="Strategy key"
+          hint="Optional — lowercase, hyphenated (e.g. golden-pocket). Links this rule to its TradingView Pine strategy for the setup recap."
+        >
+          <input
+            type="text"
+            name="strategyKey"
+            pattern="[a-z0-9]+(-[a-z0-9]+)*"
+            title="Lowercase letters, numbers, and hyphens only"
+            defaultValue={rule?.strategyKey ?? ""}
+            className={inputClass}
+          />
+        </Field>
+
         <Field label="Content" hint="Markdown supported — headers, bold, lists">
           <textarea
             name="content"
