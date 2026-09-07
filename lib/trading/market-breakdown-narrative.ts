@@ -7,6 +7,18 @@ export interface KeyLevelField {
   tapped: boolean;
 }
 
+export interface StructureTimeframe {
+  bias: "bullish" | "bearish";
+  label: string; // e.g. "bullish BOS" or "bearish CHoCH"
+}
+
+export interface StructureData {
+  daily: StructureTimeframe;
+  h4: StructureTimeframe;
+  h1: StructureTimeframe;
+  m5: StructureTimeframe;
+}
+
 export interface BreakdownNarrativeInput {
   postType: "NY_OPEN" | "FIRST_HOUR" | "MIDDAY" | "DAILY_RECAP";
   symbol: string;
@@ -16,22 +28,35 @@ export interface BreakdownNarrativeInput {
   ibHigh: number | null;
   ibLow: number | null;
   keyLevels: KeyLevelField[];
-  // Phases 2-4 — always null in the Phase 1 build. Passed through so the
-  // prompt can honestly acknowledge what's not available yet rather than
-  // silently omitting mention of it.
-  structureData: unknown;
+  // Phase 2 — real once the Pine structure-detection change is live; null
+  // before then or if a payload omits it. Phases 3-4 stay permanently
+  // unknown for now. Passed through so the prompt can honestly acknowledge
+  // what's not available yet rather than silently omitting mention of it.
+  structureData: StructureData | null;
   valueAreaData: unknown;
   historicalStatsData: unknown;
 }
 
 export interface BreakdownNarrative {
   headline: string;
+  alignment: string;
   bias: string;
   keyContext: string;
   gameplan: string;
   lineInSand: string;
   tradeLocation: string;
   whatNotToDo: string;
+}
+
+// Fixed, deterministic thresholds — not asked of Gemini, since a
+// classification like this should never be able to drift from the real
+// number due to model guessing.
+export function classifyVix(vix: number): "low" | "normal" | "elevated" | "high" | "extreme" {
+  if (vix < 15) return "low";
+  if (vix < 20) return "normal";
+  if (vix < 25) return "elevated";
+  if (vix < 35) return "high";
+  return "extreme";
 }
 
 const SYSTEM_PROMPT = `
@@ -45,19 +70,24 @@ Rules:
 1. Base every sentence strictly on the numbers provided. Never invent a level, a
    price, a distance, a structure/trend read, a volume-profile value, or a
    historical statistic that isn't in the data given to you.
-2. The input may include null fields for "structureData", "valueAreaData", and
-   "historicalStatsData" — these features aren't built yet. Do not mention
-   multi-timeframe structure (BOS/CHoCH), value area (POC/VAH/VAL), or historical
-   base-rate statistics at all when those fields are null. Do not apologize for
-   their absence either — just write the briefing using only what's actually there.
+2. The input may include a real "structureData" object (per-timeframe bias/label
+   for Daily, 4H, 1H, and 5M) or null. When it is present, use it — write the
+   "alignment" field synthesizing how the 4 timeframes relate (e.g. how many agree,
+   which ones diverge, what that implies). When "structureData" is null, leave
+   "alignment" as an empty string and do not mention multi-timeframe structure at
+   all. "valueAreaData" and "historicalStatsData" are always null right now — never
+   mention value area (POC/VAH/VAL) or historical base-rate statistics under any
+   circumstance. Do not apologize for anything's absence either — just write the
+   briefing using only what's actually there.
 3. Write in a terse, professional day-trading-desk tone: short sentences, level
    names and prices stated plainly, no hedging filler, no generic disclaimers.
 4. Return ONLY a single JSON object, no markdown fences, no commentary, matching
-   exactly this shape (all values are strings, 1-3 sentences each, "tradeLocation"
-   may be an empty string for the Daily Recap checkpoint where it doesn't apply):
+   exactly this shape (all values are strings, 1-3 sentences each, "alignment" and
+   "tradeLocation" may be empty strings when not applicable):
 
 {
   "headline": "one line stating where price is relative to the most important nearby levels",
+  "alignment": "synthesis of the 4 timeframes' structure readings, e.g. how many agree vs. diverge and what that implies — empty string if structureData is null",
   "bias": "directional lean and the concrete reason for it, from the given numbers only",
   "keyContext": "framing appropriate to the checkpoint: relation to prior value for NY Open, the Initial Balance read for First Hour, a thesis-check for Midday, or how the session actually played out for Daily Recap",
   "gameplan": "forward-looking plan (or, for Daily Recap, the one takeaway) grounded in the given levels",
@@ -78,6 +108,7 @@ export async function generateBreakdownNarrative(input: BreakdownNarrativeInput)
 
   return {
     headline: String(parsed.headline ?? ""),
+    alignment: String(parsed.alignment ?? ""),
     bias: String(parsed.bias ?? ""),
     keyContext: String(parsed.keyContext ?? ""),
     gameplan: String(parsed.gameplan ?? ""),

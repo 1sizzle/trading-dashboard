@@ -16,8 +16,21 @@ interface KeyLevel {
   tapped: boolean;
 }
 
+interface StructureTimeframe {
+  bias: "bullish" | "bearish";
+  label: string;
+}
+
+interface Structure {
+  daily: StructureTimeframe;
+  h4: StructureTimeframe;
+  h1: StructureTimeframe;
+  m5: StructureTimeframe;
+}
+
 interface Narrative {
   headline?: string;
+  alignment?: string;
   bias?: string;
   keyContext?: string;
   gameplan?: string;
@@ -40,10 +53,37 @@ function NarrativeSection({ label, text }: { label: string; text?: string }) {
   );
 }
 
+const STRUCTURE_ROWS: { key: keyof Structure; label: string }[] = [
+  { key: "daily", label: "Daily" },
+  { key: "h4", label: "4H" },
+  { key: "h1", label: "1H" },
+  { key: "m5", label: "5M" },
+];
+
+function StructureTable({ structure }: { structure: Structure | null }) {
+  if (!structure) return null;
+  return (
+    <div>
+      <p className="text-xs font-medium uppercase tracking-wide text-violet-400">Structure</p>
+      <div className="mt-0.5 space-y-0.5 text-sm text-neutral-300">
+        {STRUCTURE_ROWS.map(({ key, label }) => {
+          const tf = structure[key];
+          return (
+            <div key={key}>
+              {label} {tf.bias === "bullish" ? "🟢" : "🔴"} {tf.bias} · {tf.label}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export function MarketBreakdownPostCard({ post }: { post: MarketBreakdownPost }) {
   const { emoji, title } = POST_TYPE_LABEL[post.postType];
   const keyLevels = (post.keyLevelsData as unknown as KeyLevel[] | null) ?? [];
   const narrative = post.narrative as unknown as Narrative | null;
+  const structure = post.structureData as unknown as Structure | null;
   const price = Number(post.price);
   const vix = post.vix !== null ? Number(post.vix) : null;
   const ibHigh = post.ibHigh !== null ? Number(post.ibHigh) : null;
@@ -87,6 +127,8 @@ export function MarketBreakdownPostCard({ post }: { post: MarketBreakdownPost })
       {narrative ? (
         <div className="mt-4 space-y-3">
           <NarrativeSection label="Headline" text={narrative.headline} />
+          <StructureTable structure={structure} />
+          <NarrativeSection label="Alignment" text={narrative.alignment} />
           <NarrativeSection label="Bias" text={narrative.bias} />
           <NarrativeSection label="Key context" text={narrative.keyContext} />
           <NarrativeSection label="Gameplan" text={narrative.gameplan} />

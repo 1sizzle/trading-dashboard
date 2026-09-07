@@ -2,9 +2,32 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/core/db";
 import { timingSafeEqual } from "@/lib/core/auth";
 import { getNewYorkDateValue } from "@/lib/trading/calc";
-import { generateBreakdownNarrative } from "@/lib/trading/market-breakdown-narrative";
+import { generateBreakdownNarrative, StructureData, StructureTimeframe } from "@/lib/trading/market-breakdown-narrative";
 
 const POST_TYPES = new Set(["NY_OPEN", "FIRST_HOUR", "MIDDAY", "DAILY_RECAP"]);
+
+function isStructureTimeframe(value: unknown): value is StructureTimeframe {
+  if (!value || typeof value !== "object") return false;
+  const v = value as Record<string, unknown>;
+  return (v.bias === "bullish" || v.bias === "bearish") && typeof v.label === "string";
+}
+
+// Loose validation, not strict parsing: an unrecognized shape is treated the
+// same as "not sent yet" (structureData stays null) rather than rejecting
+// the whole webhook request over one malformed field.
+function parseStructureData(value: unknown): StructureData | null {
+  if (!value || typeof value !== "object") return null;
+  const v = value as Record<string, unknown>;
+  if (
+    isStructureTimeframe(v.daily) &&
+    isStructureTimeframe(v.h4) &&
+    isStructureTimeframe(v.h1) &&
+    isStructureTimeframe(v.m5)
+  ) {
+    return { daily: v.daily, h4: v.h4, h1: v.h1, m5: v.m5 };
+  }
+  return null;
+}
 
 // Pushed to by the user's own TradingView Pine indicator (NOT a Discord
 // integration — see the plan's explicit note that the third-party Discord
@@ -59,6 +82,7 @@ export async function POST(request: NextRequest) {
     body.sessionVolumePct !== undefined && body.sessionVolumePct !== null ? Number(body.sessionVolumePct) : null;
   const ibHigh = body.ibHigh !== undefined && body.ibHigh !== null ? Number(body.ibHigh) : null;
   const ibLow = body.ibLow !== undefined && body.ibLow !== null ? Number(body.ibLow) : null;
+  const structureData = parseStructureData(body.structureData);
 
   const post = await db.marketBreakdownPost.upsert({
     where: { externalId: `nqbreakdown-${postType.toLowerCase()}-${tradingDateValue}` },
@@ -73,6 +97,7 @@ export async function POST(request: NextRequest) {
       ibHigh,
       ibLow,
       keyLevelsData: keyLevels,
+      structureData: structureData as unknown as object,
       rawPayload: body,
       externalId: `nqbreakdown-${postType.toLowerCase()}-${tradingDateValue}`,
     },
@@ -84,6 +109,7 @@ export async function POST(request: NextRequest) {
       ibHigh,
       ibLow,
       keyLevelsData: keyLevels,
+      structureData: structureData as unknown as object,
       rawPayload: body,
     },
   });
@@ -103,7 +129,7 @@ export async function POST(request: NextRequest) {
       ibHigh,
       ibLow,
       keyLevels,
-      structureData: null,
+      structureData,
       valueAreaData: null,
       historicalStatsData: null,
     });
