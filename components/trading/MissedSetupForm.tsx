@@ -3,7 +3,8 @@ import { Field, inputClass, primaryButtonClass } from "@/components/ui/Field";
 import { saveMissedSetup } from "@/app/dashboard/trading/journal/actions";
 import { KNOWN_FUTURES_SYMBOLS } from "@/lib/trading/contracts";
 import { utcToNewYorkDateTimeLocalValue } from "@/lib/trading/calc";
-import type { MissedSetup } from "@/lib/generated/prisma/client";
+import { MissedSetupScreenshotFields } from "@/components/trading/MissedSetupScreenshotFields";
+import type { MissedSetup, MissedSetupScreenshot } from "@/lib/generated/prisma/client";
 
 const REASON_SUGGESTIONS = [
   "Hesitated",
@@ -14,11 +15,13 @@ const REASON_SUGGESTIONS = [
   "Wasn't at the right level yet",
 ];
 
-export function MissedSetupForm({ missedSetup }: { missedSetup?: MissedSetup }) {
+type MissedSetupWithScreenshots = MissedSetup & { screenshots: MissedSetupScreenshot[] };
+
+export function MissedSetupForm({ missedSetup }: { missedSetup?: MissedSetupWithScreenshots }) {
   return (
     <Card>
       <h2 className="mb-4 text-lg font-semibold">
-        {missedSetup ? "Edit missed setup" : "Setup I saw but didn't take"}
+        {missedSetup ? "Edit potential setup" : "Potential setups"}
       </h2>
       <form action={saveMissedSetup} className="grid grid-cols-2 gap-4">
         {missedSetup && <input type="hidden" name="id" value={missedSetup.id} />}
@@ -102,9 +105,11 @@ export function MissedSetupForm({ missedSetup }: { missedSetup?: MissedSetup }) 
           </Field>
         </div>
 
+        <MissedSetupScreenshotFields missedSetup={missedSetup} />
+
         <div className="col-span-2 flex justify-end">
           <button type="submit" className={primaryButtonClass}>
-            {missedSetup ? "Save changes" : "Log missed setup"}
+            {missedSetup ? "Save changes" : "Log potential setup"}
           </button>
         </div>
       </form>

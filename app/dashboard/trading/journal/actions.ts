@@ -312,6 +312,33 @@ export async function importBitunixCsv(formData: FormData) {
   redirect(`/dashboard/trading/journal?${params.toString()}`);
 }
 
+async function syncMissedSetupScreenshots(missedSetupId: string, formData: FormData): Promise<{ skipped: number }> {
+  const deleteIds = formData.getAll("deleteScreenshotIds").map(String);
+  if (deleteIds.length > 0) {
+    const toDelete = await db.missedSetupScreenshot.findMany({ where: { id: { in: deleteIds }, missedSetupId } });
+    await db.missedSetupScreenshot.deleteMany({ where: { id: { in: deleteIds }, missedSetupId } });
+    await Promise.all(toDelete.map((screenshot) => del(screenshot.url).catch(() => {})));
+  }
+
+  const files = formData
+    .getAll("screenshots")
+    .filter((entry): entry is File => entry instanceof File && entry.size > 0);
+
+  let skipped = 0;
+  for (const file of files) {
+    if (!file.type.startsWith("image/") || file.size > MAX_SCREENSHOT_BYTES) {
+      skipped++;
+      continue;
+    }
+    const blob = await put(`missed-setup-screenshots/${missedSetupId}/${crypto.randomUUID()}-${file.name}`, file, {
+      access: "private",
+    });
+    await db.missedSetupScreenshot.create({ data: { missedSetupId, url: blob.url } });
+  }
+
+  return { skipped };
+}
+
 export async function saveMissedSetup(formData: FormData) {
   const id = formData.get("id")?.toString() || null;
   const symbol = String(formData.get("symbol") ?? "").trim().toUpperCase();
@@ -323,11 +350,11 @@ export async function saveMissedSetup(formData: FormData) {
 
   const data = { symbol, direction, setupDescription, reasonSkipped, notes, seenAt };
 
-  if (id) {
-    await db.missedSetup.update({ where: { id }, data });
-  } else {
-    await db.missedSetup.create({ data });
-  }
+  const missedSetup = id
+    ? await db.missedSetup.update({ where: { id }, data })
+    : await db.missedSetup.create({ data });
+
+  await syncMissedSetupScreenshots(missedSetup.id, formData);
 
   revalidatePath("/dashboard/trading/journal");
   redirect("/dashboard/trading/journal?tab=futures");
@@ -335,7 +362,14 @@ export async function saveMissedSetup(formData: FormData) {
 
 export async function deleteMissedSetup(formData: FormData) {
   const id = String(formData.get("id"));
+
+  // Cascade removes the MissedSetupScreenshot rows, but not the underlying
+  // Blob files — clean those up explicitly first or they become orphaned
+  // storage, same pattern as deleteTrade below.
+  const screenshots = await db.missedSetupScreenshot.findMany({ where: { missedSetupId: id } });
   await db.missedSetup.delete({ where: { id } });
+  await Promise.all(screenshots.map((screenshot) => del(screenshot.url).catch(() => {})));
+
   revalidatePath("/dashboard/trading/journal");
   redirect("/dashboard/trading/journal?tab=futures");
 }

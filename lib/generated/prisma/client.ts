@@ -72,6 +72,11 @@ export type PsychologyEntry = Prisma.PsychologyEntryModel
  */
 export type MissedSetup = Prisma.MissedSetupModel
 /**
+ * Model MissedSetupScreenshot
+ * 
+ */
+export type MissedSetupScreenshot = Prisma.MissedSetupScreenshotModel
+/**
  * Model PlaybookRule
  * 
  */

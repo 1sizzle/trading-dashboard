@@ -10,7 +10,7 @@ export default async function EditMissedSetupPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const missedSetup = await db.missedSetup.findUnique({ where: { id } });
+  const missedSetup = await db.missedSetup.findUnique({ where: { id }, include: { screenshots: true } });
 
   if (!missedSetup) {
     notFound();
@@ -18,7 +18,7 @@ export default async function EditMissedSetupPage({
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Edit missed setup</h1>
+      <h1 className="text-2xl font-semibold">Edit potential setup</h1>
       <MissedSetupForm missedSetup={missedSetup} />
     </div>
   );

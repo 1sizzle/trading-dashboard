@@ -120,7 +120,17 @@ model MissedSetup {
   seenAt           DateTime
   createdAt        DateTime       @default(now())
 
+  screenshots MissedSetupScreenshot[]
+
   @@index([seenAt])
+}
+
+model MissedSetupScreenshot {
+  id            String      @id @default(cuid())
+  missedSetupId String
+  missedSetup   MissedSetup @relation(fields: [missedSetupId], references: [id], onDelete: Cascade)
+  url           String
+  createdAt     DateTime    @default(now())
 }
 
 model PlaybookRule {

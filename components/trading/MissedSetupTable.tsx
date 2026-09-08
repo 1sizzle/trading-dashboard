@@ -5,7 +5,7 @@ import type { MissedSetup } from "@/lib/generated/prisma/client";
 
 export function MissedSetupTable({ missedSetups }: { missedSetups: MissedSetup[] }) {
   if (missedSetups.length === 0) {
-    return <p className="text-sm text-neutral-500">No missed setups logged yet.</p>;
+    return <p className="text-sm text-neutral-500">No potential setups logged yet.</p>;
   }
 
   return (

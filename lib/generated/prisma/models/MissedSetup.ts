@@ -206,6 +206,7 @@ export type MissedSetupWhereInput = {
   notes?: Prisma.StringNullableFilter<"MissedSetup"> | string | null
   seenAt?: Prisma.DateTimeFilter<"MissedSetup"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"MissedSetup"> | Date | string
+  screenshots?: Prisma.MissedSetupScreenshotListRelationFilter
 }
 
 export type MissedSetupOrderByWithRelationInput = {
@@ -217,6 +218,7 @@ export type MissedSetupOrderByWithRelationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   seenAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  screenshots?: Prisma.MissedSetupScreenshotOrderByRelationAggregateInput
 }
 
 export type MissedSetupWhereUniqueInput = Prisma.AtLeast<{
@@ -231,6 +233,7 @@ export type MissedSetupWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.StringNullableFilter<"MissedSetup"> | string | null
   seenAt?: Prisma.DateTimeFilter<"MissedSetup"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"MissedSetup"> | Date | string
+  screenshots?: Prisma.MissedSetupScreenshotListRelationFilter
 }, "id">
 
 export type MissedSetupOrderByWithAggregationInput = {
@@ -270,6 +273,7 @@ export type MissedSetupCreateInput = {
   notes?: string | null
   seenAt: Date | string
   createdAt?: Date | string
+  screenshots?: Prisma.MissedSetupScreenshotCreateNestedManyWithoutMissedSetupInput
 }
 
 export type MissedSetupUncheckedCreateInput = {
@@ -281,6 +285,7 @@ export type MissedSetupUncheckedCreateInput = {
   notes?: string | null
   seenAt: Date | string
   createdAt?: Date | string
+  screenshots?: Prisma.MissedSetupScreenshotUncheckedCreateNestedManyWithoutMissedSetupInput
 }
 
 export type MissedSetupUpdateInput = {
@@ -292,6 +297,7 @@ export type MissedSetupUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  screenshots?: Prisma.MissedSetupScreenshotUpdateManyWithoutMissedSetupNestedInput
 }
 
 export type MissedSetupUncheckedUpdateInput = {
@@ -303,6 +309,7 @@ export type MissedSetupUncheckedUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  screenshots?: Prisma.MissedSetupScreenshotUncheckedUpdateManyWithoutMissedSetupNestedInput
 }
 
 export type MissedSetupCreateManyInput = {
@@ -371,6 +378,114 @@ export type MissedSetupMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
+export type MissedSetupScalarRelationFilter = {
+  is?: Prisma.MissedSetupWhereInput
+  isNot?: Prisma.MissedSetupWhereInput
+}
+
+export type MissedSetupCreateNestedOneWithoutScreenshotsInput = {
+  create?: Prisma.XOR<Prisma.MissedSetupCreateWithoutScreenshotsInput, Prisma.MissedSetupUncheckedCreateWithoutScreenshotsInput>
+  connectOrCreate?: Prisma.MissedSetupCreateOrConnectWithoutScreenshotsInput
+  connect?: Prisma.MissedSetupWhereUniqueInput
+}
+
+export type MissedSetupUpdateOneRequiredWithoutScreenshotsNestedInput = {
+  create?: Prisma.XOR<Prisma.MissedSetupCreateWithoutScreenshotsInput, Prisma.MissedSetupUncheckedCreateWithoutScreenshotsInput>
+  connectOrCreate?: Prisma.MissedSetupCreateOrConnectWithoutScreenshotsInput
+  upsert?: Prisma.MissedSetupUpsertWithoutScreenshotsInput
+  connect?: Prisma.MissedSetupWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MissedSetupUpdateToOneWithWhereWithoutScreenshotsInput, Prisma.MissedSetupUpdateWithoutScreenshotsInput>, Prisma.MissedSetupUncheckedUpdateWithoutScreenshotsInput>
+}
+
+export type MissedSetupCreateWithoutScreenshotsInput = {
+  id?: string
+  symbol: string
+  direction: $Enums.TradeDirection
+  setupDescription: string
+  reasonSkipped: string
+  notes?: string | null
+  seenAt: Date | string
+  createdAt?: Date | string
+}
+
+export type MissedSetupUncheckedCreateWithoutScreenshotsInput = {
+  id?: string
+  symbol: string
+  direction: $Enums.TradeDirection
+  setupDescription: string
+  reasonSkipped: string
+  notes?: string | null
+  seenAt: Date | string
+  createdAt?: Date | string
+}
+
+export type MissedSetupCreateOrConnectWithoutScreenshotsInput = {
+  where: Prisma.MissedSetupWhereUniqueInput
+  create: Prisma.XOR<Prisma.MissedSetupCreateWithoutScreenshotsInput, Prisma.MissedSetupUncheckedCreateWithoutScreenshotsInput>
+}
+
+export type MissedSetupUpsertWithoutScreenshotsInput = {
+  update: Prisma.XOR<Prisma.MissedSetupUpdateWithoutScreenshotsInput, Prisma.MissedSetupUncheckedUpdateWithoutScreenshotsInput>
+  create: Prisma.XOR<Prisma.MissedSetupCreateWithoutScreenshotsInput, Prisma.MissedSetupUncheckedCreateWithoutScreenshotsInput>
+  where?: Prisma.MissedSetupWhereInput
+}
+
+export type MissedSetupUpdateToOneWithWhereWithoutScreenshotsInput = {
+  where?: Prisma.MissedSetupWhereInput
+  data: Prisma.XOR<Prisma.MissedSetupUpdateWithoutScreenshotsInput, Prisma.MissedSetupUncheckedUpdateWithoutScreenshotsInput>
+}
+
+export type MissedSetupUpdateWithoutScreenshotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
+  setupDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  reasonSkipped?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type MissedSetupUncheckedUpdateWithoutScreenshotsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
+  setupDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  reasonSkipped?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seenAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type MissedSetupCountOutputType
+ */
+
+export type MissedSetupCountOutputType = {
+  screenshots: number
+}
+
+export type MissedSetupCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  screenshots?: boolean | MissedSetupCountOutputTypeCountScreenshotsArgs
+}
+
+/**
+ * MissedSetupCountOutputType without action
+ */
+export type MissedSetupCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MissedSetupCountOutputType
+   */
+  select?: Prisma.MissedSetupCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * MissedSetupCountOutputType without action
+ */
+export type MissedSetupCountOutputTypeCountScreenshotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MissedSetupScreenshotWhereInput
+}
 
 
 export type MissedSetupSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -382,6 +497,8 @@ export type MissedSetupSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   notes?: boolean
   seenAt?: boolean
   createdAt?: boolean
+  screenshots?: boolean | Prisma.MissedSetup$screenshotsArgs<ExtArgs>
+  _count?: boolean | Prisma.MissedSetupCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["missedSetup"]>
 
 export type MissedSetupSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -418,10 +535,18 @@ export type MissedSetupSelectScalar = {
 }
 
 export type MissedSetupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "symbol" | "direction" | "setupDescription" | "reasonSkipped" | "notes" | "seenAt" | "createdAt", ExtArgs["result"]["missedSetup"]>
+export type MissedSetupInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  screenshots?: boolean | Prisma.MissedSetup$screenshotsArgs<ExtArgs>
+  _count?: boolean | Prisma.MissedSetupCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type MissedSetupIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type MissedSetupIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $MissedSetupPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "MissedSetup"
-  objects: {}
+  objects: {
+    screenshots: Prisma.$MissedSetupScreenshotPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     symbol: string
@@ -825,6 +950,7 @@ readonly fields: MissedSetupFieldRefs;
  */
 export interface Prisma__MissedSetupClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  screenshots<T extends Prisma.MissedSetup$screenshotsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MissedSetup$screenshotsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MissedSetupScreenshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -879,6 +1005,10 @@ export type MissedSetupFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.MissedSetupOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MissedSetupInclude<ExtArgs> | null
+  /**
    * Filter, which MissedSetup to fetch.
    */
   where: Prisma.MissedSetupWhereUniqueInput
@@ -897,6 +1027,10 @@ export type MissedSetupFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.MissedSetupOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MissedSetupInclude<ExtArgs> | null
+  /**
    * Filter, which MissedSetup to fetch.
    */
   where: Prisma.MissedSetupWhereUniqueInput
@@ -914,6 +1048,10 @@ export type MissedSetupFindFirstArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the MissedSetup
    */
   omit?: Prisma.MissedSetupOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MissedSetupInclude<ExtArgs> | null
   /**
    * Filter, which MissedSetup to fetch.
    */
@@ -963,6 +1101,10 @@ export type MissedSetupFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.MissedSetupOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MissedSetupInclude<ExtArgs> | null
+  /**
    * Filter, which MissedSetup to fetch.
    */
   where?: Prisma.MissedSetupWhereInput
@@ -1010,6 +1152,10 @@ export type MissedSetupFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the MissedSetup
    */
   omit?: Prisma.MissedSetupOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MissedSetupInclude<ExtArgs> | null
   /**
    * Filter, which MissedSetups to fetch.
    */
@@ -1059,6 +1205,10 @@ export type MissedSetupCreateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.MissedSetupOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MissedSetupInclude<ExtArgs> | null
+  /**
    * The data needed to create a MissedSetup.
    */
   data: Prisma.XOR<Prisma.MissedSetupCreateInput, Prisma.MissedSetupUncheckedCreateInput>
@@ -1106,6 +1256,10 @@ export type MissedSetupUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the MissedSetup
    */
   omit?: Prisma.MissedSetupOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MissedSetupInclude<ExtArgs> | null
   /**
    * The data needed to update a MissedSetup.
    */
@@ -1173,6 +1327,10 @@ export type MissedSetupUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.MissedSetupOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MissedSetupInclude<ExtArgs> | null
+  /**
    * The filter to search for the MissedSetup to update in case it exists.
    */
   where: Prisma.MissedSetupWhereUniqueInput
@@ -1199,6 +1357,10 @@ export type MissedSetupDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.MissedSetupOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MissedSetupInclude<ExtArgs> | null
+  /**
    * Filter which MissedSetup to delete.
    */
   where: Prisma.MissedSetupWhereUniqueInput
@@ -1219,6 +1381,30 @@ export type MissedSetupDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * MissedSetup.screenshots
+ */
+export type MissedSetup$screenshotsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MissedSetupScreenshot
+   */
+  select?: Prisma.MissedSetupScreenshotSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MissedSetupScreenshot
+   */
+  omit?: Prisma.MissedSetupScreenshotOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MissedSetupScreenshotInclude<ExtArgs> | null
+  where?: Prisma.MissedSetupScreenshotWhereInput
+  orderBy?: Prisma.MissedSetupScreenshotOrderByWithRelationInput | Prisma.MissedSetupScreenshotOrderByWithRelationInput[]
+  cursor?: Prisma.MissedSetupScreenshotWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MissedSetupScreenshotScalarFieldEnum | Prisma.MissedSetupScreenshotScalarFieldEnum[]
+}
+
+/**
  * MissedSetup without action
  */
 export type MissedSetupDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1230,4 +1416,8 @@ export type MissedSetupDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the MissedSetup
    */
   omit?: Prisma.MissedSetupOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MissedSetupInclude<ExtArgs> | null
 }
