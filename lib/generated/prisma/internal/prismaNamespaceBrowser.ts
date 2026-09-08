@@ -56,6 +56,7 @@ export const ModelName = {
   Tag: 'Tag',
   TradeTag: 'TradeTag',
   PsychologyEntry: 'PsychologyEntry',
+  MissedSetup: 'MissedSetup',
   PlaybookRule: 'PlaybookRule',
   SetupOccurrence: 'SetupOccurrence',
   MarketBreakdownPost: 'MarketBreakdownPost',
@@ -146,6 +147,20 @@ export const PsychologyEntryScalarFieldEnum = {
 } as const
 
 export type PsychologyEntryScalarFieldEnum = (typeof PsychologyEntryScalarFieldEnum)[keyof typeof PsychologyEntryScalarFieldEnum]
+
+
+export const MissedSetupScalarFieldEnum = {
+  id: 'id',
+  symbol: 'symbol',
+  direction: 'direction',
+  setupDescription: 'setupDescription',
+  reasonSkipped: 'reasonSkipped',
+  notes: 'notes',
+  seenAt: 'seenAt',
+  createdAt: 'createdAt'
+} as const
+
+export type MissedSetupScalarFieldEnum = (typeof MissedSetupScalarFieldEnum)[keyof typeof MissedSetupScalarFieldEnum]
 
 
 export const PlaybookRuleScalarFieldEnum = {

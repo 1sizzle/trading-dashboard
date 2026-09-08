@@ -402,6 +402,7 @@ export const ModelName = {
   Tag: 'Tag',
   TradeTag: 'TradeTag',
   PsychologyEntry: 'PsychologyEntry',
+  MissedSetup: 'MissedSetup',
   PlaybookRule: 'PlaybookRule',
   SetupOccurrence: 'SetupOccurrence',
   MarketBreakdownPost: 'MarketBreakdownPost',
@@ -426,7 +427,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "trade" | "tradeScreenshot" | "tag" | "tradeTag" | "psychologyEntry" | "playbookRule" | "setupOccurrence" | "marketBreakdownPost" | "premarketChecklist" | "riskSettings" | "tradingRulesNote" | "signalLogEntry" | "expense" | "incomeEntry"
+    modelProps: "trade" | "tradeScreenshot" | "tag" | "tradeTag" | "psychologyEntry" | "missedSetup" | "playbookRule" | "setupOccurrence" | "marketBreakdownPost" | "premarketChecklist" | "riskSettings" | "tradingRulesNote" | "signalLogEntry" | "expense" | "incomeEntry"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -797,6 +798,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.PsychologyEntryCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.PsychologyEntryCountAggregateOutputType> | number
+        }
+      }
+    }
+    MissedSetup: {
+      payload: Prisma.$MissedSetupPayload<ExtArgs>
+      fields: Prisma.MissedSetupFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MissedSetupFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MissedSetupPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MissedSetupFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MissedSetupPayload>
+        }
+        findFirst: {
+          args: Prisma.MissedSetupFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MissedSetupPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MissedSetupFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MissedSetupPayload>
+        }
+        findMany: {
+          args: Prisma.MissedSetupFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MissedSetupPayload>[]
+        }
+        create: {
+          args: Prisma.MissedSetupCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MissedSetupPayload>
+        }
+        createMany: {
+          args: Prisma.MissedSetupCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MissedSetupCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MissedSetupPayload>[]
+        }
+        delete: {
+          args: Prisma.MissedSetupDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MissedSetupPayload>
+        }
+        update: {
+          args: Prisma.MissedSetupUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MissedSetupPayload>
+        }
+        deleteMany: {
+          args: Prisma.MissedSetupDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MissedSetupUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MissedSetupUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MissedSetupPayload>[]
+        }
+        upsert: {
+          args: Prisma.MissedSetupUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MissedSetupPayload>
+        }
+        aggregate: {
+          args: Prisma.MissedSetupAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMissedSetup>
+        }
+        groupBy: {
+          args: Prisma.MissedSetupGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MissedSetupGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MissedSetupCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MissedSetupCountAggregateOutputType> | number
         }
       }
     }
@@ -1570,6 +1645,20 @@ export const PsychologyEntryScalarFieldEnum = {
 export type PsychologyEntryScalarFieldEnum = (typeof PsychologyEntryScalarFieldEnum)[keyof typeof PsychologyEntryScalarFieldEnum]
 
 
+export const MissedSetupScalarFieldEnum = {
+  id: 'id',
+  symbol: 'symbol',
+  direction: 'direction',
+  setupDescription: 'setupDescription',
+  reasonSkipped: 'reasonSkipped',
+  notes: 'notes',
+  seenAt: 'seenAt',
+  createdAt: 'createdAt'
+} as const
+
+export type MissedSetupScalarFieldEnum = (typeof MissedSetupScalarFieldEnum)[keyof typeof MissedSetupScalarFieldEnum]
+
+
 export const PlaybookRuleScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -2112,6 +2201,7 @@ export type GlobalOmitConfig = {
   tag?: Prisma.TagOmit
   tradeTag?: Prisma.TradeTagOmit
   psychologyEntry?: Prisma.PsychologyEntryOmit
+  missedSetup?: Prisma.MissedSetupOmit
   playbookRule?: Prisma.PlaybookRuleOmit
   setupOccurrence?: Prisma.SetupOccurrenceOmit
   marketBreakdownPost?: Prisma.MarketBreakdownPostOmit

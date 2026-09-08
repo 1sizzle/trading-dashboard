@@ -312,6 +312,34 @@ export async function importBitunixCsv(formData: FormData) {
   redirect(`/dashboard/trading/journal?${params.toString()}`);
 }
 
+export async function saveMissedSetup(formData: FormData) {
+  const id = formData.get("id")?.toString() || null;
+  const symbol = String(formData.get("symbol") ?? "").trim().toUpperCase();
+  const direction = String(formData.get("direction")) as TradeDirection;
+  const setupDescription = String(formData.get("setupDescription") ?? "").trim();
+  const reasonSkipped = String(formData.get("reasonSkipped") ?? "").trim();
+  const notes = formData.get("notes")?.toString().trim() || null;
+  const seenAt = newYorkWallTimeToUtc(String(formData.get("seenAt")));
+
+  const data = { symbol, direction, setupDescription, reasonSkipped, notes, seenAt };
+
+  if (id) {
+    await db.missedSetup.update({ where: { id }, data });
+  } else {
+    await db.missedSetup.create({ data });
+  }
+
+  revalidatePath("/dashboard/trading/journal");
+  redirect("/dashboard/trading/journal?tab=futures");
+}
+
+export async function deleteMissedSetup(formData: FormData) {
+  const id = String(formData.get("id"));
+  await db.missedSetup.delete({ where: { id } });
+  revalidatePath("/dashboard/trading/journal");
+  redirect("/dashboard/trading/journal?tab=futures");
+}
+
 export async function deleteTrade(formData: FormData) {
   const id = String(formData.get("id"));
   const tab = String(formData.get("tab") ?? "futures");

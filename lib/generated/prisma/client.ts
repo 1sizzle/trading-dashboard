@@ -67,6 +67,11 @@ export type TradeTag = Prisma.TradeTagModel
  */
 export type PsychologyEntry = Prisma.PsychologyEntryModel
 /**
+ * Model MissedSetup
+ * 
+ */
+export type MissedSetup = Prisma.MissedSetupModel
+/**
  * Model PlaybookRule
  * 
  */

@@ -5,6 +5,8 @@ import { CryptoTradeForm } from "@/components/trading/CryptoTradeForm";
 import { CsvImportForm } from "@/components/trading/CsvImportForm";
 import { BitunixImportForm } from "@/components/trading/BitunixImportForm";
 import { TradeTable } from "@/components/trading/TradeTable";
+import { MissedSetupForm } from "@/components/trading/MissedSetupForm";
+import { MissedSetupTable } from "@/components/trading/MissedSetupTable";
 
 export const dynamic = "force-dynamic";
 
@@ -27,13 +29,14 @@ export default async function JournalPage({
   const params = await searchParams;
   const tab: "futures" | "crypto" = params.tab === "crypto" ? "crypto" : "futures";
 
-  const [trades, tags] = await Promise.all([
+  const [trades, tags, missedSetups] = await Promise.all([
     db.trade.findMany({
       where: { assetClass: tab === "crypto" ? "CRYPTO" : "FUTURES_METALS" },
       orderBy: { entryTime: "desc" },
       include: { tags: { include: { tag: true } } },
     }),
     db.tag.findMany({ orderBy: { name: "asc" } }),
+    tab === "futures" ? db.missedSetup.findMany({ orderBy: { seenAt: "desc" } }) : Promise.resolve([]),
   ]);
   const tagSuggestions = tags.map((tag) => tag.name);
 
@@ -124,6 +127,13 @@ export default async function JournalPage({
       )}
 
       <TradeTable trades={trades} tab={tab} />
+
+      {tab === "futures" && (
+        <div className="space-y-4 border-t border-neutral-800 pt-6">
+          <MissedSetupForm />
+          <MissedSetupTable missedSetups={missedSetups} />
+        </div>
+      )}
     </div>
   );
 }

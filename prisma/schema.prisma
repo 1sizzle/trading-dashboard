@@ -107,6 +107,22 @@ model PsychologyEntry {
   notes       String?
 }
 
+// A setup that was seen forming (futures/metals only) but not actually
+// traded — deliberately separate from Trade, since there's no entry/exit
+// price or P&L, just what was seen and why it wasn't taken.
+model MissedSetup {
+  id               String         @id @default(cuid())
+  symbol           String
+  direction        TradeDirection
+  setupDescription String
+  reasonSkipped    String
+  notes            String?
+  seenAt           DateTime
+  createdAt        DateTime       @default(now())
+
+  @@index([seenAt])
+}
+
 model PlaybookRule {
   id          String   @id @default(cuid())
   title       String
