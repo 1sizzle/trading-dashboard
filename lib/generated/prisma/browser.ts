@@ -97,3 +97,63 @@ export type Expense = Prisma.ExpenseModel
  * 
  */
 export type IncomeEntry = Prisma.IncomeEntryModel
+/**
+ * Model EtsySettings
+ * 
+ */
+export type EtsySettings = Prisma.EtsySettingsModel
+/**
+ * Model EtsyProduct
+ * 
+ */
+export type EtsyProduct = Prisma.EtsyProductModel
+/**
+ * Model EtsyPromptWorkspace
+ * 
+ */
+export type EtsyPromptWorkspace = Prisma.EtsyPromptWorkspaceModel
+/**
+ * Model EtsyPrompt
+ * 
+ */
+export type EtsyPrompt = Prisma.EtsyPromptModel
+/**
+ * Model EtsyListingDraft
+ * 
+ */
+export type EtsyListingDraft = Prisma.EtsyListingDraftModel
+/**
+ * Model EtsyArtworkAsset
+ * 
+ */
+export type EtsyArtworkAsset = Prisma.EtsyArtworkAssetModel
+/**
+ * Model EtsyKeyword
+ * 
+ */
+export type EtsyKeyword = Prisma.EtsyKeywordModel
+/**
+ * Model EtsyBundle
+ * 
+ */
+export type EtsyBundle = Prisma.EtsyBundleModel
+/**
+ * Model EtsyBundleProduct
+ * 
+ */
+export type EtsyBundleProduct = Prisma.EtsyBundleProductModel
+/**
+ * Model EtsyAnalyticsRecord
+ * 
+ */
+export type EtsyAnalyticsRecord = Prisma.EtsyAnalyticsRecordModel
+/**
+ * Model EtsyOpportunityScan
+ * 
+ */
+export type EtsyOpportunityScan = Prisma.EtsyOpportunityScanModel
+/**
+ * Model EtsyConnection
+ * 
+ */
+export type EtsyConnection = Prisma.EtsyConnectionModel

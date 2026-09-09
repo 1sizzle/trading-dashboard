@@ -454,6 +454,97 @@ export type EnumLifeEntryTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumLifeEntryTypeFilter<$PrismaModel>
 }
 
+export type EnumEtsyProductStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.EtsyProductStatus | Prisma.EnumEtsyProductStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.EtsyProductStatus[] | Prisma.ListEnumEtsyProductStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EtsyProductStatus[] | Prisma.ListEnumEtsyProductStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEtsyProductStatusFilter<$PrismaModel> | $Enums.EtsyProductStatus
+}
+
+export type EnumEtsyProductStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EtsyProductStatus | Prisma.EnumEtsyProductStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.EtsyProductStatus[] | Prisma.ListEnumEtsyProductStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EtsyProductStatus[] | Prisma.ListEnumEtsyProductStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEtsyProductStatusWithAggregatesFilter<$PrismaModel> | $Enums.EtsyProductStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEtsyProductStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEtsyProductStatusFilter<$PrismaModel>
+}
+
+export type EnumEtsyArtworkRoleFilter<$PrismaModel = never> = {
+  equals?: $Enums.EtsyArtworkRole | Prisma.EnumEtsyArtworkRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.EtsyArtworkRole[] | Prisma.ListEnumEtsyArtworkRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EtsyArtworkRole[] | Prisma.ListEnumEtsyArtworkRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEtsyArtworkRoleFilter<$PrismaModel> | $Enums.EtsyArtworkRole
+}
+
+export type BoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
+}
+
+export type IntNullableFilter<$PrismaModel = never> = {
+  equals?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
+  in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
+  notIn?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
+  lt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  lte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedIntNullableFilter<$PrismaModel> | number | null
+}
+
+export type EnumEtsyArtworkRoleWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EtsyArtworkRole | Prisma.EnumEtsyArtworkRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.EtsyArtworkRole[] | Prisma.ListEnumEtsyArtworkRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EtsyArtworkRole[] | Prisma.ListEnumEtsyArtworkRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEtsyArtworkRoleWithAggregatesFilter<$PrismaModel> | $Enums.EtsyArtworkRole
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEtsyArtworkRoleFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEtsyArtworkRoleFilter<$PrismaModel>
+}
+
+export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedBoolFilter<$PrismaModel>
+  _max?: Prisma.NestedBoolFilter<$PrismaModel>
+}
+
+export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
+  in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
+  notIn?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
+  lt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  lte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _avg?: Prisma.NestedFloatNullableFilter<$PrismaModel>
+  _sum?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedIntNullableFilter<$PrismaModel>
+}
+
+export type EnumEtsyAnalyticsSourceFilter<$PrismaModel = never> = {
+  equals?: $Enums.EtsyAnalyticsSource | Prisma.EnumEtsyAnalyticsSourceFieldRefInput<$PrismaModel>
+  in?: $Enums.EtsyAnalyticsSource[] | Prisma.ListEnumEtsyAnalyticsSourceFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EtsyAnalyticsSource[] | Prisma.ListEnumEtsyAnalyticsSourceFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEtsyAnalyticsSourceFilter<$PrismaModel> | $Enums.EtsyAnalyticsSource
+}
+
+export type EnumEtsyAnalyticsSourceWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EtsyAnalyticsSource | Prisma.EnumEtsyAnalyticsSourceFieldRefInput<$PrismaModel>
+  in?: $Enums.EtsyAnalyticsSource[] | Prisma.ListEnumEtsyAnalyticsSourceFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EtsyAnalyticsSource[] | Prisma.ListEnumEtsyAnalyticsSourceFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEtsyAnalyticsSourceWithAggregatesFilter<$PrismaModel> | $Enums.EtsyAnalyticsSource
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEtsyAnalyticsSourceFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEtsyAnalyticsSourceFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -851,6 +942,97 @@ export type NestedEnumLifeEntryTypeWithAggregatesFilter<$PrismaModel = never> = 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumLifeEntryTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumLifeEntryTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumEtsyProductStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.EtsyProductStatus | Prisma.EnumEtsyProductStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.EtsyProductStatus[] | Prisma.ListEnumEtsyProductStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EtsyProductStatus[] | Prisma.ListEnumEtsyProductStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEtsyProductStatusFilter<$PrismaModel> | $Enums.EtsyProductStatus
+}
+
+export type NestedEnumEtsyProductStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EtsyProductStatus | Prisma.EnumEtsyProductStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.EtsyProductStatus[] | Prisma.ListEnumEtsyProductStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EtsyProductStatus[] | Prisma.ListEnumEtsyProductStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEtsyProductStatusWithAggregatesFilter<$PrismaModel> | $Enums.EtsyProductStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEtsyProductStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEtsyProductStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumEtsyArtworkRoleFilter<$PrismaModel = never> = {
+  equals?: $Enums.EtsyArtworkRole | Prisma.EnumEtsyArtworkRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.EtsyArtworkRole[] | Prisma.ListEnumEtsyArtworkRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EtsyArtworkRole[] | Prisma.ListEnumEtsyArtworkRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEtsyArtworkRoleFilter<$PrismaModel> | $Enums.EtsyArtworkRole
+}
+
+export type NestedBoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
+}
+
+export type NestedEnumEtsyArtworkRoleWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EtsyArtworkRole | Prisma.EnumEtsyArtworkRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.EtsyArtworkRole[] | Prisma.ListEnumEtsyArtworkRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EtsyArtworkRole[] | Prisma.ListEnumEtsyArtworkRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEtsyArtworkRoleWithAggregatesFilter<$PrismaModel> | $Enums.EtsyArtworkRole
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEtsyArtworkRoleFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEtsyArtworkRoleFilter<$PrismaModel>
+}
+
+export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedBoolFilter<$PrismaModel>
+  _max?: Prisma.NestedBoolFilter<$PrismaModel>
+}
+
+export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
+  in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
+  notIn?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
+  lt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  lte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _avg?: Prisma.NestedFloatNullableFilter<$PrismaModel>
+  _sum?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedIntNullableFilter<$PrismaModel>
+}
+
+export type NestedFloatNullableFilter<$PrismaModel = never> = {
+  equals?: number | Prisma.FloatFieldRefInput<$PrismaModel> | null
+  in?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel> | null
+  notIn?: number[] | Prisma.ListFloatFieldRefInput<$PrismaModel> | null
+  lt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  lte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  gt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  gte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedFloatNullableFilter<$PrismaModel> | number | null
+}
+
+export type NestedEnumEtsyAnalyticsSourceFilter<$PrismaModel = never> = {
+  equals?: $Enums.EtsyAnalyticsSource | Prisma.EnumEtsyAnalyticsSourceFieldRefInput<$PrismaModel>
+  in?: $Enums.EtsyAnalyticsSource[] | Prisma.ListEnumEtsyAnalyticsSourceFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EtsyAnalyticsSource[] | Prisma.ListEnumEtsyAnalyticsSourceFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEtsyAnalyticsSourceFilter<$PrismaModel> | $Enums.EtsyAnalyticsSource
+}
+
+export type NestedEnumEtsyAnalyticsSourceWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EtsyAnalyticsSource | Prisma.EnumEtsyAnalyticsSourceFieldRefInput<$PrismaModel>
+  in?: $Enums.EtsyAnalyticsSource[] | Prisma.ListEnumEtsyAnalyticsSourceFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EtsyAnalyticsSource[] | Prisma.ListEnumEtsyAnalyticsSourceFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEtsyAnalyticsSourceWithAggregatesFilter<$PrismaModel> | $Enums.EtsyAnalyticsSource
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEtsyAnalyticsSourceFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEtsyAnalyticsSourceFilter<$PrismaModel>
 }
 
 

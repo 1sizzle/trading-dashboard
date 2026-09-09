@@ -10,4 +10,5 @@ export type Section = {
 export const sections: Section[] = [
   { key: "trading", label: "Trading", href: "/dashboard/trading", icon: "📈" },
   { key: "life", label: "Life", href: "/dashboard/life", icon: "💰" },
+  { key: "etsy", label: "Etsy", href: "/dashboard/etsy", icon: "🎨" },
 ];

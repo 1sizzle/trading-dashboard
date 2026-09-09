@@ -296,3 +296,179 @@ model IncomeEntry {
   @@index([date])
   @@index([type])
 }
+
+// ---------------------------------------------------------------------------
+// Etsy section models (seller workspace for AI-generated wall-art posters).
+// Stage 1: full domain model defined now, only Settings gets real UI this
+// stage — everything else is schema-only until its own build stage. Kept
+// entirely separate from Trading/Life — only lib/core/sections.ts is touched
+// to register this section.
+// ---------------------------------------------------------------------------
+
+enum EtsyProductStatus {
+  WORKING
+  REVIEW
+  READY
+  LISTED
+  ARCHIVED
+}
+
+enum EtsyArtworkRole {
+  ORIGINAL
+  MOCKUP
+  SIZE_GUIDE
+}
+
+enum EtsyAnalyticsSource {
+  MANUAL
+  SYNCED
+}
+
+model EtsySettings {
+  id                   String   @id @default(cuid())
+  currency             String   @default("GBP")
+  fulfillmentProvider  String?
+  skuDigits            Int      @default(3)
+  skuCounter           Int      @default(0) // last allocated sequential SKU number; monotonic, survives product deletion so a SKU is never silently reused
+  artworkRatios        String[] @default(["2:3", "5:6"])
+  updatedAt            DateTime @updatedAt
+}
+
+model EtsyProduct {
+  id             String                @id @default(cuid())
+  sku            String                @unique
+  title          String
+  status         EtsyProductStatus     @default(WORKING)
+  etsyListingId  String?
+  etsyListingUrl String?
+  listedAt       DateTime?
+  promptId       String?               @unique
+  prompt         EtsyPrompt?           @relation(fields: [promptId], references: [id])
+  listingDraft   EtsyListingDraft?
+  artwork        EtsyArtworkAsset[]
+  analytics      EtsyAnalyticsRecord[]
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+
+  @@index([status])
+}
+
+model EtsyPromptWorkspace {
+  id                String       @id @default(cuid())
+  collectionRequest String
+  requestedCount    Int          @default(1) // how many prompts were originally asked for — lets "retry missing only" know the gap
+  researchDate      DateTime?
+  researchSummary   String?
+  prompts           EtsyPrompt[]
+  createdAt         DateTime     @default(now())
+}
+
+model EtsyPrompt {
+  id              String              @id @default(cuid())
+  workspaceId     String
+  workspace       EtsyPromptWorkspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  promptText      String
+  aspectRatio     String
+  sourceLinks     Json?
+  evidenceSignals Json?
+  confidence      String?
+  order           Int                 @default(0)
+  product         EtsyProduct?
+  createdAt       DateTime            @default(now())
+
+  @@index([workspaceId])
+}
+
+model EtsyListingDraft {
+  id                 String      @id @default(cuid())
+  productId          String      @unique
+  product            EtsyProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  title              String
+  description        String
+  tags               String[]
+  suggestedCategory  String?
+  suggestedMaterials String?
+  altText            String?
+  aiDisclosure       String?
+  pricingNotes       String?
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+}
+
+model EtsyArtworkAsset {
+  id        String          @id @default(cuid())
+  productId String
+  product   EtsyProduct     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sku       String
+  role      EtsyArtworkRole
+  url       String
+  order     Int             @default(0)
+  isPrimary Boolean         @default(false)
+  width     Int?
+  height    Int?
+  fileSize  Int?
+  mimeType  String?
+  createdAt DateTime        @default(now())
+
+  @@index([productId])
+  @@index([sku])
+}
+
+model EtsyKeyword {
+  id         String   @id @default(cuid())
+  term       String   @unique
+  niche      String?
+  usageCount Int      @default(0)
+  createdAt  DateTime @default(now())
+}
+
+model EtsyBundle {
+  id             String              @id @default(cuid())
+  title          String
+  description    String
+  suggestedPrice Decimal?
+  products       EtsyBundleProduct[]
+  createdAt      DateTime            @default(now())
+}
+
+model EtsyBundleProduct {
+  bundleId  String
+  bundle    EtsyBundle @relation(fields: [bundleId], references: [id], onDelete: Cascade)
+  productId String
+
+  @@id([bundleId, productId])
+}
+
+model EtsyAnalyticsRecord {
+  id         String              @id @default(cuid())
+  productId  String?
+  product    EtsyProduct?        @relation(fields: [productId], references: [id])
+  date       DateTime
+  views      Int                 @default(0)
+  favourites Int                 @default(0)
+  orders     Int                 @default(0)
+  revenue    Decimal             @default(0)
+  source     EtsyAnalyticsSource @default(MANUAL)
+  createdAt  DateTime            @default(now())
+
+  @@index([date])
+  @@index([productId])
+}
+
+model EtsyOpportunityScan {
+  id          String   @id @default(cuid())
+  topic       String
+  resultsJson Json
+  createdAt   DateTime @default(now())
+}
+
+model EtsyConnection {
+  id               String    @id @default(cuid())
+  shopId           String
+  scope            String
+  accessTokenEnc   String
+  refreshTokenEnc  String
+  expiresAt        DateTime
+  connectedAt      DateTime  @default(now())
+  lastSyncedAt     DateTime?
+}

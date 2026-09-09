@@ -77,3 +77,31 @@ export const LifeEntryType = {
 } as const
 
 export type LifeEntryType = (typeof LifeEntryType)[keyof typeof LifeEntryType]
+
+
+export const EtsyProductStatus = {
+  WORKING: 'WORKING',
+  REVIEW: 'REVIEW',
+  READY: 'READY',
+  LISTED: 'LISTED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type EtsyProductStatus = (typeof EtsyProductStatus)[keyof typeof EtsyProductStatus]
+
+
+export const EtsyArtworkRole = {
+  ORIGINAL: 'ORIGINAL',
+  MOCKUP: 'MOCKUP',
+  SIZE_GUIDE: 'SIZE_GUIDE'
+} as const
+
+export type EtsyArtworkRole = (typeof EtsyArtworkRole)[keyof typeof EtsyArtworkRole]
+
+
+export const EtsyAnalyticsSource = {
+  MANUAL: 'MANUAL',
+  SYNCED: 'SYNCED'
+} as const
+
+export type EtsyAnalyticsSource = (typeof EtsyAnalyticsSource)[keyof typeof EtsyAnalyticsSource]

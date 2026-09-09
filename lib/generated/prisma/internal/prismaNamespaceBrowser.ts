@@ -66,7 +66,19 @@ export const ModelName = {
   TradingRulesNote: 'TradingRulesNote',
   SignalLogEntry: 'SignalLogEntry',
   Expense: 'Expense',
-  IncomeEntry: 'IncomeEntry'
+  IncomeEntry: 'IncomeEntry',
+  EtsySettings: 'EtsySettings',
+  EtsyProduct: 'EtsyProduct',
+  EtsyPromptWorkspace: 'EtsyPromptWorkspace',
+  EtsyPrompt: 'EtsyPrompt',
+  EtsyListingDraft: 'EtsyListingDraft',
+  EtsyArtworkAsset: 'EtsyArtworkAsset',
+  EtsyKeyword: 'EtsyKeyword',
+  EtsyBundle: 'EtsyBundle',
+  EtsyBundleProduct: 'EtsyBundleProduct',
+  EtsyAnalyticsRecord: 'EtsyAnalyticsRecord',
+  EtsyOpportunityScan: 'EtsyOpportunityScan',
+  EtsyConnection: 'EtsyConnection'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -309,6 +321,167 @@ export const IncomeEntryScalarFieldEnum = {
 } as const
 
 export type IncomeEntryScalarFieldEnum = (typeof IncomeEntryScalarFieldEnum)[keyof typeof IncomeEntryScalarFieldEnum]
+
+
+export const EtsySettingsScalarFieldEnum = {
+  id: 'id',
+  currency: 'currency',
+  fulfillmentProvider: 'fulfillmentProvider',
+  skuDigits: 'skuDigits',
+  skuCounter: 'skuCounter',
+  artworkRatios: 'artworkRatios',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EtsySettingsScalarFieldEnum = (typeof EtsySettingsScalarFieldEnum)[keyof typeof EtsySettingsScalarFieldEnum]
+
+
+export const EtsyProductScalarFieldEnum = {
+  id: 'id',
+  sku: 'sku',
+  title: 'title',
+  status: 'status',
+  etsyListingId: 'etsyListingId',
+  etsyListingUrl: 'etsyListingUrl',
+  listedAt: 'listedAt',
+  promptId: 'promptId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EtsyProductScalarFieldEnum = (typeof EtsyProductScalarFieldEnum)[keyof typeof EtsyProductScalarFieldEnum]
+
+
+export const EtsyPromptWorkspaceScalarFieldEnum = {
+  id: 'id',
+  collectionRequest: 'collectionRequest',
+  requestedCount: 'requestedCount',
+  researchDate: 'researchDate',
+  researchSummary: 'researchSummary',
+  createdAt: 'createdAt'
+} as const
+
+export type EtsyPromptWorkspaceScalarFieldEnum = (typeof EtsyPromptWorkspaceScalarFieldEnum)[keyof typeof EtsyPromptWorkspaceScalarFieldEnum]
+
+
+export const EtsyPromptScalarFieldEnum = {
+  id: 'id',
+  workspaceId: 'workspaceId',
+  promptText: 'promptText',
+  aspectRatio: 'aspectRatio',
+  sourceLinks: 'sourceLinks',
+  evidenceSignals: 'evidenceSignals',
+  confidence: 'confidence',
+  order: 'order',
+  createdAt: 'createdAt'
+} as const
+
+export type EtsyPromptScalarFieldEnum = (typeof EtsyPromptScalarFieldEnum)[keyof typeof EtsyPromptScalarFieldEnum]
+
+
+export const EtsyListingDraftScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  title: 'title',
+  description: 'description',
+  tags: 'tags',
+  suggestedCategory: 'suggestedCategory',
+  suggestedMaterials: 'suggestedMaterials',
+  altText: 'altText',
+  aiDisclosure: 'aiDisclosure',
+  pricingNotes: 'pricingNotes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EtsyListingDraftScalarFieldEnum = (typeof EtsyListingDraftScalarFieldEnum)[keyof typeof EtsyListingDraftScalarFieldEnum]
+
+
+export const EtsyArtworkAssetScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  sku: 'sku',
+  role: 'role',
+  url: 'url',
+  order: 'order',
+  isPrimary: 'isPrimary',
+  width: 'width',
+  height: 'height',
+  fileSize: 'fileSize',
+  mimeType: 'mimeType',
+  createdAt: 'createdAt'
+} as const
+
+export type EtsyArtworkAssetScalarFieldEnum = (typeof EtsyArtworkAssetScalarFieldEnum)[keyof typeof EtsyArtworkAssetScalarFieldEnum]
+
+
+export const EtsyKeywordScalarFieldEnum = {
+  id: 'id',
+  term: 'term',
+  niche: 'niche',
+  usageCount: 'usageCount',
+  createdAt: 'createdAt'
+} as const
+
+export type EtsyKeywordScalarFieldEnum = (typeof EtsyKeywordScalarFieldEnum)[keyof typeof EtsyKeywordScalarFieldEnum]
+
+
+export const EtsyBundleScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  suggestedPrice: 'suggestedPrice',
+  createdAt: 'createdAt'
+} as const
+
+export type EtsyBundleScalarFieldEnum = (typeof EtsyBundleScalarFieldEnum)[keyof typeof EtsyBundleScalarFieldEnum]
+
+
+export const EtsyBundleProductScalarFieldEnum = {
+  bundleId: 'bundleId',
+  productId: 'productId'
+} as const
+
+export type EtsyBundleProductScalarFieldEnum = (typeof EtsyBundleProductScalarFieldEnum)[keyof typeof EtsyBundleProductScalarFieldEnum]
+
+
+export const EtsyAnalyticsRecordScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  date: 'date',
+  views: 'views',
+  favourites: 'favourites',
+  orders: 'orders',
+  revenue: 'revenue',
+  source: 'source',
+  createdAt: 'createdAt'
+} as const
+
+export type EtsyAnalyticsRecordScalarFieldEnum = (typeof EtsyAnalyticsRecordScalarFieldEnum)[keyof typeof EtsyAnalyticsRecordScalarFieldEnum]
+
+
+export const EtsyOpportunityScanScalarFieldEnum = {
+  id: 'id',
+  topic: 'topic',
+  resultsJson: 'resultsJson',
+  createdAt: 'createdAt'
+} as const
+
+export type EtsyOpportunityScanScalarFieldEnum = (typeof EtsyOpportunityScanScalarFieldEnum)[keyof typeof EtsyOpportunityScanScalarFieldEnum]
+
+
+export const EtsyConnectionScalarFieldEnum = {
+  id: 'id',
+  shopId: 'shopId',
+  scope: 'scope',
+  accessTokenEnc: 'accessTokenEnc',
+  refreshTokenEnc: 'refreshTokenEnc',
+  expiresAt: 'expiresAt',
+  connectedAt: 'connectedAt',
+  lastSyncedAt: 'lastSyncedAt'
+} as const
+
+export type EtsyConnectionScalarFieldEnum = (typeof EtsyConnectionScalarFieldEnum)[keyof typeof EtsyConnectionScalarFieldEnum]
 
 
 export const SortOrder = {

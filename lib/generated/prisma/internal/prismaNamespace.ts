@@ -412,7 +412,19 @@ export const ModelName = {
   TradingRulesNote: 'TradingRulesNote',
   SignalLogEntry: 'SignalLogEntry',
   Expense: 'Expense',
-  IncomeEntry: 'IncomeEntry'
+  IncomeEntry: 'IncomeEntry',
+  EtsySettings: 'EtsySettings',
+  EtsyProduct: 'EtsyProduct',
+  EtsyPromptWorkspace: 'EtsyPromptWorkspace',
+  EtsyPrompt: 'EtsyPrompt',
+  EtsyListingDraft: 'EtsyListingDraft',
+  EtsyArtworkAsset: 'EtsyArtworkAsset',
+  EtsyKeyword: 'EtsyKeyword',
+  EtsyBundle: 'EtsyBundle',
+  EtsyBundleProduct: 'EtsyBundleProduct',
+  EtsyAnalyticsRecord: 'EtsyAnalyticsRecord',
+  EtsyOpportunityScan: 'EtsyOpportunityScan',
+  EtsyConnection: 'EtsyConnection'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -428,7 +440,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "trade" | "tradeScreenshot" | "tag" | "tradeTag" | "psychologyEntry" | "missedSetup" | "missedSetupScreenshot" | "playbookRule" | "setupOccurrence" | "marketBreakdownPost" | "premarketChecklist" | "riskSettings" | "tradingRulesNote" | "signalLogEntry" | "expense" | "incomeEntry"
+    modelProps: "trade" | "tradeScreenshot" | "tag" | "tradeTag" | "psychologyEntry" | "missedSetup" | "missedSetupScreenshot" | "playbookRule" | "setupOccurrence" | "marketBreakdownPost" | "premarketChecklist" | "riskSettings" | "tradingRulesNote" | "signalLogEntry" | "expense" | "incomeEntry" | "etsySettings" | "etsyProduct" | "etsyPromptWorkspace" | "etsyPrompt" | "etsyListingDraft" | "etsyArtworkAsset" | "etsyKeyword" | "etsyBundle" | "etsyBundleProduct" | "etsyAnalyticsRecord" | "etsyOpportunityScan" | "etsyConnection"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1616,6 +1628,894 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    EtsySettings: {
+      payload: Prisma.$EtsySettingsPayload<ExtArgs>
+      fields: Prisma.EtsySettingsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EtsySettingsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsySettingsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EtsySettingsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsySettingsPayload>
+        }
+        findFirst: {
+          args: Prisma.EtsySettingsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsySettingsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EtsySettingsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsySettingsPayload>
+        }
+        findMany: {
+          args: Prisma.EtsySettingsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsySettingsPayload>[]
+        }
+        create: {
+          args: Prisma.EtsySettingsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsySettingsPayload>
+        }
+        createMany: {
+          args: Prisma.EtsySettingsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EtsySettingsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsySettingsPayload>[]
+        }
+        delete: {
+          args: Prisma.EtsySettingsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsySettingsPayload>
+        }
+        update: {
+          args: Prisma.EtsySettingsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsySettingsPayload>
+        }
+        deleteMany: {
+          args: Prisma.EtsySettingsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EtsySettingsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EtsySettingsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsySettingsPayload>[]
+        }
+        upsert: {
+          args: Prisma.EtsySettingsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsySettingsPayload>
+        }
+        aggregate: {
+          args: Prisma.EtsySettingsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEtsySettings>
+        }
+        groupBy: {
+          args: Prisma.EtsySettingsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsySettingsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EtsySettingsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsySettingsCountAggregateOutputType> | number
+        }
+      }
+    }
+    EtsyProduct: {
+      payload: Prisma.$EtsyProductPayload<ExtArgs>
+      fields: Prisma.EtsyProductFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EtsyProductFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyProductPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EtsyProductFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyProductPayload>
+        }
+        findFirst: {
+          args: Prisma.EtsyProductFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyProductPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EtsyProductFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyProductPayload>
+        }
+        findMany: {
+          args: Prisma.EtsyProductFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyProductPayload>[]
+        }
+        create: {
+          args: Prisma.EtsyProductCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyProductPayload>
+        }
+        createMany: {
+          args: Prisma.EtsyProductCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EtsyProductCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyProductPayload>[]
+        }
+        delete: {
+          args: Prisma.EtsyProductDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyProductPayload>
+        }
+        update: {
+          args: Prisma.EtsyProductUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyProductPayload>
+        }
+        deleteMany: {
+          args: Prisma.EtsyProductDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EtsyProductUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EtsyProductUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyProductPayload>[]
+        }
+        upsert: {
+          args: Prisma.EtsyProductUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyProductPayload>
+        }
+        aggregate: {
+          args: Prisma.EtsyProductAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEtsyProduct>
+        }
+        groupBy: {
+          args: Prisma.EtsyProductGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyProductGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EtsyProductCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyProductCountAggregateOutputType> | number
+        }
+      }
+    }
+    EtsyPromptWorkspace: {
+      payload: Prisma.$EtsyPromptWorkspacePayload<ExtArgs>
+      fields: Prisma.EtsyPromptWorkspaceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EtsyPromptWorkspaceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptWorkspacePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EtsyPromptWorkspaceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptWorkspacePayload>
+        }
+        findFirst: {
+          args: Prisma.EtsyPromptWorkspaceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptWorkspacePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EtsyPromptWorkspaceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptWorkspacePayload>
+        }
+        findMany: {
+          args: Prisma.EtsyPromptWorkspaceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptWorkspacePayload>[]
+        }
+        create: {
+          args: Prisma.EtsyPromptWorkspaceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptWorkspacePayload>
+        }
+        createMany: {
+          args: Prisma.EtsyPromptWorkspaceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EtsyPromptWorkspaceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptWorkspacePayload>[]
+        }
+        delete: {
+          args: Prisma.EtsyPromptWorkspaceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptWorkspacePayload>
+        }
+        update: {
+          args: Prisma.EtsyPromptWorkspaceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptWorkspacePayload>
+        }
+        deleteMany: {
+          args: Prisma.EtsyPromptWorkspaceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EtsyPromptWorkspaceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EtsyPromptWorkspaceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptWorkspacePayload>[]
+        }
+        upsert: {
+          args: Prisma.EtsyPromptWorkspaceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptWorkspacePayload>
+        }
+        aggregate: {
+          args: Prisma.EtsyPromptWorkspaceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEtsyPromptWorkspace>
+        }
+        groupBy: {
+          args: Prisma.EtsyPromptWorkspaceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyPromptWorkspaceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EtsyPromptWorkspaceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyPromptWorkspaceCountAggregateOutputType> | number
+        }
+      }
+    }
+    EtsyPrompt: {
+      payload: Prisma.$EtsyPromptPayload<ExtArgs>
+      fields: Prisma.EtsyPromptFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EtsyPromptFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EtsyPromptFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptPayload>
+        }
+        findFirst: {
+          args: Prisma.EtsyPromptFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EtsyPromptFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptPayload>
+        }
+        findMany: {
+          args: Prisma.EtsyPromptFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptPayload>[]
+        }
+        create: {
+          args: Prisma.EtsyPromptCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptPayload>
+        }
+        createMany: {
+          args: Prisma.EtsyPromptCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EtsyPromptCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptPayload>[]
+        }
+        delete: {
+          args: Prisma.EtsyPromptDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptPayload>
+        }
+        update: {
+          args: Prisma.EtsyPromptUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptPayload>
+        }
+        deleteMany: {
+          args: Prisma.EtsyPromptDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EtsyPromptUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EtsyPromptUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptPayload>[]
+        }
+        upsert: {
+          args: Prisma.EtsyPromptUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyPromptPayload>
+        }
+        aggregate: {
+          args: Prisma.EtsyPromptAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEtsyPrompt>
+        }
+        groupBy: {
+          args: Prisma.EtsyPromptGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyPromptGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EtsyPromptCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyPromptCountAggregateOutputType> | number
+        }
+      }
+    }
+    EtsyListingDraft: {
+      payload: Prisma.$EtsyListingDraftPayload<ExtArgs>
+      fields: Prisma.EtsyListingDraftFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EtsyListingDraftFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyListingDraftPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EtsyListingDraftFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyListingDraftPayload>
+        }
+        findFirst: {
+          args: Prisma.EtsyListingDraftFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyListingDraftPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EtsyListingDraftFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyListingDraftPayload>
+        }
+        findMany: {
+          args: Prisma.EtsyListingDraftFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyListingDraftPayload>[]
+        }
+        create: {
+          args: Prisma.EtsyListingDraftCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyListingDraftPayload>
+        }
+        createMany: {
+          args: Prisma.EtsyListingDraftCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EtsyListingDraftCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyListingDraftPayload>[]
+        }
+        delete: {
+          args: Prisma.EtsyListingDraftDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyListingDraftPayload>
+        }
+        update: {
+          args: Prisma.EtsyListingDraftUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyListingDraftPayload>
+        }
+        deleteMany: {
+          args: Prisma.EtsyListingDraftDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EtsyListingDraftUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EtsyListingDraftUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyListingDraftPayload>[]
+        }
+        upsert: {
+          args: Prisma.EtsyListingDraftUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyListingDraftPayload>
+        }
+        aggregate: {
+          args: Prisma.EtsyListingDraftAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEtsyListingDraft>
+        }
+        groupBy: {
+          args: Prisma.EtsyListingDraftGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyListingDraftGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EtsyListingDraftCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyListingDraftCountAggregateOutputType> | number
+        }
+      }
+    }
+    EtsyArtworkAsset: {
+      payload: Prisma.$EtsyArtworkAssetPayload<ExtArgs>
+      fields: Prisma.EtsyArtworkAssetFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EtsyArtworkAssetFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyArtworkAssetPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EtsyArtworkAssetFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyArtworkAssetPayload>
+        }
+        findFirst: {
+          args: Prisma.EtsyArtworkAssetFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyArtworkAssetPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EtsyArtworkAssetFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyArtworkAssetPayload>
+        }
+        findMany: {
+          args: Prisma.EtsyArtworkAssetFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyArtworkAssetPayload>[]
+        }
+        create: {
+          args: Prisma.EtsyArtworkAssetCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyArtworkAssetPayload>
+        }
+        createMany: {
+          args: Prisma.EtsyArtworkAssetCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EtsyArtworkAssetCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyArtworkAssetPayload>[]
+        }
+        delete: {
+          args: Prisma.EtsyArtworkAssetDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyArtworkAssetPayload>
+        }
+        update: {
+          args: Prisma.EtsyArtworkAssetUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyArtworkAssetPayload>
+        }
+        deleteMany: {
+          args: Prisma.EtsyArtworkAssetDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EtsyArtworkAssetUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EtsyArtworkAssetUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyArtworkAssetPayload>[]
+        }
+        upsert: {
+          args: Prisma.EtsyArtworkAssetUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyArtworkAssetPayload>
+        }
+        aggregate: {
+          args: Prisma.EtsyArtworkAssetAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEtsyArtworkAsset>
+        }
+        groupBy: {
+          args: Prisma.EtsyArtworkAssetGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyArtworkAssetGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EtsyArtworkAssetCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyArtworkAssetCountAggregateOutputType> | number
+        }
+      }
+    }
+    EtsyKeyword: {
+      payload: Prisma.$EtsyKeywordPayload<ExtArgs>
+      fields: Prisma.EtsyKeywordFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EtsyKeywordFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyKeywordPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EtsyKeywordFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyKeywordPayload>
+        }
+        findFirst: {
+          args: Prisma.EtsyKeywordFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyKeywordPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EtsyKeywordFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyKeywordPayload>
+        }
+        findMany: {
+          args: Prisma.EtsyKeywordFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyKeywordPayload>[]
+        }
+        create: {
+          args: Prisma.EtsyKeywordCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyKeywordPayload>
+        }
+        createMany: {
+          args: Prisma.EtsyKeywordCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EtsyKeywordCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyKeywordPayload>[]
+        }
+        delete: {
+          args: Prisma.EtsyKeywordDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyKeywordPayload>
+        }
+        update: {
+          args: Prisma.EtsyKeywordUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyKeywordPayload>
+        }
+        deleteMany: {
+          args: Prisma.EtsyKeywordDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EtsyKeywordUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EtsyKeywordUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyKeywordPayload>[]
+        }
+        upsert: {
+          args: Prisma.EtsyKeywordUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyKeywordPayload>
+        }
+        aggregate: {
+          args: Prisma.EtsyKeywordAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEtsyKeyword>
+        }
+        groupBy: {
+          args: Prisma.EtsyKeywordGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyKeywordGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EtsyKeywordCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyKeywordCountAggregateOutputType> | number
+        }
+      }
+    }
+    EtsyBundle: {
+      payload: Prisma.$EtsyBundlePayload<ExtArgs>
+      fields: Prisma.EtsyBundleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EtsyBundleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundlePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EtsyBundleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundlePayload>
+        }
+        findFirst: {
+          args: Prisma.EtsyBundleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundlePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EtsyBundleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundlePayload>
+        }
+        findMany: {
+          args: Prisma.EtsyBundleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundlePayload>[]
+        }
+        create: {
+          args: Prisma.EtsyBundleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundlePayload>
+        }
+        createMany: {
+          args: Prisma.EtsyBundleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EtsyBundleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundlePayload>[]
+        }
+        delete: {
+          args: Prisma.EtsyBundleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundlePayload>
+        }
+        update: {
+          args: Prisma.EtsyBundleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundlePayload>
+        }
+        deleteMany: {
+          args: Prisma.EtsyBundleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EtsyBundleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EtsyBundleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundlePayload>[]
+        }
+        upsert: {
+          args: Prisma.EtsyBundleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundlePayload>
+        }
+        aggregate: {
+          args: Prisma.EtsyBundleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEtsyBundle>
+        }
+        groupBy: {
+          args: Prisma.EtsyBundleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyBundleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EtsyBundleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyBundleCountAggregateOutputType> | number
+        }
+      }
+    }
+    EtsyBundleProduct: {
+      payload: Prisma.$EtsyBundleProductPayload<ExtArgs>
+      fields: Prisma.EtsyBundleProductFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EtsyBundleProductFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundleProductPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EtsyBundleProductFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundleProductPayload>
+        }
+        findFirst: {
+          args: Prisma.EtsyBundleProductFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundleProductPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EtsyBundleProductFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundleProductPayload>
+        }
+        findMany: {
+          args: Prisma.EtsyBundleProductFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundleProductPayload>[]
+        }
+        create: {
+          args: Prisma.EtsyBundleProductCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundleProductPayload>
+        }
+        createMany: {
+          args: Prisma.EtsyBundleProductCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EtsyBundleProductCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundleProductPayload>[]
+        }
+        delete: {
+          args: Prisma.EtsyBundleProductDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundleProductPayload>
+        }
+        update: {
+          args: Prisma.EtsyBundleProductUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundleProductPayload>
+        }
+        deleteMany: {
+          args: Prisma.EtsyBundleProductDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EtsyBundleProductUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EtsyBundleProductUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundleProductPayload>[]
+        }
+        upsert: {
+          args: Prisma.EtsyBundleProductUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyBundleProductPayload>
+        }
+        aggregate: {
+          args: Prisma.EtsyBundleProductAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEtsyBundleProduct>
+        }
+        groupBy: {
+          args: Prisma.EtsyBundleProductGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyBundleProductGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EtsyBundleProductCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyBundleProductCountAggregateOutputType> | number
+        }
+      }
+    }
+    EtsyAnalyticsRecord: {
+      payload: Prisma.$EtsyAnalyticsRecordPayload<ExtArgs>
+      fields: Prisma.EtsyAnalyticsRecordFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EtsyAnalyticsRecordFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyAnalyticsRecordPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EtsyAnalyticsRecordFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyAnalyticsRecordPayload>
+        }
+        findFirst: {
+          args: Prisma.EtsyAnalyticsRecordFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyAnalyticsRecordPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EtsyAnalyticsRecordFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyAnalyticsRecordPayload>
+        }
+        findMany: {
+          args: Prisma.EtsyAnalyticsRecordFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyAnalyticsRecordPayload>[]
+        }
+        create: {
+          args: Prisma.EtsyAnalyticsRecordCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyAnalyticsRecordPayload>
+        }
+        createMany: {
+          args: Prisma.EtsyAnalyticsRecordCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EtsyAnalyticsRecordCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyAnalyticsRecordPayload>[]
+        }
+        delete: {
+          args: Prisma.EtsyAnalyticsRecordDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyAnalyticsRecordPayload>
+        }
+        update: {
+          args: Prisma.EtsyAnalyticsRecordUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyAnalyticsRecordPayload>
+        }
+        deleteMany: {
+          args: Prisma.EtsyAnalyticsRecordDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EtsyAnalyticsRecordUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EtsyAnalyticsRecordUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyAnalyticsRecordPayload>[]
+        }
+        upsert: {
+          args: Prisma.EtsyAnalyticsRecordUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyAnalyticsRecordPayload>
+        }
+        aggregate: {
+          args: Prisma.EtsyAnalyticsRecordAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEtsyAnalyticsRecord>
+        }
+        groupBy: {
+          args: Prisma.EtsyAnalyticsRecordGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyAnalyticsRecordGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EtsyAnalyticsRecordCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyAnalyticsRecordCountAggregateOutputType> | number
+        }
+      }
+    }
+    EtsyOpportunityScan: {
+      payload: Prisma.$EtsyOpportunityScanPayload<ExtArgs>
+      fields: Prisma.EtsyOpportunityScanFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EtsyOpportunityScanFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyOpportunityScanPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EtsyOpportunityScanFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyOpportunityScanPayload>
+        }
+        findFirst: {
+          args: Prisma.EtsyOpportunityScanFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyOpportunityScanPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EtsyOpportunityScanFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyOpportunityScanPayload>
+        }
+        findMany: {
+          args: Prisma.EtsyOpportunityScanFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyOpportunityScanPayload>[]
+        }
+        create: {
+          args: Prisma.EtsyOpportunityScanCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyOpportunityScanPayload>
+        }
+        createMany: {
+          args: Prisma.EtsyOpportunityScanCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EtsyOpportunityScanCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyOpportunityScanPayload>[]
+        }
+        delete: {
+          args: Prisma.EtsyOpportunityScanDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyOpportunityScanPayload>
+        }
+        update: {
+          args: Prisma.EtsyOpportunityScanUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyOpportunityScanPayload>
+        }
+        deleteMany: {
+          args: Prisma.EtsyOpportunityScanDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EtsyOpportunityScanUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EtsyOpportunityScanUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyOpportunityScanPayload>[]
+        }
+        upsert: {
+          args: Prisma.EtsyOpportunityScanUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyOpportunityScanPayload>
+        }
+        aggregate: {
+          args: Prisma.EtsyOpportunityScanAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEtsyOpportunityScan>
+        }
+        groupBy: {
+          args: Prisma.EtsyOpportunityScanGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyOpportunityScanGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EtsyOpportunityScanCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyOpportunityScanCountAggregateOutputType> | number
+        }
+      }
+    }
+    EtsyConnection: {
+      payload: Prisma.$EtsyConnectionPayload<ExtArgs>
+      fields: Prisma.EtsyConnectionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EtsyConnectionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyConnectionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EtsyConnectionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyConnectionPayload>
+        }
+        findFirst: {
+          args: Prisma.EtsyConnectionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyConnectionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EtsyConnectionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyConnectionPayload>
+        }
+        findMany: {
+          args: Prisma.EtsyConnectionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyConnectionPayload>[]
+        }
+        create: {
+          args: Prisma.EtsyConnectionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyConnectionPayload>
+        }
+        createMany: {
+          args: Prisma.EtsyConnectionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EtsyConnectionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyConnectionPayload>[]
+        }
+        delete: {
+          args: Prisma.EtsyConnectionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyConnectionPayload>
+        }
+        update: {
+          args: Prisma.EtsyConnectionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyConnectionPayload>
+        }
+        deleteMany: {
+          args: Prisma.EtsyConnectionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EtsyConnectionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EtsyConnectionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyConnectionPayload>[]
+        }
+        upsert: {
+          args: Prisma.EtsyConnectionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EtsyConnectionPayload>
+        }
+        aggregate: {
+          args: Prisma.EtsyConnectionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEtsyConnection>
+        }
+        groupBy: {
+          args: Prisma.EtsyConnectionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyConnectionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EtsyConnectionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EtsyConnectionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1881,6 +2781,167 @@ export const IncomeEntryScalarFieldEnum = {
 export type IncomeEntryScalarFieldEnum = (typeof IncomeEntryScalarFieldEnum)[keyof typeof IncomeEntryScalarFieldEnum]
 
 
+export const EtsySettingsScalarFieldEnum = {
+  id: 'id',
+  currency: 'currency',
+  fulfillmentProvider: 'fulfillmentProvider',
+  skuDigits: 'skuDigits',
+  skuCounter: 'skuCounter',
+  artworkRatios: 'artworkRatios',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EtsySettingsScalarFieldEnum = (typeof EtsySettingsScalarFieldEnum)[keyof typeof EtsySettingsScalarFieldEnum]
+
+
+export const EtsyProductScalarFieldEnum = {
+  id: 'id',
+  sku: 'sku',
+  title: 'title',
+  status: 'status',
+  etsyListingId: 'etsyListingId',
+  etsyListingUrl: 'etsyListingUrl',
+  listedAt: 'listedAt',
+  promptId: 'promptId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EtsyProductScalarFieldEnum = (typeof EtsyProductScalarFieldEnum)[keyof typeof EtsyProductScalarFieldEnum]
+
+
+export const EtsyPromptWorkspaceScalarFieldEnum = {
+  id: 'id',
+  collectionRequest: 'collectionRequest',
+  requestedCount: 'requestedCount',
+  researchDate: 'researchDate',
+  researchSummary: 'researchSummary',
+  createdAt: 'createdAt'
+} as const
+
+export type EtsyPromptWorkspaceScalarFieldEnum = (typeof EtsyPromptWorkspaceScalarFieldEnum)[keyof typeof EtsyPromptWorkspaceScalarFieldEnum]
+
+
+export const EtsyPromptScalarFieldEnum = {
+  id: 'id',
+  workspaceId: 'workspaceId',
+  promptText: 'promptText',
+  aspectRatio: 'aspectRatio',
+  sourceLinks: 'sourceLinks',
+  evidenceSignals: 'evidenceSignals',
+  confidence: 'confidence',
+  order: 'order',
+  createdAt: 'createdAt'
+} as const
+
+export type EtsyPromptScalarFieldEnum = (typeof EtsyPromptScalarFieldEnum)[keyof typeof EtsyPromptScalarFieldEnum]
+
+
+export const EtsyListingDraftScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  title: 'title',
+  description: 'description',
+  tags: 'tags',
+  suggestedCategory: 'suggestedCategory',
+  suggestedMaterials: 'suggestedMaterials',
+  altText: 'altText',
+  aiDisclosure: 'aiDisclosure',
+  pricingNotes: 'pricingNotes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EtsyListingDraftScalarFieldEnum = (typeof EtsyListingDraftScalarFieldEnum)[keyof typeof EtsyListingDraftScalarFieldEnum]
+
+
+export const EtsyArtworkAssetScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  sku: 'sku',
+  role: 'role',
+  url: 'url',
+  order: 'order',
+  isPrimary: 'isPrimary',
+  width: 'width',
+  height: 'height',
+  fileSize: 'fileSize',
+  mimeType: 'mimeType',
+  createdAt: 'createdAt'
+} as const
+
+export type EtsyArtworkAssetScalarFieldEnum = (typeof EtsyArtworkAssetScalarFieldEnum)[keyof typeof EtsyArtworkAssetScalarFieldEnum]
+
+
+export const EtsyKeywordScalarFieldEnum = {
+  id: 'id',
+  term: 'term',
+  niche: 'niche',
+  usageCount: 'usageCount',
+  createdAt: 'createdAt'
+} as const
+
+export type EtsyKeywordScalarFieldEnum = (typeof EtsyKeywordScalarFieldEnum)[keyof typeof EtsyKeywordScalarFieldEnum]
+
+
+export const EtsyBundleScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  suggestedPrice: 'suggestedPrice',
+  createdAt: 'createdAt'
+} as const
+
+export type EtsyBundleScalarFieldEnum = (typeof EtsyBundleScalarFieldEnum)[keyof typeof EtsyBundleScalarFieldEnum]
+
+
+export const EtsyBundleProductScalarFieldEnum = {
+  bundleId: 'bundleId',
+  productId: 'productId'
+} as const
+
+export type EtsyBundleProductScalarFieldEnum = (typeof EtsyBundleProductScalarFieldEnum)[keyof typeof EtsyBundleProductScalarFieldEnum]
+
+
+export const EtsyAnalyticsRecordScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  date: 'date',
+  views: 'views',
+  favourites: 'favourites',
+  orders: 'orders',
+  revenue: 'revenue',
+  source: 'source',
+  createdAt: 'createdAt'
+} as const
+
+export type EtsyAnalyticsRecordScalarFieldEnum = (typeof EtsyAnalyticsRecordScalarFieldEnum)[keyof typeof EtsyAnalyticsRecordScalarFieldEnum]
+
+
+export const EtsyOpportunityScanScalarFieldEnum = {
+  id: 'id',
+  topic: 'topic',
+  resultsJson: 'resultsJson',
+  createdAt: 'createdAt'
+} as const
+
+export type EtsyOpportunityScanScalarFieldEnum = (typeof EtsyOpportunityScanScalarFieldEnum)[keyof typeof EtsyOpportunityScanScalarFieldEnum]
+
+
+export const EtsyConnectionScalarFieldEnum = {
+  id: 'id',
+  shopId: 'shopId',
+  scope: 'scope',
+  accessTokenEnc: 'accessTokenEnc',
+  refreshTokenEnc: 'refreshTokenEnc',
+  expiresAt: 'expiresAt',
+  connectedAt: 'connectedAt',
+  lastSyncedAt: 'lastSyncedAt'
+} as const
+
+export type EtsyConnectionScalarFieldEnum = (typeof EtsyConnectionScalarFieldEnum)[keyof typeof EtsyConnectionScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2118,6 +3179,55 @@ export type ListEnumLifeEntryTypeFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'EtsyProductStatus'
+ */
+export type EnumEtsyProductStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EtsyProductStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'EtsyProductStatus[]'
+ */
+export type ListEnumEtsyProductStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EtsyProductStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'EtsyArtworkRole'
+ */
+export type EnumEtsyArtworkRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EtsyArtworkRole'>
+    
+
+
+/**
+ * Reference to a field of type 'EtsyArtworkRole[]'
+ */
+export type ListEnumEtsyArtworkRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EtsyArtworkRole[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'EtsyAnalyticsSource'
+ */
+export type EnumEtsyAnalyticsSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EtsyAnalyticsSource'>
+    
+
+
+/**
+ * Reference to a field of type 'EtsyAnalyticsSource[]'
+ */
+export type ListEnumEtsyAnalyticsSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EtsyAnalyticsSource[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -2297,6 +3407,18 @@ export type GlobalOmitConfig = {
   signalLogEntry?: Prisma.SignalLogEntryOmit
   expense?: Prisma.ExpenseOmit
   incomeEntry?: Prisma.IncomeEntryOmit
+  etsySettings?: Prisma.EtsySettingsOmit
+  etsyProduct?: Prisma.EtsyProductOmit
+  etsyPromptWorkspace?: Prisma.EtsyPromptWorkspaceOmit
+  etsyPrompt?: Prisma.EtsyPromptOmit
+  etsyListingDraft?: Prisma.EtsyListingDraftOmit
+  etsyArtworkAsset?: Prisma.EtsyArtworkAssetOmit
+  etsyKeyword?: Prisma.EtsyKeywordOmit
+  etsyBundle?: Prisma.EtsyBundleOmit
+  etsyBundleProduct?: Prisma.EtsyBundleProductOmit
+  etsyAnalyticsRecord?: Prisma.EtsyAnalyticsRecordOmit
+  etsyOpportunityScan?: Prisma.EtsyOpportunityScanOmit
+  etsyConnection?: Prisma.EtsyConnectionOmit
 }
 
 /* Types for Logging */
