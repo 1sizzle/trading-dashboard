@@ -357,7 +357,7 @@ export async function saveMissedSetup(formData: FormData) {
   await syncMissedSetupScreenshots(missedSetup.id, formData);
 
   revalidatePath("/dashboard/trading/journal");
-  redirect("/dashboard/trading/journal?tab=futures");
+  redirect("/dashboard/trading/journal?tab=potential");
 }
 
 export async function deleteMissedSetup(formData: FormData) {
@@ -371,7 +371,7 @@ export async function deleteMissedSetup(formData: FormData) {
   await Promise.all(screenshots.map((screenshot) => del(screenshot.url).catch(() => {})));
 
   revalidatePath("/dashboard/trading/journal");
-  redirect("/dashboard/trading/journal?tab=futures");
+  redirect("/dashboard/trading/journal?tab=potential");
 }
 
 export async function deleteTrade(formData: FormData) {

@@ -27,16 +27,19 @@ export default async function JournalPage({
   }>;
 }) {
   const params = await searchParams;
-  const tab: "futures" | "crypto" = params.tab === "crypto" ? "crypto" : "futures";
+  const tab: "futures" | "crypto" | "potential" =
+    params.tab === "crypto" ? "crypto" : params.tab === "potential" ? "potential" : "futures";
 
   const [trades, tags, missedSetups] = await Promise.all([
-    db.trade.findMany({
-      where: { assetClass: tab === "crypto" ? "CRYPTO" : "FUTURES_METALS" },
-      orderBy: { entryTime: "desc" },
-      include: { tags: { include: { tag: true } } },
-    }),
+    tab === "potential"
+      ? Promise.resolve([])
+      : db.trade.findMany({
+          where: { assetClass: tab === "crypto" ? "CRYPTO" : "FUTURES_METALS" },
+          orderBy: { entryTime: "desc" },
+          include: { tags: { include: { tag: true } } },
+        }),
     db.tag.findMany({ orderBy: { name: "asc" } }),
-    tab === "futures" ? db.missedSetup.findMany({ orderBy: { seenAt: "desc" } }) : Promise.resolve([]),
+    tab === "potential" ? db.missedSetup.findMany({ orderBy: { seenAt: "desc" } }) : Promise.resolve([]),
   ]);
   const tagSuggestions = tags.map((tag) => tag.name);
 
@@ -112,24 +115,35 @@ export default async function JournalPage({
         >
           Crypto
         </Link>
+        <Link
+          href="/dashboard/trading/journal?tab=potential"
+          className={`px-4 py-2 text-sm font-medium ${
+            tab === "potential"
+              ? "border-b-2 border-violet-500 text-neutral-50"
+              : "text-neutral-400 hover:text-neutral-200"
+          }`}
+        >
+          Potential setups
+        </Link>
       </div>
 
-      {tab === "futures" ? (
+      {tab === "futures" && (
         <>
           <FuturesMetalsTradeForm tagSuggestions={tagSuggestions} />
           <CsvImportForm />
         </>
-      ) : (
+      )}
+      {tab === "crypto" && (
         <>
           <CryptoTradeForm tagSuggestions={tagSuggestions} />
           <BitunixImportForm />
         </>
       )}
 
-      <TradeTable trades={trades} tab={tab} />
+      {(tab === "futures" || tab === "crypto") && <TradeTable trades={trades} tab={tab} />}
 
-      {tab === "futures" && (
-        <div className="space-y-4 border-t border-neutral-800 pt-6">
+      {tab === "potential" && (
+        <div className="space-y-4">
           <MissedSetupForm />
           <MissedSetupTable missedSetups={missedSetups} />
         </div>
