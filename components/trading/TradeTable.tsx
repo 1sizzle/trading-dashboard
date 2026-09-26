@@ -4,10 +4,17 @@ import { formatCurrency, formatDuration, formatNewYorkDateTime } from "@/lib/tra
 import type { Tag, Trade, TradeTag } from "@/lib/generated/prisma/client";
 
 const SESSION_LABELS: Record<string, string> = {
-  NEW_YORK: "New York",
+  NEW_YORK_AM: "New York AM",
+  NEW_YORK_PM: "New York PM",
   LONDON: "London",
   ASIA: "Asia",
   OTHER: "Other",
+};
+
+const ACCOUNT_LABELS: Record<string, string> = {
+  LIVE: "Live",
+  EVAL: "Eval",
+  FUNDED: "Funded",
 };
 
 type TradeWithTags = Trade & { tags: (TradeTag & { tag: Tag })[] };
@@ -28,13 +35,14 @@ export function TradeTable({
       <table className="w-full min-w-max text-sm">
         <thead>
           <tr className="border-b border-neutral-800 text-left text-neutral-400">
-            <th className="px-4 py-2 font-medium">Entry time</th>
-            <th className="px-4 py-2 font-medium">Symbol</th>
+            <th className="px-4 py-2 font-medium">Date & time</th>
+            <th className="px-4 py-2 font-medium">Account</th>
             <th className="px-4 py-2 font-medium">Dir</th>
-            <th className="px-4 py-2 font-medium">P&L</th>
-            <th className="px-4 py-2 font-medium">R</th>
-            <th className="px-4 py-2 font-medium">Duration</th>
             <th className="px-4 py-2 font-medium">Session</th>
+            <th className="px-4 py-2 font-medium">R</th>
+            <th className="px-4 py-2 font-medium">Outcome</th>
+            <th className="px-4 py-2 font-medium">P&L</th>
+            <th className="px-4 py-2 font-medium">Duration</th>
             <th className="px-4 py-2 font-medium">Tags</th>
             <th className="px-4 py-2 font-medium"></th>
           </tr>
@@ -48,9 +56,20 @@ export function TradeTable({
                 <td className="whitespace-nowrap px-4 py-2 text-neutral-300">
                   {formatNewYorkDateTime(trade.entryTime)}
                 </td>
-                <td className="px-4 py-2 font-medium">{trade.symbol}</td>
+                <td className="px-4 py-2 text-neutral-300">
+                  {ACCOUNT_LABELS[trade.account] ?? trade.account}
+                </td>
                 <td className="px-4 py-2 text-neutral-300">
                   {trade.direction === "LONG" ? "Long" : "Short"}
+                </td>
+                <td className="px-4 py-2 text-neutral-300">
+                  {SESSION_LABELS[trade.session] ?? trade.session}
+                </td>
+                <td className="px-4 py-2 text-neutral-300">
+                  {rMultiple !== null ? `${rMultiple.toFixed(2)}R` : "—"}
+                </td>
+                <td className="px-4 py-2 text-neutral-300">
+                  {trade.outcome === "WIN" ? "Win" : trade.outcome === "LOSS" ? "Loss" : trade.outcome === "BREAKEVEN" ? "Breakeven" : "—"}
                 </td>
                 <td
                   className={`px-4 py-2 font-medium ${pnl >= 0 ? "text-emerald-400" : "text-red-400"}`}
@@ -58,13 +77,7 @@ export function TradeTable({
                   {formatCurrency(pnl)}
                 </td>
                 <td className="px-4 py-2 text-neutral-300">
-                  {rMultiple !== null ? `${rMultiple.toFixed(2)}R` : "—"}
-                </td>
-                <td className="px-4 py-2 text-neutral-300">
-                  {formatDuration(trade.durationMinutes)}
-                </td>
-                <td className="px-4 py-2 text-neutral-300">
-                  {SESSION_LABELS[trade.session] ?? trade.session}
+                  {trade.durationMinutes !== null ? formatDuration(trade.durationMinutes) : "—"}
                 </td>
                 <td className="px-4 py-2">
                   <div className="flex flex-wrap gap-1">

@@ -33,7 +33,9 @@ enum AssetClass {
 enum TradingSession {
   ASIA
   LONDON
-  NEW_YORK
+  NEW_YORK // legacy value, no longer produced — split into AM/PM below; kept so old rows (all backfilled away from it) never fail to deserialize
+  NEW_YORK_AM
+  NEW_YORK_PM
   OTHER
 }
 
@@ -42,21 +44,35 @@ enum TradeSource {
   CSV_IMPORT
 }
 
+enum TradeAccount {
+  LIVE
+  EVAL
+  FUNDED
+}
+
+enum TradeOutcome {
+  WIN
+  LOSS
+  BREAKEVEN
+}
+
 model Trade {
   id              String         @id @default(cuid())
-  symbol          String
+  symbol          String? // nullable — the manual-entry form no longer collects an instrument; a dedicated "pair" field replaces this later
   direction       TradeDirection
   assetClass      AssetClass
+  account         TradeAccount   @default(LIVE)
+  outcome         TradeOutcome? // nullable only so existing rows can be backfilled from pnl sign; the form always requires it going forward
   entryPrice      Decimal?
   exitPrice       Decimal?
   positionSize    Decimal?
   stopLoss        Decimal?
   riskDollars     Decimal?
   entryTime       DateTime
-  exitTime        DateTime
+  exitTime        DateTime?
   pnl             Decimal
   rMultiple       Decimal?
-  durationMinutes Int
+  durationMinutes Int?
   session         TradingSession
   source          TradeSource    @default(MANUAL)
   externalId      String?        @unique // broker fill-id pair, for CSV re-import de-dupe

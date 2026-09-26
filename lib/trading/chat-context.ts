@@ -53,10 +53,10 @@ function formatBuckets(buckets: PnlBucket[]): string {
 }
 
 export interface ChatTrade {
-  symbol: string;
+  symbol: string | null;
   direction: string;
   entryTime: Date;
-  exitTime: Date;
+  exitTime: Date | null;
   pnl: number;
   rMultiple: number | null;
   session: string;
@@ -88,10 +88,10 @@ export function buildTradeContext(trades: ChatTrade[]): string {
   }
 
   const rawTrades = scoped.map((t) => ({
-    symbol: t.symbol,
+    symbol: t.symbol ?? "unknown",
     direction: t.direction,
     entryTime: formatNewYorkDateTime(t.entryTime),
-    exitTime: formatNewYorkDateTime(t.exitTime),
+    exitTime: t.exitTime ? formatNewYorkDateTime(t.exitTime) : null,
     session: t.session,
     pnl: t.pnl,
     rMultiple: t.rMultiple,

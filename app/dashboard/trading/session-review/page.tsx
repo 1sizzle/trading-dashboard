@@ -26,7 +26,7 @@ export default async function SessionReviewPage({
 
   const [trades, checklist] = await Promise.all([
     db.trade.findMany({
-      where: { entryTime: { gte: start, lt: end }, session: "NEW_YORK" },
+      where: { entryTime: { gte: start, lt: end }, session: { in: ["NEW_YORK_AM", "NEW_YORK_PM"] } },
       orderBy: { entryTime: "asc" },
       include: { tags: { include: { tag: true } } },
     }),

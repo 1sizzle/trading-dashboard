@@ -1,8 +1,7 @@
 import { Card } from "@/components/ui/Card";
 import { Field, inputClass, primaryButtonClass } from "@/components/ui/Field";
 import { saveFuturesMetalsTrade } from "@/app/dashboard/trading/journal/actions";
-import { KNOWN_FUTURES_SYMBOLS } from "@/lib/trading/contracts";
-import { utcToNewYorkDateTimeLocalValue } from "@/lib/trading/calc";
+import { TradeFormFields } from "@/components/trading/TradeFormFields";
 import { TradeTagsAndPsychologyFields, type TradeWithExtras } from "@/components/trading/TradeTagsAndPsychologyFields";
 import { TradeScreenshotFields } from "@/components/trading/TradeScreenshotFields";
 
@@ -21,96 +20,7 @@ export function FuturesMetalsTradeForm({
       <form action={saveFuturesMetalsTrade} className="grid grid-cols-2 gap-4">
         {trade && <input type="hidden" name="id" value={trade.id} />}
 
-        <Field label="Symbol" hint="e.g. NQ, MNQ, ES, MES, GC, MGC, SI, SIL">
-          <input
-            type="text"
-            name="symbol"
-            list="futures-symbols"
-            required
-            defaultValue={trade?.symbol}
-            className={inputClass}
-          />
-          <datalist id="futures-symbols">
-            {KNOWN_FUTURES_SYMBOLS.map((symbol) => (
-              <option key={symbol} value={symbol} />
-            ))}
-          </datalist>
-        </Field>
-
-        <Field label="Direction">
-          <select
-            name="direction"
-            required
-            defaultValue={trade?.direction ?? "LONG"}
-            className={inputClass}
-          >
-            <option value="LONG">Long</option>
-            <option value="SHORT">Short</option>
-          </select>
-        </Field>
-
-        <Field label="Entry price">
-          <input
-            type="number"
-            step="any"
-            name="entryPrice"
-            required
-            defaultValue={trade?.entryPrice?.toString()}
-            className={inputClass}
-          />
-        </Field>
-
-        <Field label="Exit price">
-          <input
-            type="number"
-            step="any"
-            name="exitPrice"
-            required
-            defaultValue={trade?.exitPrice?.toString()}
-            className={inputClass}
-          />
-        </Field>
-
-        <Field label="Position size (contracts)">
-          <input
-            type="number"
-            step="any"
-            name="positionSize"
-            required
-            defaultValue={trade?.positionSize?.toString()}
-            className={inputClass}
-          />
-        </Field>
-
-        <Field label="Stop loss price" hint="Optional — enables R multiple">
-          <input
-            type="number"
-            step="any"
-            name="stopLoss"
-            defaultValue={trade?.stopLoss?.toString() ?? ""}
-            className={inputClass}
-          />
-        </Field>
-
-        <Field label="Entry time" hint="Eastern (NY) time">
-          <input
-            type="datetime-local"
-            name="entryTime"
-            required
-            defaultValue={trade ? utcToNewYorkDateTimeLocalValue(trade.entryTime) : undefined}
-            className={inputClass}
-          />
-        </Field>
-
-        <Field label="Exit time" hint="Eastern (NY) time">
-          <input
-            type="datetime-local"
-            name="exitTime"
-            required
-            defaultValue={trade ? utcToNewYorkDateTimeLocalValue(trade.exitTime) : undefined}
-            className={inputClass}
-          />
-        </Field>
+        <TradeFormFields trade={trade} />
 
         <div className="col-span-2">
           <Field label="Notes" hint="Optional">

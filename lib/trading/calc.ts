@@ -1,24 +1,4 @@
-import { TradeDirection, TradingSession } from "@/lib/generated/prisma/client";
-
-export function calculateFuturesMetalsPnl(
-  direction: TradeDirection,
-  entryPrice: number,
-  exitPrice: number,
-  positionSize: number,
-  pointValue: number,
-): number {
-  const priceMove = direction === "LONG" ? exitPrice - entryPrice : entryPrice - exitPrice;
-  return priceMove * positionSize * pointValue;
-}
-
-export function calculateFuturesMetalsRisk(
-  entryPrice: number,
-  stopLoss: number,
-  positionSize: number,
-  pointValue: number,
-): number {
-  return Math.abs(entryPrice - stopLoss) * positionSize * pointValue;
-}
+import { TradingSession } from "@/lib/generated/prisma/client";
 
 export function calculateRMultiple(pnl: number, riskDollars: number | null): number | null {
   if (!riskDollars || riskDollars === 0) return null;
@@ -36,6 +16,17 @@ function getHourInTimeZone(date: Date, timeZone: string): number {
     hourCycle: "h23",
   });
   return Number(formatter.format(date));
+}
+
+function getMinutesSinceMidnightInTimeZone(date: Date, timeZone: string): number {
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    hour: "numeric",
+    minute: "numeric",
+    hourCycle: "h23",
+  });
+  const parts = Object.fromEntries(formatter.formatToParts(date).map((p) => [p.type, p.value]));
+  return Number(parts.hour) * 60 + Number(parts.minute);
 }
 
 function getTimeZoneOffsetMinutes(instant: Date, timeZone: string): number {
@@ -188,10 +179,14 @@ export function formatDuration(minutes: number): string {
 
 // Checked in this priority order because trading-session windows overlap
 // (e.g. London/NY overlap for a few hours) — NY is checked first since
-// that's the session this dashboard is built around.
+// that's the session this dashboard is built around. NY is split at 12:30pm
+// ET (the CME-style AM/PM cash-session cutoff) into two buckets.
 export function detectSession(entryTime: Date): TradingSession {
   const nyHour = getHourInTimeZone(entryTime, "America/New_York");
-  if (nyHour >= 9 && nyHour < 16) return "NEW_YORK";
+  if (nyHour >= 9 && nyHour < 16) {
+    const nyMinutesSinceMidnight = getMinutesSinceMidnightInTimeZone(entryTime, "America/New_York");
+    return nyMinutesSinceMidnight < 12 * 60 + 30 ? "NEW_YORK_AM" : "NEW_YORK_PM";
+  }
 
   const londonHour = getHourInTimeZone(entryTime, "Europe/London");
   if (londonHour >= 8 && londonHour < 16) return "LONDON";

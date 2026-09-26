@@ -52,9 +52,10 @@ export function groupPnlByTag(
   return toBucketList(map).sort((a, b) => b.pnl - a.pnl);
 }
 
-const SESSION_ORDER = ["NEW_YORK", "LONDON", "ASIA", "OTHER"];
+const SESSION_ORDER = ["NEW_YORK_AM", "NEW_YORK_PM", "LONDON", "ASIA", "OTHER"];
 const SESSION_LABELS: Record<string, string> = {
-  NEW_YORK: "New York",
+  NEW_YORK_AM: "New York AM",
+  NEW_YORK_PM: "New York PM",
   LONDON: "London",
   ASIA: "Asia",
   OTHER: "Other",

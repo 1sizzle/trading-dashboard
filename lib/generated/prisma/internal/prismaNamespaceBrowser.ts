@@ -102,6 +102,8 @@ export const TradeScalarFieldEnum = {
   symbol: 'symbol',
   direction: 'direction',
   assetClass: 'assetClass',
+  account: 'account',
+  outcome: 'outcome',
   entryPrice: 'entryPrice',
   exitPrice: 'exitPrice',
   positionSize: 'positionSize',

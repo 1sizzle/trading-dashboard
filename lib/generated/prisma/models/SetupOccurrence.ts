@@ -783,10 +783,6 @@ export type EnumSetupOccurrenceStatusFieldUpdateOperationsInput = {
   set?: $Enums.SetupOccurrenceStatus
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type EnumSetupOccurrenceSourceFieldUpdateOperationsInput = {
   set?: $Enums.SetupOccurrenceSource
 }

@@ -2560,6 +2560,8 @@ export const TradeScalarFieldEnum = {
   symbol: 'symbol',
   direction: 'direction',
   assetClass: 'assetClass',
+  account: 'account',
+  outcome: 'outcome',
   entryPrice: 'entryPrice',
   exitPrice: 'exitPrice',
   positionSize: 'positionSize',
@@ -3035,6 +3037,34 @@ export type EnumAssetClassFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
  * Reference to a field of type 'AssetClass[]'
  */
 export type ListEnumAssetClassFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssetClass[]'>
+    
+
+
+/**
+ * Reference to a field of type 'TradeAccount'
+ */
+export type EnumTradeAccountFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TradeAccount'>
+    
+
+
+/**
+ * Reference to a field of type 'TradeAccount[]'
+ */
+export type ListEnumTradeAccountFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TradeAccount[]'>
+    
+
+
+/**
+ * Reference to a field of type 'TradeOutcome'
+ */
+export type EnumTradeOutcomeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TradeOutcome'>
+    
+
+
+/**
+ * Reference to a field of type 'TradeOutcome[]'
+ */
+export type ListEnumTradeOutcomeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TradeOutcome[]'>
     
 
 

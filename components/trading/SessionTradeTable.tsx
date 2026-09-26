@@ -16,8 +16,7 @@ export function SessionTradeTable({ trades }: { trades: TradeWithTags[] }) {
       <table className="w-full min-w-max text-sm">
         <thead>
           <tr className="border-b border-neutral-800 text-left text-neutral-400">
-            <th className="px-4 py-2 font-medium">Entry time</th>
-            <th className="px-4 py-2 font-medium">Symbol</th>
+            <th className="px-4 py-2 font-medium">Date & time</th>
             <th className="px-4 py-2 font-medium">Dir</th>
             <th className="px-4 py-2 font-medium">P&L</th>
             <th className="px-4 py-2 font-medium">R</th>
@@ -35,7 +34,6 @@ export function SessionTradeTable({ trades }: { trades: TradeWithTags[] }) {
                 <td className="whitespace-nowrap px-4 py-2 text-neutral-300">
                   {formatNewYorkDateTime(trade.entryTime)}
                 </td>
-                <td className="px-4 py-2 font-medium">{trade.symbol}</td>
                 <td className="px-4 py-2 text-neutral-300">
                   {trade.direction === "LONG" ? "Long" : "Short"}
                 </td>
@@ -48,7 +46,7 @@ export function SessionTradeTable({ trades }: { trades: TradeWithTags[] }) {
                   {rMultiple !== null ? `${rMultiple.toFixed(2)}R` : "—"}
                 </td>
                 <td className="px-4 py-2 text-neutral-300">
-                  {formatDuration(trade.durationMinutes)}
+                  {trade.durationMinutes !== null ? formatDuration(trade.durationMinutes) : "—"}
                 </td>
                 <td className="px-4 py-2">
                   <div className="flex flex-wrap gap-1">

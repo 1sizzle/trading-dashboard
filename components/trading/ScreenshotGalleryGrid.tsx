@@ -8,7 +8,7 @@ export interface GalleryScreenshot {
   id: string;
   trade: {
     id: string;
-    symbol: string;
+    symbol: string | null;
     direction: "LONG" | "SHORT";
     pnl: number;
     entryTimeFormatted: string;
@@ -41,7 +41,7 @@ export function ScreenshotGalleryGrid({ screenshots }: { screenshots: GalleryScr
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-2 pt-6">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-medium text-neutral-50">{screenshot.trade.symbol}</span>
+                <span className="font-medium text-neutral-50">{screenshot.trade.symbol ?? "—"}</span>
                 <span className={screenshot.trade.pnl >= 0 ? "text-emerald-400" : "text-red-400"}>
                   {formatCurrency(screenshot.trade.pnl)}
                 </span>
@@ -69,7 +69,7 @@ export function ScreenshotGalleryGrid({ screenshots }: { screenshots: GalleryScr
             <div className="flex flex-wrap items-center justify-between gap-4 p-4">
               <div>
                 <p className="font-medium">
-                  {selected.trade.symbol} ·{" "}
+                  {selected.trade.symbol ?? "—"} ·{" "}
                   {selected.trade.direction === "LONG" ? "Long" : "Short"}{" "}
                   <span className={selected.trade.pnl >= 0 ? "text-emerald-400" : "text-red-400"}>
                     {formatCurrency(selected.trade.pnl)}

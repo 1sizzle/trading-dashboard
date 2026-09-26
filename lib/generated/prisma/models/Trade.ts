@@ -53,6 +53,8 @@ export type TradeMinAggregateOutputType = {
   symbol: string | null
   direction: $Enums.TradeDirection | null
   assetClass: $Enums.AssetClass | null
+  account: $Enums.TradeAccount | null
+  outcome: $Enums.TradeOutcome | null
   entryPrice: runtime.Decimal | null
   exitPrice: runtime.Decimal | null
   positionSize: runtime.Decimal | null
@@ -76,6 +78,8 @@ export type TradeMaxAggregateOutputType = {
   symbol: string | null
   direction: $Enums.TradeDirection | null
   assetClass: $Enums.AssetClass | null
+  account: $Enums.TradeAccount | null
+  outcome: $Enums.TradeOutcome | null
   entryPrice: runtime.Decimal | null
   exitPrice: runtime.Decimal | null
   positionSize: runtime.Decimal | null
@@ -99,6 +103,8 @@ export type TradeCountAggregateOutputType = {
   symbol: number
   direction: number
   assetClass: number
+  account: number
+  outcome: number
   entryPrice: number
   exitPrice: number
   positionSize: number
@@ -146,6 +152,8 @@ export type TradeMinAggregateInputType = {
   symbol?: true
   direction?: true
   assetClass?: true
+  account?: true
+  outcome?: true
   entryPrice?: true
   exitPrice?: true
   positionSize?: true
@@ -169,6 +177,8 @@ export type TradeMaxAggregateInputType = {
   symbol?: true
   direction?: true
   assetClass?: true
+  account?: true
+  outcome?: true
   entryPrice?: true
   exitPrice?: true
   positionSize?: true
@@ -192,6 +202,8 @@ export type TradeCountAggregateInputType = {
   symbol?: true
   direction?: true
   assetClass?: true
+  account?: true
+  outcome?: true
   entryPrice?: true
   exitPrice?: true
   positionSize?: true
@@ -299,19 +311,21 @@ export type TradeGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type TradeGroupByOutputType = {
   id: string
-  symbol: string
+  symbol: string | null
   direction: $Enums.TradeDirection
   assetClass: $Enums.AssetClass
+  account: $Enums.TradeAccount
+  outcome: $Enums.TradeOutcome | null
   entryPrice: runtime.Decimal | null
   exitPrice: runtime.Decimal | null
   positionSize: runtime.Decimal | null
   stopLoss: runtime.Decimal | null
   riskDollars: runtime.Decimal | null
   entryTime: Date
-  exitTime: Date
+  exitTime: Date | null
   pnl: runtime.Decimal
   rMultiple: runtime.Decimal | null
-  durationMinutes: number
+  durationMinutes: number | null
   session: $Enums.TradingSession
   source: $Enums.TradeSource
   externalId: string | null
@@ -345,19 +359,21 @@ export type TradeWhereInput = {
   OR?: Prisma.TradeWhereInput[]
   NOT?: Prisma.TradeWhereInput | Prisma.TradeWhereInput[]
   id?: Prisma.StringFilter<"Trade"> | string
-  symbol?: Prisma.StringFilter<"Trade"> | string
+  symbol?: Prisma.StringNullableFilter<"Trade"> | string | null
   direction?: Prisma.EnumTradeDirectionFilter<"Trade"> | $Enums.TradeDirection
   assetClass?: Prisma.EnumAssetClassFilter<"Trade"> | $Enums.AssetClass
+  account?: Prisma.EnumTradeAccountFilter<"Trade"> | $Enums.TradeAccount
+  outcome?: Prisma.EnumTradeOutcomeNullableFilter<"Trade"> | $Enums.TradeOutcome | null
   entryPrice?: Prisma.DecimalNullableFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: Prisma.DecimalNullableFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: Prisma.DecimalNullableFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: Prisma.DecimalNullableFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: Prisma.DecimalNullableFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime?: Prisma.DateTimeFilter<"Trade"> | Date | string
-  exitTime?: Prisma.DateTimeFilter<"Trade"> | Date | string
+  exitTime?: Prisma.DateTimeNullableFilter<"Trade"> | Date | string | null
   pnl?: Prisma.DecimalFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: Prisma.DecimalNullableFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes?: Prisma.IntFilter<"Trade"> | number
+  durationMinutes?: Prisma.IntNullableFilter<"Trade"> | number | null
   session?: Prisma.EnumTradingSessionFilter<"Trade"> | $Enums.TradingSession
   source?: Prisma.EnumTradeSourceFilter<"Trade"> | $Enums.TradeSource
   externalId?: Prisma.StringNullableFilter<"Trade"> | string | null
@@ -371,19 +387,21 @@ export type TradeWhereInput = {
 
 export type TradeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  symbol?: Prisma.SortOrder
+  symbol?: Prisma.SortOrderInput | Prisma.SortOrder
   direction?: Prisma.SortOrder
   assetClass?: Prisma.SortOrder
+  account?: Prisma.SortOrder
+  outcome?: Prisma.SortOrderInput | Prisma.SortOrder
   entryPrice?: Prisma.SortOrderInput | Prisma.SortOrder
   exitPrice?: Prisma.SortOrderInput | Prisma.SortOrder
   positionSize?: Prisma.SortOrderInput | Prisma.SortOrder
   stopLoss?: Prisma.SortOrderInput | Prisma.SortOrder
   riskDollars?: Prisma.SortOrderInput | Prisma.SortOrder
   entryTime?: Prisma.SortOrder
-  exitTime?: Prisma.SortOrder
+  exitTime?: Prisma.SortOrderInput | Prisma.SortOrder
   pnl?: Prisma.SortOrder
   rMultiple?: Prisma.SortOrderInput | Prisma.SortOrder
-  durationMinutes?: Prisma.SortOrder
+  durationMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   session?: Prisma.SortOrder
   source?: Prisma.SortOrder
   externalId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -401,19 +419,21 @@ export type TradeWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.TradeWhereInput | Prisma.TradeWhereInput[]
   OR?: Prisma.TradeWhereInput[]
   NOT?: Prisma.TradeWhereInput | Prisma.TradeWhereInput[]
-  symbol?: Prisma.StringFilter<"Trade"> | string
+  symbol?: Prisma.StringNullableFilter<"Trade"> | string | null
   direction?: Prisma.EnumTradeDirectionFilter<"Trade"> | $Enums.TradeDirection
   assetClass?: Prisma.EnumAssetClassFilter<"Trade"> | $Enums.AssetClass
+  account?: Prisma.EnumTradeAccountFilter<"Trade"> | $Enums.TradeAccount
+  outcome?: Prisma.EnumTradeOutcomeNullableFilter<"Trade"> | $Enums.TradeOutcome | null
   entryPrice?: Prisma.DecimalNullableFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: Prisma.DecimalNullableFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: Prisma.DecimalNullableFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: Prisma.DecimalNullableFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: Prisma.DecimalNullableFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime?: Prisma.DateTimeFilter<"Trade"> | Date | string
-  exitTime?: Prisma.DateTimeFilter<"Trade"> | Date | string
+  exitTime?: Prisma.DateTimeNullableFilter<"Trade"> | Date | string | null
   pnl?: Prisma.DecimalFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: Prisma.DecimalNullableFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes?: Prisma.IntFilter<"Trade"> | number
+  durationMinutes?: Prisma.IntNullableFilter<"Trade"> | number | null
   session?: Prisma.EnumTradingSessionFilter<"Trade"> | $Enums.TradingSession
   source?: Prisma.EnumTradeSourceFilter<"Trade"> | $Enums.TradeSource
   notes?: Prisma.StringNullableFilter<"Trade"> | string | null
@@ -426,19 +446,21 @@ export type TradeWhereUniqueInput = Prisma.AtLeast<{
 
 export type TradeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  symbol?: Prisma.SortOrder
+  symbol?: Prisma.SortOrderInput | Prisma.SortOrder
   direction?: Prisma.SortOrder
   assetClass?: Prisma.SortOrder
+  account?: Prisma.SortOrder
+  outcome?: Prisma.SortOrderInput | Prisma.SortOrder
   entryPrice?: Prisma.SortOrderInput | Prisma.SortOrder
   exitPrice?: Prisma.SortOrderInput | Prisma.SortOrder
   positionSize?: Prisma.SortOrderInput | Prisma.SortOrder
   stopLoss?: Prisma.SortOrderInput | Prisma.SortOrder
   riskDollars?: Prisma.SortOrderInput | Prisma.SortOrder
   entryTime?: Prisma.SortOrder
-  exitTime?: Prisma.SortOrder
+  exitTime?: Prisma.SortOrderInput | Prisma.SortOrder
   pnl?: Prisma.SortOrder
   rMultiple?: Prisma.SortOrderInput | Prisma.SortOrder
-  durationMinutes?: Prisma.SortOrder
+  durationMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   session?: Prisma.SortOrder
   source?: Prisma.SortOrder
   externalId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -457,19 +479,21 @@ export type TradeScalarWhereWithAggregatesInput = {
   OR?: Prisma.TradeScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TradeScalarWhereWithAggregatesInput | Prisma.TradeScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Trade"> | string
-  symbol?: Prisma.StringWithAggregatesFilter<"Trade"> | string
+  symbol?: Prisma.StringNullableWithAggregatesFilter<"Trade"> | string | null
   direction?: Prisma.EnumTradeDirectionWithAggregatesFilter<"Trade"> | $Enums.TradeDirection
   assetClass?: Prisma.EnumAssetClassWithAggregatesFilter<"Trade"> | $Enums.AssetClass
+  account?: Prisma.EnumTradeAccountWithAggregatesFilter<"Trade"> | $Enums.TradeAccount
+  outcome?: Prisma.EnumTradeOutcomeNullableWithAggregatesFilter<"Trade"> | $Enums.TradeOutcome | null
   entryPrice?: Prisma.DecimalNullableWithAggregatesFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: Prisma.DecimalNullableWithAggregatesFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: Prisma.DecimalNullableWithAggregatesFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: Prisma.DecimalNullableWithAggregatesFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: Prisma.DecimalNullableWithAggregatesFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime?: Prisma.DateTimeWithAggregatesFilter<"Trade"> | Date | string
-  exitTime?: Prisma.DateTimeWithAggregatesFilter<"Trade"> | Date | string
+  exitTime?: Prisma.DateTimeNullableWithAggregatesFilter<"Trade"> | Date | string | null
   pnl?: Prisma.DecimalWithAggregatesFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: Prisma.DecimalNullableWithAggregatesFilter<"Trade"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes?: Prisma.IntWithAggregatesFilter<"Trade"> | number
+  durationMinutes?: Prisma.IntNullableWithAggregatesFilter<"Trade"> | number | null
   session?: Prisma.EnumTradingSessionWithAggregatesFilter<"Trade"> | $Enums.TradingSession
   source?: Prisma.EnumTradeSourceWithAggregatesFilter<"Trade"> | $Enums.TradeSource
   externalId?: Prisma.StringNullableWithAggregatesFilter<"Trade"> | string | null
@@ -480,19 +504,21 @@ export type TradeScalarWhereWithAggregatesInput = {
 
 export type TradeCreateInput = {
   id?: string
-  symbol: string
+  symbol?: string | null
   direction: $Enums.TradeDirection
   assetClass: $Enums.AssetClass
+  account?: $Enums.TradeAccount
+  outcome?: $Enums.TradeOutcome | null
   entryPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime: Date | string
-  exitTime: Date | string
+  exitTime?: Date | string | null
   pnl: runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes: number
+  durationMinutes?: number | null
   session: $Enums.TradingSession
   source?: $Enums.TradeSource
   externalId?: string | null
@@ -506,19 +532,21 @@ export type TradeCreateInput = {
 
 export type TradeUncheckedCreateInput = {
   id?: string
-  symbol: string
+  symbol?: string | null
   direction: $Enums.TradeDirection
   assetClass: $Enums.AssetClass
+  account?: $Enums.TradeAccount
+  outcome?: $Enums.TradeOutcome | null
   entryPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime: Date | string
-  exitTime: Date | string
+  exitTime?: Date | string | null
   pnl: runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes: number
+  durationMinutes?: number | null
   session: $Enums.TradingSession
   source?: $Enums.TradeSource
   externalId?: string | null
@@ -532,19 +560,21 @@ export type TradeUncheckedCreateInput = {
 
 export type TradeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
   assetClass?: Prisma.EnumAssetClassFieldUpdateOperationsInput | $Enums.AssetClass
+  account?: Prisma.EnumTradeAccountFieldUpdateOperationsInput | $Enums.TradeAccount
+  outcome?: Prisma.NullableEnumTradeOutcomeFieldUpdateOperationsInput | $Enums.TradeOutcome | null
   entryPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  exitTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exitTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pnl?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  durationMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   session?: Prisma.EnumTradingSessionFieldUpdateOperationsInput | $Enums.TradingSession
   source?: Prisma.EnumTradeSourceFieldUpdateOperationsInput | $Enums.TradeSource
   externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -558,19 +588,21 @@ export type TradeUpdateInput = {
 
 export type TradeUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
   assetClass?: Prisma.EnumAssetClassFieldUpdateOperationsInput | $Enums.AssetClass
+  account?: Prisma.EnumTradeAccountFieldUpdateOperationsInput | $Enums.TradeAccount
+  outcome?: Prisma.NullableEnumTradeOutcomeFieldUpdateOperationsInput | $Enums.TradeOutcome | null
   entryPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  exitTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exitTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pnl?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  durationMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   session?: Prisma.EnumTradingSessionFieldUpdateOperationsInput | $Enums.TradingSession
   source?: Prisma.EnumTradeSourceFieldUpdateOperationsInput | $Enums.TradeSource
   externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -584,19 +616,21 @@ export type TradeUncheckedUpdateInput = {
 
 export type TradeCreateManyInput = {
   id?: string
-  symbol: string
+  symbol?: string | null
   direction: $Enums.TradeDirection
   assetClass: $Enums.AssetClass
+  account?: $Enums.TradeAccount
+  outcome?: $Enums.TradeOutcome | null
   entryPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime: Date | string
-  exitTime: Date | string
+  exitTime?: Date | string | null
   pnl: runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes: number
+  durationMinutes?: number | null
   session: $Enums.TradingSession
   source?: $Enums.TradeSource
   externalId?: string | null
@@ -607,19 +641,21 @@ export type TradeCreateManyInput = {
 
 export type TradeUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
   assetClass?: Prisma.EnumAssetClassFieldUpdateOperationsInput | $Enums.AssetClass
+  account?: Prisma.EnumTradeAccountFieldUpdateOperationsInput | $Enums.TradeAccount
+  outcome?: Prisma.NullableEnumTradeOutcomeFieldUpdateOperationsInput | $Enums.TradeOutcome | null
   entryPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  exitTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exitTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pnl?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  durationMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   session?: Prisma.EnumTradingSessionFieldUpdateOperationsInput | $Enums.TradingSession
   source?: Prisma.EnumTradeSourceFieldUpdateOperationsInput | $Enums.TradeSource
   externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -630,19 +666,21 @@ export type TradeUpdateManyMutationInput = {
 
 export type TradeUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
   assetClass?: Prisma.EnumAssetClassFieldUpdateOperationsInput | $Enums.AssetClass
+  account?: Prisma.EnumTradeAccountFieldUpdateOperationsInput | $Enums.TradeAccount
+  outcome?: Prisma.NullableEnumTradeOutcomeFieldUpdateOperationsInput | $Enums.TradeOutcome | null
   entryPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  exitTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exitTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pnl?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  durationMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   session?: Prisma.EnumTradingSessionFieldUpdateOperationsInput | $Enums.TradingSession
   source?: Prisma.EnumTradeSourceFieldUpdateOperationsInput | $Enums.TradeSource
   externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -656,6 +694,8 @@ export type TradeCountOrderByAggregateInput = {
   symbol?: Prisma.SortOrder
   direction?: Prisma.SortOrder
   assetClass?: Prisma.SortOrder
+  account?: Prisma.SortOrder
+  outcome?: Prisma.SortOrder
   entryPrice?: Prisma.SortOrder
   exitPrice?: Prisma.SortOrder
   positionSize?: Prisma.SortOrder
@@ -690,6 +730,8 @@ export type TradeMaxOrderByAggregateInput = {
   symbol?: Prisma.SortOrder
   direction?: Prisma.SortOrder
   assetClass?: Prisma.SortOrder
+  account?: Prisma.SortOrder
+  outcome?: Prisma.SortOrder
   entryPrice?: Prisma.SortOrder
   exitPrice?: Prisma.SortOrder
   positionSize?: Prisma.SortOrder
@@ -713,6 +755,8 @@ export type TradeMinOrderByAggregateInput = {
   symbol?: Prisma.SortOrder
   direction?: Prisma.SortOrder
   assetClass?: Prisma.SortOrder
+  account?: Prisma.SortOrder
+  outcome?: Prisma.SortOrder
   entryPrice?: Prisma.SortOrder
   exitPrice?: Prisma.SortOrder
   positionSize?: Prisma.SortOrder
@@ -751,12 +795,24 @@ export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type EnumTradeDirectionFieldUpdateOperationsInput = {
   set?: $Enums.TradeDirection
 }
 
 export type EnumAssetClassFieldUpdateOperationsInput = {
   set?: $Enums.AssetClass
+}
+
+export type EnumTradeAccountFieldUpdateOperationsInput = {
+  set?: $Enums.TradeAccount
+}
+
+export type NullableEnumTradeOutcomeFieldUpdateOperationsInput = {
+  set?: $Enums.TradeOutcome | null
 }
 
 export type NullableDecimalFieldUpdateOperationsInput = {
@@ -771,6 +827,10 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
 export type DecimalFieldUpdateOperationsInput = {
   set?: runtime.Decimal | runtime.DecimalJsLike | number | string
   increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -779,8 +839,8 @@ export type DecimalFieldUpdateOperationsInput = {
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
   increment?: number
   decrement?: number
   multiply?: number
@@ -793,10 +853,6 @@ export type EnumTradingSessionFieldUpdateOperationsInput = {
 
 export type EnumTradeSourceFieldUpdateOperationsInput = {
   set?: $Enums.TradeSource
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
 }
 
 export type TradeCreateNestedOneWithoutScreenshotsInput = {
@@ -843,19 +899,21 @@ export type TradeUpdateOneRequiredWithoutPsychologyNestedInput = {
 
 export type TradeCreateWithoutScreenshotsInput = {
   id?: string
-  symbol: string
+  symbol?: string | null
   direction: $Enums.TradeDirection
   assetClass: $Enums.AssetClass
+  account?: $Enums.TradeAccount
+  outcome?: $Enums.TradeOutcome | null
   entryPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime: Date | string
-  exitTime: Date | string
+  exitTime?: Date | string | null
   pnl: runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes: number
+  durationMinutes?: number | null
   session: $Enums.TradingSession
   source?: $Enums.TradeSource
   externalId?: string | null
@@ -868,19 +926,21 @@ export type TradeCreateWithoutScreenshotsInput = {
 
 export type TradeUncheckedCreateWithoutScreenshotsInput = {
   id?: string
-  symbol: string
+  symbol?: string | null
   direction: $Enums.TradeDirection
   assetClass: $Enums.AssetClass
+  account?: $Enums.TradeAccount
+  outcome?: $Enums.TradeOutcome | null
   entryPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime: Date | string
-  exitTime: Date | string
+  exitTime?: Date | string | null
   pnl: runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes: number
+  durationMinutes?: number | null
   session: $Enums.TradingSession
   source?: $Enums.TradeSource
   externalId?: string | null
@@ -909,19 +969,21 @@ export type TradeUpdateToOneWithWhereWithoutScreenshotsInput = {
 
 export type TradeUpdateWithoutScreenshotsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
   assetClass?: Prisma.EnumAssetClassFieldUpdateOperationsInput | $Enums.AssetClass
+  account?: Prisma.EnumTradeAccountFieldUpdateOperationsInput | $Enums.TradeAccount
+  outcome?: Prisma.NullableEnumTradeOutcomeFieldUpdateOperationsInput | $Enums.TradeOutcome | null
   entryPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  exitTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exitTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pnl?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  durationMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   session?: Prisma.EnumTradingSessionFieldUpdateOperationsInput | $Enums.TradingSession
   source?: Prisma.EnumTradeSourceFieldUpdateOperationsInput | $Enums.TradeSource
   externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -934,19 +996,21 @@ export type TradeUpdateWithoutScreenshotsInput = {
 
 export type TradeUncheckedUpdateWithoutScreenshotsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
   assetClass?: Prisma.EnumAssetClassFieldUpdateOperationsInput | $Enums.AssetClass
+  account?: Prisma.EnumTradeAccountFieldUpdateOperationsInput | $Enums.TradeAccount
+  outcome?: Prisma.NullableEnumTradeOutcomeFieldUpdateOperationsInput | $Enums.TradeOutcome | null
   entryPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  exitTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exitTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pnl?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  durationMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   session?: Prisma.EnumTradingSessionFieldUpdateOperationsInput | $Enums.TradingSession
   source?: Prisma.EnumTradeSourceFieldUpdateOperationsInput | $Enums.TradeSource
   externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -959,19 +1023,21 @@ export type TradeUncheckedUpdateWithoutScreenshotsInput = {
 
 export type TradeCreateWithoutTagsInput = {
   id?: string
-  symbol: string
+  symbol?: string | null
   direction: $Enums.TradeDirection
   assetClass: $Enums.AssetClass
+  account?: $Enums.TradeAccount
+  outcome?: $Enums.TradeOutcome | null
   entryPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime: Date | string
-  exitTime: Date | string
+  exitTime?: Date | string | null
   pnl: runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes: number
+  durationMinutes?: number | null
   session: $Enums.TradingSession
   source?: $Enums.TradeSource
   externalId?: string | null
@@ -984,19 +1050,21 @@ export type TradeCreateWithoutTagsInput = {
 
 export type TradeUncheckedCreateWithoutTagsInput = {
   id?: string
-  symbol: string
+  symbol?: string | null
   direction: $Enums.TradeDirection
   assetClass: $Enums.AssetClass
+  account?: $Enums.TradeAccount
+  outcome?: $Enums.TradeOutcome | null
   entryPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime: Date | string
-  exitTime: Date | string
+  exitTime?: Date | string | null
   pnl: runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes: number
+  durationMinutes?: number | null
   session: $Enums.TradingSession
   source?: $Enums.TradeSource
   externalId?: string | null
@@ -1025,19 +1093,21 @@ export type TradeUpdateToOneWithWhereWithoutTagsInput = {
 
 export type TradeUpdateWithoutTagsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
   assetClass?: Prisma.EnumAssetClassFieldUpdateOperationsInput | $Enums.AssetClass
+  account?: Prisma.EnumTradeAccountFieldUpdateOperationsInput | $Enums.TradeAccount
+  outcome?: Prisma.NullableEnumTradeOutcomeFieldUpdateOperationsInput | $Enums.TradeOutcome | null
   entryPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  exitTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exitTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pnl?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  durationMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   session?: Prisma.EnumTradingSessionFieldUpdateOperationsInput | $Enums.TradingSession
   source?: Prisma.EnumTradeSourceFieldUpdateOperationsInput | $Enums.TradeSource
   externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1050,19 +1120,21 @@ export type TradeUpdateWithoutTagsInput = {
 
 export type TradeUncheckedUpdateWithoutTagsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
   assetClass?: Prisma.EnumAssetClassFieldUpdateOperationsInput | $Enums.AssetClass
+  account?: Prisma.EnumTradeAccountFieldUpdateOperationsInput | $Enums.TradeAccount
+  outcome?: Prisma.NullableEnumTradeOutcomeFieldUpdateOperationsInput | $Enums.TradeOutcome | null
   entryPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  exitTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exitTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pnl?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  durationMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   session?: Prisma.EnumTradingSessionFieldUpdateOperationsInput | $Enums.TradingSession
   source?: Prisma.EnumTradeSourceFieldUpdateOperationsInput | $Enums.TradeSource
   externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1075,19 +1147,21 @@ export type TradeUncheckedUpdateWithoutTagsInput = {
 
 export type TradeCreateWithoutPsychologyInput = {
   id?: string
-  symbol: string
+  symbol?: string | null
   direction: $Enums.TradeDirection
   assetClass: $Enums.AssetClass
+  account?: $Enums.TradeAccount
+  outcome?: $Enums.TradeOutcome | null
   entryPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime: Date | string
-  exitTime: Date | string
+  exitTime?: Date | string | null
   pnl: runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes: number
+  durationMinutes?: number | null
   session: $Enums.TradingSession
   source?: $Enums.TradeSource
   externalId?: string | null
@@ -1100,19 +1174,21 @@ export type TradeCreateWithoutPsychologyInput = {
 
 export type TradeUncheckedCreateWithoutPsychologyInput = {
   id?: string
-  symbol: string
+  symbol?: string | null
   direction: $Enums.TradeDirection
   assetClass: $Enums.AssetClass
+  account?: $Enums.TradeAccount
+  outcome?: $Enums.TradeOutcome | null
   entryPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime: Date | string
-  exitTime: Date | string
+  exitTime?: Date | string | null
   pnl: runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes: number
+  durationMinutes?: number | null
   session: $Enums.TradingSession
   source?: $Enums.TradeSource
   externalId?: string | null
@@ -1141,19 +1217,21 @@ export type TradeUpdateToOneWithWhereWithoutPsychologyInput = {
 
 export type TradeUpdateWithoutPsychologyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
   assetClass?: Prisma.EnumAssetClassFieldUpdateOperationsInput | $Enums.AssetClass
+  account?: Prisma.EnumTradeAccountFieldUpdateOperationsInput | $Enums.TradeAccount
+  outcome?: Prisma.NullableEnumTradeOutcomeFieldUpdateOperationsInput | $Enums.TradeOutcome | null
   entryPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  exitTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exitTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pnl?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  durationMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   session?: Prisma.EnumTradingSessionFieldUpdateOperationsInput | $Enums.TradingSession
   source?: Prisma.EnumTradeSourceFieldUpdateOperationsInput | $Enums.TradeSource
   externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1166,19 +1244,21 @@ export type TradeUpdateWithoutPsychologyInput = {
 
 export type TradeUncheckedUpdateWithoutPsychologyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  symbol?: Prisma.StringFieldUpdateOperationsInput | string
+  symbol?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direction?: Prisma.EnumTradeDirectionFieldUpdateOperationsInput | $Enums.TradeDirection
   assetClass?: Prisma.EnumAssetClassFieldUpdateOperationsInput | $Enums.AssetClass
+  account?: Prisma.EnumTradeAccountFieldUpdateOperationsInput | $Enums.TradeAccount
+  outcome?: Prisma.NullableEnumTradeOutcomeFieldUpdateOperationsInput | $Enums.TradeOutcome | null
   entryPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   exitPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   positionSize?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   stopLoss?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   riskDollars?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   entryTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  exitTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exitTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pnl?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   rMultiple?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  durationMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   session?: Prisma.EnumTradingSessionFieldUpdateOperationsInput | $Enums.TradingSession
   source?: Prisma.EnumTradeSourceFieldUpdateOperationsInput | $Enums.TradeSource
   externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1234,6 +1314,8 @@ export type TradeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   symbol?: boolean
   direction?: boolean
   assetClass?: boolean
+  account?: boolean
+  outcome?: boolean
   entryPrice?: boolean
   exitPrice?: boolean
   positionSize?: boolean
@@ -1261,6 +1343,8 @@ export type TradeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   symbol?: boolean
   direction?: boolean
   assetClass?: boolean
+  account?: boolean
+  outcome?: boolean
   entryPrice?: boolean
   exitPrice?: boolean
   positionSize?: boolean
@@ -1284,6 +1368,8 @@ export type TradeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   symbol?: boolean
   direction?: boolean
   assetClass?: boolean
+  account?: boolean
+  outcome?: boolean
   entryPrice?: boolean
   exitPrice?: boolean
   positionSize?: boolean
@@ -1307,6 +1393,8 @@ export type TradeSelectScalar = {
   symbol?: boolean
   direction?: boolean
   assetClass?: boolean
+  account?: boolean
+  outcome?: boolean
   entryPrice?: boolean
   exitPrice?: boolean
   positionSize?: boolean
@@ -1325,7 +1413,7 @@ export type TradeSelectScalar = {
   updatedAt?: boolean
 }
 
-export type TradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "symbol" | "direction" | "assetClass" | "entryPrice" | "exitPrice" | "positionSize" | "stopLoss" | "riskDollars" | "entryTime" | "exitTime" | "pnl" | "rMultiple" | "durationMinutes" | "session" | "source" | "externalId" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["trade"]>
+export type TradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "symbol" | "direction" | "assetClass" | "account" | "outcome" | "entryPrice" | "exitPrice" | "positionSize" | "stopLoss" | "riskDollars" | "entryTime" | "exitTime" | "pnl" | "rMultiple" | "durationMinutes" | "session" | "source" | "externalId" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["trade"]>
 export type TradeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tags?: boolean | Prisma.Trade$tagsArgs<ExtArgs>
   psychology?: boolean | Prisma.Trade$psychologyArgs<ExtArgs>
@@ -1344,19 +1432,21 @@ export type $TradePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    symbol: string
+    symbol: string | null
     direction: $Enums.TradeDirection
     assetClass: $Enums.AssetClass
+    account: $Enums.TradeAccount
+    outcome: $Enums.TradeOutcome | null
     entryPrice: runtime.Decimal | null
     exitPrice: runtime.Decimal | null
     positionSize: runtime.Decimal | null
     stopLoss: runtime.Decimal | null
     riskDollars: runtime.Decimal | null
     entryTime: Date
-    exitTime: Date
+    exitTime: Date | null
     pnl: runtime.Decimal
     rMultiple: runtime.Decimal | null
-    durationMinutes: number
+    durationMinutes: number | null
     session: $Enums.TradingSession
     source: $Enums.TradeSource
     externalId: string | null
@@ -1793,6 +1883,8 @@ export interface TradeFieldRefs {
   readonly symbol: Prisma.FieldRef<"Trade", 'String'>
   readonly direction: Prisma.FieldRef<"Trade", 'TradeDirection'>
   readonly assetClass: Prisma.FieldRef<"Trade", 'AssetClass'>
+  readonly account: Prisma.FieldRef<"Trade", 'TradeAccount'>
+  readonly outcome: Prisma.FieldRef<"Trade", 'TradeOutcome'>
   readonly entryPrice: Prisma.FieldRef<"Trade", 'Decimal'>
   readonly exitPrice: Prisma.FieldRef<"Trade", 'Decimal'>
   readonly positionSize: Prisma.FieldRef<"Trade", 'Decimal'>

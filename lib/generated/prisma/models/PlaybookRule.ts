@@ -427,6 +427,14 @@ export type PlaybookRuleScalarRelationFilter = {
   isNot?: Prisma.PlaybookRuleWhereInput
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type PlaybookRuleCreateNestedOneWithoutOccurrencesInput = {
   create?: Prisma.XOR<Prisma.PlaybookRuleCreateWithoutOccurrencesInput, Prisma.PlaybookRuleUncheckedCreateWithoutOccurrencesInput>
   connectOrCreate?: Prisma.PlaybookRuleCreateOrConnectWithoutOccurrencesInput

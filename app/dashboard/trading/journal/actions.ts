@@ -3,16 +3,14 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/core/db";
-import { TradeDirection } from "@/lib/generated/prisma/client";
-import { getPointValue } from "@/lib/trading/contracts";
-import {
-  calculateDurationMinutes,
-  calculateFuturesMetalsPnl,
-  calculateFuturesMetalsRisk,
-  calculateRMultiple,
-  detectSession,
-  newYorkWallTimeToUtc,
-} from "@/lib/trading/calc";
+import type {
+  AssetClass,
+  TradeAccount,
+  TradeDirection,
+  TradeOutcome,
+  TradingSession,
+} from "@/lib/generated/prisma/client";
+import { calculateDurationMinutes, detectSession, newYorkWallTimeToUtc } from "@/lib/trading/calc";
 import { parseBitunixCsv, parseTradovatePerformanceCsv } from "@/lib/trading/csv";
 import { del, put } from "@vercel/blob";
 
@@ -87,45 +85,26 @@ async function syncTradeScreenshots(tradeId: string, formData: FormData): Promis
   return { skipped };
 }
 
+// Both trade forms now capture the same fields (account, session, R:R,
+// outcome, and P&L are all entered directly rather than calculated) — only
+// assetClass and the redirect tab differ between them.
+function buildTradeData(formData: FormData, assetClass: AssetClass) {
+  const direction = String(formData.get("direction")) as TradeDirection;
+  const account = String(formData.get("account")) as TradeAccount;
+  const session = String(formData.get("session")) as TradingSession;
+  const outcome = String(formData.get("outcome")) as TradeOutcome;
+  const pnl = Number(formData.get("pnl"));
+  const rMultipleRaw = formData.get("rMultiple")?.toString().trim();
+  const rMultiple = rMultipleRaw ? Number(rMultipleRaw) : null;
+  const notes = formData.get("notes")?.toString().trim() || null;
+  const entryTime = newYorkWallTimeToUtc(String(formData.get("tradeTime")));
+
+  return { direction, assetClass, account, session, outcome, pnl, rMultiple, entryTime, notes };
+}
+
 export async function saveFuturesMetalsTrade(formData: FormData) {
   const id = formData.get("id")?.toString() || null;
-  const symbol = String(formData.get("symbol") ?? "").trim().toUpperCase();
-  const direction = String(formData.get("direction")) as TradeDirection;
-  const entryPrice = Number(formData.get("entryPrice"));
-  const exitPrice = Number(formData.get("exitPrice"));
-  const positionSize = Number(formData.get("positionSize"));
-  const stopLossRaw = formData.get("stopLoss")?.toString().trim();
-  const stopLoss = stopLossRaw ? Number(stopLossRaw) : null;
-  const notes = formData.get("notes")?.toString().trim() || null;
-
-  const entryTime = newYorkWallTimeToUtc(String(formData.get("entryTime")));
-  const exitTime = newYorkWallTimeToUtc(String(formData.get("exitTime")));
-
-  const { pointValue, isKnown } = getPointValue(symbol);
-  const pnl = calculateFuturesMetalsPnl(direction, entryPrice, exitPrice, positionSize, pointValue);
-  const riskDollars =
-    stopLoss !== null ? calculateFuturesMetalsRisk(entryPrice, stopLoss, positionSize, pointValue) : null;
-  const rMultiple = calculateRMultiple(pnl, riskDollars);
-  const durationMinutes = calculateDurationMinutes(entryTime, exitTime);
-  const session = detectSession(entryTime);
-
-  const data = {
-    symbol,
-    direction,
-    assetClass: "FUTURES_METALS" as const,
-    entryPrice,
-    exitPrice,
-    positionSize,
-    stopLoss,
-    riskDollars,
-    entryTime,
-    exitTime,
-    pnl,
-    rMultiple,
-    durationMinutes,
-    session,
-    notes,
-  };
+  const data = buildTradeData(formData, "FUTURES_METALS");
 
   const trade = id
     ? await db.trade.update({ where: { id }, data })
@@ -143,10 +122,6 @@ export async function saveFuturesMetalsTrade(formData: FormData) {
   revalidatePath("/dashboard/trading/journal");
 
   const params = new URLSearchParams({ tab: "futures" });
-  if (!isKnown) {
-    params.set("warning", "unknown_symbol");
-    params.set("symbol", symbol);
-  }
   if (screenshotsSkipped > 0) params.set("screenshotsSkipped", String(screenshotsSkipped));
 
   redirect(`/dashboard/trading/journal?${params.toString()}`);
@@ -154,37 +129,7 @@ export async function saveFuturesMetalsTrade(formData: FormData) {
 
 export async function saveCryptoTrade(formData: FormData) {
   const id = formData.get("id")?.toString() || null;
-  const symbol = String(formData.get("symbol") ?? "").trim().toUpperCase();
-  const direction = String(formData.get("direction")) as TradeDirection;
-  const pnl = Number(formData.get("pnl"));
-  const riskDollarsRaw = formData.get("riskDollars")?.toString().trim();
-  const riskDollars = riskDollarsRaw ? Number(riskDollarsRaw) : null;
-  const notes = formData.get("notes")?.toString().trim() || null;
-
-  const entryTime = newYorkWallTimeToUtc(String(formData.get("entryTime")));
-  const exitTime = newYorkWallTimeToUtc(String(formData.get("exitTime")));
-
-  const rMultiple = calculateRMultiple(pnl, riskDollars);
-  const durationMinutes = calculateDurationMinutes(entryTime, exitTime);
-  const session = detectSession(entryTime);
-
-  const data = {
-    symbol,
-    direction,
-    assetClass: "CRYPTO" as const,
-    entryPrice: null,
-    exitPrice: null,
-    positionSize: null,
-    stopLoss: null,
-    riskDollars,
-    entryTime,
-    exitTime,
-    pnl,
-    rMultiple,
-    durationMinutes,
-    session,
-    notes,
-  };
+  const data = buildTradeData(formData, "CRYPTO");
 
   const trade = id
     ? await db.trade.update({ where: { id }, data })
@@ -231,6 +176,8 @@ export async function importTradovateCsv(formData: FormData) {
     symbol: trade.symbol,
     direction: trade.direction,
     assetClass: "FUTURES_METALS" as const,
+    account: "LIVE" as const,
+    outcome: trade.pnl > 0 ? ("WIN" as const) : trade.pnl < 0 ? ("LOSS" as const) : ("BREAKEVEN" as const),
     entryPrice: trade.entryPrice,
     exitPrice: trade.exitPrice,
     positionSize: trade.positionSize,
@@ -282,6 +229,8 @@ export async function importBitunixCsv(formData: FormData) {
     symbol: trade.symbol,
     direction: trade.direction,
     assetClass: "CRYPTO" as const,
+    account: "LIVE" as const,
+    outcome: trade.pnl > 0 ? ("WIN" as const) : trade.pnl < 0 ? ("LOSS" as const) : ("BREAKEVEN" as const),
     entryPrice: null,
     exitPrice: null,
     positionSize: null,

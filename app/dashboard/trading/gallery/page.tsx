@@ -16,7 +16,9 @@ export default async function GalleryPage({
     where: { screenshots: { some: {} } },
     select: { symbol: true, tags: { include: { tag: true } } },
   });
-  const availableSymbols = Array.from(new Set(filterableTrades.map((t) => t.symbol))).sort();
+  const availableSymbols = Array.from(
+    new Set(filterableTrades.map((t) => t.symbol).filter((symbol): symbol is string => symbol !== null)),
+  ).sort();
   const availableTags = Array.from(
     new Set(filterableTrades.flatMap((t) => t.tags.map((tt) => tt.tag.name))),
   ).sort();
