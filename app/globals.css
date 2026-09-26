@@ -2,8 +2,9 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark; /* dark native dropdowns, date pickers and scrollbars */
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -13,15 +14,50 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: #0a0a0a;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Draw dropdown lists inside the page (Chrome/Edge 135+) instead of as a native OS popup,
+   which flashes white when it opens. Older browsers fall back to the normal dropdown. */
+@supports (appearance: base-select) {
+  select,
+  ::picker(select) {
+    appearance: base-select;
+  }
+
+  ::picker(select) {
+    background-color: #171717;
+    border: 1px solid #262626;
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+    color: #fafafa;
+  }
+
+  select option {
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.375rem;
+    background-color: transparent;
+    color: #fafafa;
+  }
+
+  select option:hover,
+  select option:focus {
+    background-color: #2e1065;
+  }
+
+  select option:checked {
+    background-color: #4c1d95;
+  }
+}
+
+select option {
+  background-color: #171717;
+  color: #fafafa;
 }

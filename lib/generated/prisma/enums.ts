@@ -125,3 +125,48 @@ export const EtsyAnalyticsSource = {
 } as const
 
 export type EtsyAnalyticsSource = (typeof EtsyAnalyticsSource)[keyof typeof EtsyAnalyticsSource]
+
+
+export const BiasSession = {
+  ASIA: 'ASIA',
+  LONDON: 'LONDON',
+  NEW_YORK: 'NEW_YORK'
+} as const
+
+export type BiasSession = (typeof BiasSession)[keyof typeof BiasSession]
+
+
+export const BiasDirection = {
+  BULLISH: 'BULLISH',
+  BEARISH: 'BEARISH',
+  NEUTRAL: 'NEUTRAL'
+} as const
+
+export type BiasDirection = (typeof BiasDirection)[keyof typeof BiasDirection]
+
+
+export const NewsImpact = {
+  HIGH: 'HIGH',
+  MEDIUM: 'MEDIUM'
+} as const
+
+export type NewsImpact = (typeof NewsImpact)[keyof typeof NewsImpact]
+
+
+export const AccountType = {
+  PROP_FIRM: 'PROP_FIRM',
+  LIVE: 'LIVE',
+  DEMO: 'DEMO'
+} as const
+
+export type AccountType = (typeof AccountType)[keyof typeof AccountType]
+
+
+export const AccountStatus = {
+  EVALUATION: 'EVALUATION',
+  FUNDED: 'FUNDED',
+  FAILED: 'FAILED',
+  CLOSED: 'CLOSED'
+} as const
+
+export type AccountStatus = (typeof AccountStatus)[keyof typeof AccountStatus]

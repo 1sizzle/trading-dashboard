@@ -63,6 +63,10 @@ model Trade {
   assetClass      AssetClass
   account         TradeAccount   @default(LIVE)
   outcome         TradeOutcome? // nullable only so existing rows can be backfilled from pnl sign; the form always requires it going forward
+  entryModel      String? // free-text entry model (e.g. FVG, Golden Pocket)
+  preTradeThesis  String?
+  management      String?
+  review          String?
   entryPrice      Decimal?
   exitPrice       Decimal?
   positionSize    Decimal?
@@ -487,4 +491,147 @@ model EtsyConnection {
   expiresAt        DateTime
   connectedAt      DateTime  @default(now())
   lastSyncedAt     DateTime?
+}
+
+enum BiasSession {
+  ASIA
+  LONDON
+  NEW_YORK
+}
+
+enum BiasDirection {
+  BULLISH
+  BEARISH
+  NEUTRAL
+}
+
+// One row per calendar day per session; date is a UTC-midnight day label (same convention as PremarketChecklist.date)
+model MarketBiasEntry {
+  id        String        @id @default(cuid())
+  date      DateTime
+  session   BiasSession
+  bias      BiasDirection
+  points    Decimal       @default(0)
+  note      String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@unique([date, session])
+  @@index([date])
+}
+
+enum NewsImpact {
+  HIGH
+  MEDIUM
+}
+
+// Red (HIGH) and orange (MEDIUM) folder events synced from the public ForexFactory calendar feed
+model NewsEvent {
+  id          String     @id @default(cuid())
+  externalKey String     @unique // title|currency|ISO time — makes re-syncing idempotent
+  title       String
+  currency    String
+  impact      NewsImpact
+  eventTime   DateTime
+  forecast    String?
+  previous    String?
+  syncedAt    DateTime   @default(now())
+
+  @@index([eventTime])
+}
+
+enum AccountType {
+  PROP_FIRM
+  LIVE
+  DEMO
+}
+
+enum AccountStatus {
+  EVALUATION
+  FUNDED
+  FAILED
+  CLOSED
+}
+
+model TradingAccountGroup {
+  id        String           @id @default(cuid())
+  name      String           @unique
+  accounts  TradingAccount[]
+  createdAt DateTime         @default(now())
+}
+
+// Standalone account tracker — journal trades are not linked to these rows yet
+model TradingAccount {
+  id             String               @id @default(cuid())
+  name           String
+  type           AccountType          @default(PROP_FIRM)
+  status         AccountStatus        @default(EVALUATION)
+  firm           String?
+  groupId        String?
+  group          TradingAccountGroup? @relation(fields: [groupId], references: [id], onDelete: SetNull)
+  payouts        TaxPayout[]
+  accountSize    Decimal
+  startingBalance Decimal
+  currentBalance Decimal
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+
+  @@index([status])
+}
+
+// Trading tax tracker (UK). Separate from the Life section's Expense/IncomeEntry.
+// Dates are UTC-midnight day labels, same convention as PremarketChecklist.date.
+model TaxSettings {
+  id              String   @id @default(cuid())
+  overrideRatePct Decimal? // optional flat rate that replaces the UK band calculation
+  updatedAt       DateTime @updatedAt
+}
+
+model TaxPayout {
+  id           String          @id @default(cuid())
+  date         DateTime
+  accountId    String?
+  account      TradingAccount? @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  accountName  String          // kept so the row still reads correctly if the account is deleted
+  grossAmount  Decimal
+  setAsidePct  Decimal
+  createdAt    DateTime        @default(now())
+
+  @@index([date])
+}
+
+model TaxIncomeEntry {
+  id          String   @id @default(cuid())
+  date        DateTime
+  category    String
+  amount      Decimal
+  description String?
+  createdAt   DateTime @default(now())
+
+  @@index([date])
+}
+
+model TaxExpenseEntry {
+  id          String       @id @default(cuid())
+  date        DateTime
+  category    String
+  amount      Decimal
+  description String?
+  receipts    TaxReceipt[]
+  createdAt   DateTime     @default(now())
+
+  @@index([date])
+}
+
+model TaxReceipt {
+  id          String           @id @default(cuid())
+  date        DateTime
+  fileName    String
+  url         String           // private Vercel Blob URL, only ever served through the authenticated proxy
+  mimeType    String
+  expenseId   String?
+  expense     TaxExpenseEntry? @relation(fields: [expenseId], references: [id], onDelete: SetNull)
+  createdAt   DateTime         @default(now())
+
+  @@index([date])
 }

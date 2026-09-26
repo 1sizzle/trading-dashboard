@@ -11,6 +11,7 @@ import type {
   TradingSession,
 } from "@/lib/generated/prisma/client";
 import { calculateDurationMinutes, detectSession, newYorkWallTimeToUtc } from "@/lib/trading/calc";
+import { KNOWN_FUTURES_SYMBOLS } from "@/lib/trading/contracts";
 import { parseBitunixCsv, parseTradovatePerformanceCsv } from "@/lib/trading/csv";
 import { del, put } from "@vercel/blob";
 
@@ -85,77 +86,92 @@ async function syncTradeScreenshots(tradeId: string, formData: FormData): Promis
   return { skipped };
 }
 
-// Both trade forms now capture the same fields (account, session, R:R,
-// outcome, and P&L are all entered directly rather than calculated) — only
-// assetClass and the redirect tab differ between them.
-function buildTradeData(formData: FormData, assetClass: AssetClass) {
+// Crypto pairs end in a quote currency; anything else (NQ, ES, GC...) is futures.
+function inferAssetClass(pair: string | null, fallback: AssetClass): AssetClass {
+  if (!pair) return fallback;
+  if (KNOWN_FUTURES_SYMBOLS.includes(pair)) return "FUTURES_METALS";
+  return /(USDT|USDC|USD|PERP|BTC|ETH)$/.test(pair) ? "CRYPTO" : "FUTURES_METALS";
+}
+
+function optionalText(formData: FormData, key: string) {
+  return formData.has(key) ? formData.get(key)?.toString().trim() || null : undefined;
+}
+
+// R:R is entered as a positive number and Outcome decides whether it counts for
+// or against you. P&L is optional: blank stores 0 (tracked in R only).
+function buildTradeData(formData: FormData, existingAssetClass: AssetClass) {
   const direction = String(formData.get("direction")) as TradeDirection;
-  const account = String(formData.get("account")) as TradeAccount;
   const session = String(formData.get("session")) as TradingSession;
   const outcome = String(formData.get("outcome")) as TradeOutcome;
-  const pnl = Number(formData.get("pnl"));
+  const pnlRaw = formData.get("pnl")?.toString().trim();
+  const pnl = pnlRaw ? Number(pnlRaw) : 0;
   const rMultipleRaw = formData.get("rMultiple")?.toString().trim();
   const rMultiple = rMultipleRaw ? Number(rMultipleRaw) : null;
-  const notes = formData.get("notes")?.toString().trim() || null;
+  const symbol = formData.get("pair")?.toString().trim().toUpperCase() || null;
   const entryTime = newYorkWallTimeToUtc(String(formData.get("tradeTime")));
 
-  return { direction, assetClass, account, session, outcome, pnl, rMultiple, entryTime, notes };
+  return {
+    symbol,
+    assetClass: inferAssetClass(symbol, existingAssetClass),
+    direction,
+    session,
+    outcome,
+    pnl,
+    rMultiple,
+    entryModel: formData.get("entryModel")?.toString().trim() || null,
+    preTradeThesis: optionalText(formData, "preTradeThesis"),
+    management: optionalText(formData, "management"),
+    review: optionalText(formData, "review"),
+    notes: optionalText(formData, "notes"),
+    entryTime,
+  };
 }
 
-export async function saveFuturesMetalsTrade(formData: FormData) {
+export async function saveTrade(formData: FormData) {
   const id = formData.get("id")?.toString() || null;
-  const data = buildTradeData(formData, "FUTURES_METALS");
+  const accounts = formData.getAll("accounts").map(String) as TradeAccount[];
+  const existing = id ? await db.trade.findUnique({ where: { id } }) : null;
+  const base = buildTradeData(formData, existing?.assetClass ?? "FUTURES_METALS");
 
-  const trade = id
-    ? await db.trade.update({ where: { id }, data })
-    : await db.trade.create({ data });
+  // One trade per selected account (logging across several firms at once);
+  // editing always updates the single trade, using its selected account.
+  const targets: TradeAccount[] = id
+    ? [accounts[0] ?? existing?.account ?? "LIVE"]
+    : accounts.length > 0
+      ? accounts
+      : ["LIVE"];
 
-  await syncTradeTags(trade.id, parseTagNames(formData.get("tags")));
-  await syncPsychology(
-    trade.id,
-    formData.get("preEmotion")?.toString().trim() || null,
-    formData.get("postEmotion")?.toString().trim() || null,
-    formData.get("psychologyNotes")?.toString().trim() || null,
-  );
-  const { skipped: screenshotsSkipped } = await syncTradeScreenshots(trade.id, formData);
+  let screenshotsSkipped = 0;
+  for (const account of targets) {
+    const data = { ...base, account };
+    const trade = id
+      ? await db.trade.update({ where: { id }, data })
+      : await db.trade.create({ data });
+
+    await syncTradeTags(trade.id, parseTagNames(formData.get("tags")));
+    await syncPsychology(
+      trade.id,
+      formData.get("preEmotion")?.toString().trim() || null,
+      formData.get("postEmotion")?.toString().trim() || null,
+      formData.get("psychologyNotes")?.toString().trim() || null,
+    );
+    const { skipped } = await syncTradeScreenshots(trade.id, formData);
+    screenshotsSkipped = Math.max(screenshotsSkipped, skipped);
+  }
 
   revalidatePath("/dashboard/trading/journal");
 
-  const params = new URLSearchParams({ tab: "futures" });
+  const params = new URLSearchParams();
   if (screenshotsSkipped > 0) params.set("screenshotsSkipped", String(screenshotsSkipped));
+  const query = params.toString();
 
-  redirect(`/dashboard/trading/journal?${params.toString()}`);
-}
-
-export async function saveCryptoTrade(formData: FormData) {
-  const id = formData.get("id")?.toString() || null;
-  const data = buildTradeData(formData, "CRYPTO");
-
-  const trade = id
-    ? await db.trade.update({ where: { id }, data })
-    : await db.trade.create({ data });
-
-  await syncTradeTags(trade.id, parseTagNames(formData.get("tags")));
-  await syncPsychology(
-    trade.id,
-    formData.get("preEmotion")?.toString().trim() || null,
-    formData.get("postEmotion")?.toString().trim() || null,
-    formData.get("psychologyNotes")?.toString().trim() || null,
-  );
-  const { skipped: screenshotsSkipped } = await syncTradeScreenshots(trade.id, formData);
-
-  revalidatePath("/dashboard/trading/journal");
-
-  const params = new URLSearchParams({ tab: "crypto" });
-  if (screenshotsSkipped > 0) params.set("screenshotsSkipped", String(screenshotsSkipped));
-
-  redirect(`/dashboard/trading/journal?${params.toString()}`);
+  redirect(`/dashboard/trading/journal${query ? `?${query}` : ""}`);
 }
 
 export async function importTradovateCsv(formData: FormData) {
   const file = formData.get("file");
   if (!(file instanceof File) || file.size === 0) {
-    redirect("/dashboard/trading/journal?tab=futures&importError=no_file");
+    redirect("/dashboard/trading/journal?importError=no_file");
   }
 
   const text = await file.text();
@@ -164,7 +180,7 @@ export async function importTradovateCsv(formData: FormData) {
   if (trades.length === 0) {
     const message = errors[0] ?? "No trade rows found in that file.";
     redirect(
-      `/dashboard/trading/journal?tab=futures&importError=bad_format&importErrorMessage=${encodeURIComponent(message)}`,
+      `/dashboard/trading/journal?importError=bad_format&importErrorMessage=${encodeURIComponent(message)}`,
     );
   }
 
@@ -199,7 +215,6 @@ export async function importTradovateCsv(formData: FormData) {
   revalidatePath("/dashboard/trading/journal");
 
   const params = new URLSearchParams({
-    tab: "futures",
     imported: String(result.count),
     skipped: String(trades.length - result.count),
   });
@@ -212,7 +227,7 @@ export async function importTradovateCsv(formData: FormData) {
 export async function importBitunixCsv(formData: FormData) {
   const file = formData.get("file");
   if (!(file instanceof File) || file.size === 0) {
-    redirect("/dashboard/trading/journal?tab=crypto&importError=no_file");
+    redirect("/dashboard/trading/journal?importError=no_file");
   }
 
   const text = await file.text();
@@ -221,7 +236,7 @@ export async function importBitunixCsv(formData: FormData) {
   if (trades.length === 0) {
     const message = errors[0] ?? "No trade rows found in that file.";
     redirect(
-      `/dashboard/trading/journal?tab=crypto&importError=bad_format&importErrorMessage=${encodeURIComponent(message)}`,
+      `/dashboard/trading/journal?importError=bad_format&importErrorMessage=${encodeURIComponent(message)}`,
     );
   }
 
@@ -252,7 +267,6 @@ export async function importBitunixCsv(formData: FormData) {
   revalidatePath("/dashboard/trading/journal");
 
   const params = new URLSearchParams({
-    tab: "crypto",
     imported: String(result.count),
     skipped: String(trades.length - result.count),
   });
@@ -325,7 +339,6 @@ export async function deleteMissedSetup(formData: FormData) {
 
 export async function deleteTrade(formData: FormData) {
   const id = String(formData.get("id"));
-  const tab = String(formData.get("tab") ?? "futures");
 
   // Cascade removes the TradeScreenshot rows, but not the underlying Blob
   // files — clean those up explicitly first or they become orphaned storage.
@@ -334,5 +347,5 @@ export async function deleteTrade(formData: FormData) {
   await Promise.all(screenshots.map((screenshot) => del(screenshot.url).catch(() => {})));
 
   revalidatePath("/dashboard/trading/journal");
-  redirect(`/dashboard/trading/journal?tab=${tab}`);
+  redirect("/dashboard/trading/journal");
 }

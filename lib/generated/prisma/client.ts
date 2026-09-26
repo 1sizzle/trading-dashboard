@@ -181,3 +181,48 @@ export type EtsyOpportunityScan = Prisma.EtsyOpportunityScanModel
  * 
  */
 export type EtsyConnection = Prisma.EtsyConnectionModel
+/**
+ * Model MarketBiasEntry
+ * 
+ */
+export type MarketBiasEntry = Prisma.MarketBiasEntryModel
+/**
+ * Model NewsEvent
+ * 
+ */
+export type NewsEvent = Prisma.NewsEventModel
+/**
+ * Model TradingAccountGroup
+ * 
+ */
+export type TradingAccountGroup = Prisma.TradingAccountGroupModel
+/**
+ * Model TradingAccount
+ * 
+ */
+export type TradingAccount = Prisma.TradingAccountModel
+/**
+ * Model TaxSettings
+ * 
+ */
+export type TaxSettings = Prisma.TaxSettingsModel
+/**
+ * Model TaxPayout
+ * 
+ */
+export type TaxPayout = Prisma.TaxPayoutModel
+/**
+ * Model TaxIncomeEntry
+ * 
+ */
+export type TaxIncomeEntry = Prisma.TaxIncomeEntryModel
+/**
+ * Model TaxExpenseEntry
+ * 
+ */
+export type TaxExpenseEntry = Prisma.TaxExpenseEntryModel
+/**
+ * Model TaxReceipt
+ * 
+ */
+export type TaxReceipt = Prisma.TaxReceiptModel

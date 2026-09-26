@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { db } from "@/lib/core/db";
-import { FuturesMetalsTradeForm } from "@/components/trading/FuturesMetalsTradeForm";
-import { CryptoTradeForm } from "@/components/trading/CryptoTradeForm";
-import { CsvImportForm } from "@/components/trading/CsvImportForm";
-import { BitunixImportForm } from "@/components/trading/BitunixImportForm";
-import { TradeTable } from "@/components/trading/TradeTable";
+import { JournalStats } from "@/components/trading/JournalStats";
+import { JournalTable } from "@/components/trading/JournalTable";
 import { MissedSetupForm } from "@/components/trading/MissedSetupForm";
 import { MissedSetupTable } from "@/components/trading/MissedSetupTable";
+import { computeJournalStats } from "@/lib/trading/journal-stats";
+import { primaryButtonClass, secondaryButtonClass } from "@/components/ui/Field";
 
 export const dynamic = "force-dynamic";
 
@@ -15,8 +14,6 @@ export default async function JournalPage({
 }: {
   searchParams: Promise<{
     tab?: string;
-    warning?: string;
-    symbol?: string;
     imported?: string;
     skipped?: string;
     unknownSymbols?: string;
@@ -27,36 +24,41 @@ export default async function JournalPage({
   }>;
 }) {
   const params = await searchParams;
-  const tab: "futures" | "crypto" | "potential" =
-    params.tab === "crypto" ? "crypto" : params.tab === "potential" ? "potential" : "futures";
+  const tab: "trades" | "potential" = params.tab === "potential" ? "potential" : "trades";
 
-  const [trades, tags, missedSetups] = await Promise.all([
-    tab === "potential"
-      ? Promise.resolve([])
-      : db.trade.findMany({
-          where: { assetClass: tab === "crypto" ? "CRYPTO" : "FUTURES_METALS" },
+  const [trades, missedSetups] = await Promise.all([
+    tab === "trades"
+      ? db.trade.findMany({
           orderBy: { entryTime: "desc" },
           include: { tags: { include: { tag: true } } },
-        }),
-    db.tag.findMany({ orderBy: { name: "asc" } }),
+        })
+      : Promise.resolve([]),
     tab === "potential" ? db.missedSetup.findMany({ orderBy: { seenAt: "desc" } }) : Promise.resolve([]),
   ]);
-  const tagSuggestions = tags.map((tag) => tag.name);
+
+  const stats = computeJournalStats(
+    trades.map((trade) => ({
+      outcome: trade.outcome,
+      rMultiple: trade.rMultiple !== null ? Number(trade.rMultiple) : null,
+    })),
+  );
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Trading Journal</h1>
-        <p className="mt-1 text-neutral-400">Log trades and review your history.</p>
-      </div>
-
-      {params.warning === "unknown_symbol" && (
-        <div className="rounded-lg border border-amber-800 bg-amber-950/40 px-4 py-2 text-sm text-amber-300">
-          Unrecognized symbol &ldquo;{params.symbol}&rdquo; — used $1/point since it isn&apos;t in the
-          point-value table. Add it to <code>lib/trading/contracts.ts</code> if you&apos;ll trade it
-          again.
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold">Journal</h1>
+          <p className="mt-1 text-neutral-400">Every trade, every confluence, in one place.</p>
         </div>
-      )}
+        <div className="flex items-center gap-3">
+          <Link href="/dashboard/trading/journal/import" className={secondaryButtonClass}>
+            Import trades
+          </Link>
+          <Link href="/dashboard/trading/journal/new" className={primaryButtonClass}>
+            + Add Trade
+          </Link>
+        </div>
+      </div>
 
       {params.imported !== undefined && (
         <div className="rounded-lg border border-emerald-800 bg-emerald-950/40 px-4 py-2 text-sm text-emerald-300">
@@ -96,24 +98,14 @@ export default async function JournalPage({
 
       <div className="flex gap-2 border-b border-neutral-800">
         <Link
-          href="/dashboard/trading/journal?tab=futures"
+          href="/dashboard/trading/journal"
           className={`px-4 py-2 text-sm font-medium ${
-            tab === "futures"
+            tab === "trades"
               ? "border-b-2 border-violet-500 text-neutral-50"
               : "text-neutral-400 hover:text-neutral-200"
           }`}
         >
-          Futures & Metals
-        </Link>
-        <Link
-          href="/dashboard/trading/journal?tab=crypto"
-          className={`px-4 py-2 text-sm font-medium ${
-            tab === "crypto"
-              ? "border-b-2 border-violet-500 text-neutral-50"
-              : "text-neutral-400 hover:text-neutral-200"
-          }`}
-        >
-          Crypto
+          Trades
         </Link>
         <Link
           href="/dashboard/trading/journal?tab=potential"
@@ -127,20 +119,12 @@ export default async function JournalPage({
         </Link>
       </div>
 
-      {tab === "futures" && (
+      {tab === "trades" && (
         <>
-          <FuturesMetalsTradeForm tagSuggestions={tagSuggestions} />
-          <CsvImportForm />
+          <JournalStats stats={stats} />
+          <JournalTable trades={trades} />
         </>
       )}
-      {tab === "crypto" && (
-        <>
-          <CryptoTradeForm tagSuggestions={tagSuggestions} />
-          <BitunixImportForm />
-        </>
-      )}
-
-      {(tab === "futures" || tab === "crypto") && <TradeTable trades={trades} tab={tab} />}
 
       {tab === "potential" && (
         <div className="space-y-4">

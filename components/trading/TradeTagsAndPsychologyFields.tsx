@@ -38,7 +38,7 @@ export function TradeTagsAndPsychologyFields({
   return (
     <>
       <div className="col-span-2">
-        <Field label="Tags" hint="Comma-separated, e.g. followed rules, FOMO entry">
+        <Field label="Setups" hint="Comma-separated, e.g. Golden Pocket, followed rules, FOMO entry">
           <input
             type="text"
             name="tags"

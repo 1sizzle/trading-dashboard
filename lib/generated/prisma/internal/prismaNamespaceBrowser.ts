@@ -78,7 +78,16 @@ export const ModelName = {
   EtsyBundleProduct: 'EtsyBundleProduct',
   EtsyAnalyticsRecord: 'EtsyAnalyticsRecord',
   EtsyOpportunityScan: 'EtsyOpportunityScan',
-  EtsyConnection: 'EtsyConnection'
+  EtsyConnection: 'EtsyConnection',
+  MarketBiasEntry: 'MarketBiasEntry',
+  NewsEvent: 'NewsEvent',
+  TradingAccountGroup: 'TradingAccountGroup',
+  TradingAccount: 'TradingAccount',
+  TaxSettings: 'TaxSettings',
+  TaxPayout: 'TaxPayout',
+  TaxIncomeEntry: 'TaxIncomeEntry',
+  TaxExpenseEntry: 'TaxExpenseEntry',
+  TaxReceipt: 'TaxReceipt'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -104,6 +113,10 @@ export const TradeScalarFieldEnum = {
   assetClass: 'assetClass',
   account: 'account',
   outcome: 'outcome',
+  entryModel: 'entryModel',
+  preTradeThesis: 'preTradeThesis',
+  management: 'management',
+  review: 'review',
   entryPrice: 'entryPrice',
   exitPrice: 'exitPrice',
   positionSize: 'positionSize',
@@ -484,6 +497,120 @@ export const EtsyConnectionScalarFieldEnum = {
 } as const
 
 export type EtsyConnectionScalarFieldEnum = (typeof EtsyConnectionScalarFieldEnum)[keyof typeof EtsyConnectionScalarFieldEnum]
+
+
+export const MarketBiasEntryScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  session: 'session',
+  bias: 'bias',
+  points: 'points',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MarketBiasEntryScalarFieldEnum = (typeof MarketBiasEntryScalarFieldEnum)[keyof typeof MarketBiasEntryScalarFieldEnum]
+
+
+export const NewsEventScalarFieldEnum = {
+  id: 'id',
+  externalKey: 'externalKey',
+  title: 'title',
+  currency: 'currency',
+  impact: 'impact',
+  eventTime: 'eventTime',
+  forecast: 'forecast',
+  previous: 'previous',
+  syncedAt: 'syncedAt'
+} as const
+
+export type NewsEventScalarFieldEnum = (typeof NewsEventScalarFieldEnum)[keyof typeof NewsEventScalarFieldEnum]
+
+
+export const TradingAccountGroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt'
+} as const
+
+export type TradingAccountGroupScalarFieldEnum = (typeof TradingAccountGroupScalarFieldEnum)[keyof typeof TradingAccountGroupScalarFieldEnum]
+
+
+export const TradingAccountScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  status: 'status',
+  firm: 'firm',
+  groupId: 'groupId',
+  accountSize: 'accountSize',
+  startingBalance: 'startingBalance',
+  currentBalance: 'currentBalance',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TradingAccountScalarFieldEnum = (typeof TradingAccountScalarFieldEnum)[keyof typeof TradingAccountScalarFieldEnum]
+
+
+export const TaxSettingsScalarFieldEnum = {
+  id: 'id',
+  overrideRatePct: 'overrideRatePct',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TaxSettingsScalarFieldEnum = (typeof TaxSettingsScalarFieldEnum)[keyof typeof TaxSettingsScalarFieldEnum]
+
+
+export const TaxPayoutScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  accountId: 'accountId',
+  accountName: 'accountName',
+  grossAmount: 'grossAmount',
+  setAsidePct: 'setAsidePct',
+  createdAt: 'createdAt'
+} as const
+
+export type TaxPayoutScalarFieldEnum = (typeof TaxPayoutScalarFieldEnum)[keyof typeof TaxPayoutScalarFieldEnum]
+
+
+export const TaxIncomeEntryScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  category: 'category',
+  amount: 'amount',
+  description: 'description',
+  createdAt: 'createdAt'
+} as const
+
+export type TaxIncomeEntryScalarFieldEnum = (typeof TaxIncomeEntryScalarFieldEnum)[keyof typeof TaxIncomeEntryScalarFieldEnum]
+
+
+export const TaxExpenseEntryScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  category: 'category',
+  amount: 'amount',
+  description: 'description',
+  createdAt: 'createdAt'
+} as const
+
+export type TaxExpenseEntryScalarFieldEnum = (typeof TaxExpenseEntryScalarFieldEnum)[keyof typeof TaxExpenseEntryScalarFieldEnum]
+
+
+export const TaxReceiptScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  fileName: 'fileName',
+  url: 'url',
+  mimeType: 'mimeType',
+  expenseId: 'expenseId',
+  createdAt: 'createdAt'
+} as const
+
+export type TaxReceiptScalarFieldEnum = (typeof TaxReceiptScalarFieldEnum)[keyof typeof TaxReceiptScalarFieldEnum]
 
 
 export const SortOrder = {

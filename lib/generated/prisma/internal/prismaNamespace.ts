@@ -424,7 +424,16 @@ export const ModelName = {
   EtsyBundleProduct: 'EtsyBundleProduct',
   EtsyAnalyticsRecord: 'EtsyAnalyticsRecord',
   EtsyOpportunityScan: 'EtsyOpportunityScan',
-  EtsyConnection: 'EtsyConnection'
+  EtsyConnection: 'EtsyConnection',
+  MarketBiasEntry: 'MarketBiasEntry',
+  NewsEvent: 'NewsEvent',
+  TradingAccountGroup: 'TradingAccountGroup',
+  TradingAccount: 'TradingAccount',
+  TaxSettings: 'TaxSettings',
+  TaxPayout: 'TaxPayout',
+  TaxIncomeEntry: 'TaxIncomeEntry',
+  TaxExpenseEntry: 'TaxExpenseEntry',
+  TaxReceipt: 'TaxReceipt'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -440,7 +449,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "trade" | "tradeScreenshot" | "tag" | "tradeTag" | "psychologyEntry" | "missedSetup" | "missedSetupScreenshot" | "playbookRule" | "setupOccurrence" | "marketBreakdownPost" | "premarketChecklist" | "riskSettings" | "tradingRulesNote" | "signalLogEntry" | "expense" | "incomeEntry" | "etsySettings" | "etsyProduct" | "etsyPromptWorkspace" | "etsyPrompt" | "etsyListingDraft" | "etsyArtworkAsset" | "etsyKeyword" | "etsyBundle" | "etsyBundleProduct" | "etsyAnalyticsRecord" | "etsyOpportunityScan" | "etsyConnection"
+    modelProps: "trade" | "tradeScreenshot" | "tag" | "tradeTag" | "psychologyEntry" | "missedSetup" | "missedSetupScreenshot" | "playbookRule" | "setupOccurrence" | "marketBreakdownPost" | "premarketChecklist" | "riskSettings" | "tradingRulesNote" | "signalLogEntry" | "expense" | "incomeEntry" | "etsySettings" | "etsyProduct" | "etsyPromptWorkspace" | "etsyPrompt" | "etsyListingDraft" | "etsyArtworkAsset" | "etsyKeyword" | "etsyBundle" | "etsyBundleProduct" | "etsyAnalyticsRecord" | "etsyOpportunityScan" | "etsyConnection" | "marketBiasEntry" | "newsEvent" | "tradingAccountGroup" | "tradingAccount" | "taxSettings" | "taxPayout" | "taxIncomeEntry" | "taxExpenseEntry" | "taxReceipt"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2516,6 +2525,672 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    MarketBiasEntry: {
+      payload: Prisma.$MarketBiasEntryPayload<ExtArgs>
+      fields: Prisma.MarketBiasEntryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MarketBiasEntryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBiasEntryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MarketBiasEntryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBiasEntryPayload>
+        }
+        findFirst: {
+          args: Prisma.MarketBiasEntryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBiasEntryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MarketBiasEntryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBiasEntryPayload>
+        }
+        findMany: {
+          args: Prisma.MarketBiasEntryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBiasEntryPayload>[]
+        }
+        create: {
+          args: Prisma.MarketBiasEntryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBiasEntryPayload>
+        }
+        createMany: {
+          args: Prisma.MarketBiasEntryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MarketBiasEntryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBiasEntryPayload>[]
+        }
+        delete: {
+          args: Prisma.MarketBiasEntryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBiasEntryPayload>
+        }
+        update: {
+          args: Prisma.MarketBiasEntryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBiasEntryPayload>
+        }
+        deleteMany: {
+          args: Prisma.MarketBiasEntryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MarketBiasEntryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MarketBiasEntryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBiasEntryPayload>[]
+        }
+        upsert: {
+          args: Prisma.MarketBiasEntryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketBiasEntryPayload>
+        }
+        aggregate: {
+          args: Prisma.MarketBiasEntryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMarketBiasEntry>
+        }
+        groupBy: {
+          args: Prisma.MarketBiasEntryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MarketBiasEntryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MarketBiasEntryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MarketBiasEntryCountAggregateOutputType> | number
+        }
+      }
+    }
+    NewsEvent: {
+      payload: Prisma.$NewsEventPayload<ExtArgs>
+      fields: Prisma.NewsEventFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NewsEventFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsEventPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NewsEventFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsEventPayload>
+        }
+        findFirst: {
+          args: Prisma.NewsEventFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsEventPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NewsEventFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsEventPayload>
+        }
+        findMany: {
+          args: Prisma.NewsEventFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsEventPayload>[]
+        }
+        create: {
+          args: Prisma.NewsEventCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsEventPayload>
+        }
+        createMany: {
+          args: Prisma.NewsEventCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NewsEventCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsEventPayload>[]
+        }
+        delete: {
+          args: Prisma.NewsEventDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsEventPayload>
+        }
+        update: {
+          args: Prisma.NewsEventUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsEventPayload>
+        }
+        deleteMany: {
+          args: Prisma.NewsEventDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NewsEventUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NewsEventUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsEventPayload>[]
+        }
+        upsert: {
+          args: Prisma.NewsEventUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsEventPayload>
+        }
+        aggregate: {
+          args: Prisma.NewsEventAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNewsEvent>
+        }
+        groupBy: {
+          args: Prisma.NewsEventGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NewsEventGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NewsEventCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NewsEventCountAggregateOutputType> | number
+        }
+      }
+    }
+    TradingAccountGroup: {
+      payload: Prisma.$TradingAccountGroupPayload<ExtArgs>
+      fields: Prisma.TradingAccountGroupFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TradingAccountGroupFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountGroupPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TradingAccountGroupFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountGroupPayload>
+        }
+        findFirst: {
+          args: Prisma.TradingAccountGroupFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountGroupPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TradingAccountGroupFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountGroupPayload>
+        }
+        findMany: {
+          args: Prisma.TradingAccountGroupFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountGroupPayload>[]
+        }
+        create: {
+          args: Prisma.TradingAccountGroupCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountGroupPayload>
+        }
+        createMany: {
+          args: Prisma.TradingAccountGroupCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TradingAccountGroupCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountGroupPayload>[]
+        }
+        delete: {
+          args: Prisma.TradingAccountGroupDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountGroupPayload>
+        }
+        update: {
+          args: Prisma.TradingAccountGroupUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountGroupPayload>
+        }
+        deleteMany: {
+          args: Prisma.TradingAccountGroupDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TradingAccountGroupUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TradingAccountGroupUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountGroupPayload>[]
+        }
+        upsert: {
+          args: Prisma.TradingAccountGroupUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountGroupPayload>
+        }
+        aggregate: {
+          args: Prisma.TradingAccountGroupAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTradingAccountGroup>
+        }
+        groupBy: {
+          args: Prisma.TradingAccountGroupGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TradingAccountGroupGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TradingAccountGroupCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TradingAccountGroupCountAggregateOutputType> | number
+        }
+      }
+    }
+    TradingAccount: {
+      payload: Prisma.$TradingAccountPayload<ExtArgs>
+      fields: Prisma.TradingAccountFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TradingAccountFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TradingAccountFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>
+        }
+        findFirst: {
+          args: Prisma.TradingAccountFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TradingAccountFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>
+        }
+        findMany: {
+          args: Prisma.TradingAccountFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>[]
+        }
+        create: {
+          args: Prisma.TradingAccountCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>
+        }
+        createMany: {
+          args: Prisma.TradingAccountCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TradingAccountCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>[]
+        }
+        delete: {
+          args: Prisma.TradingAccountDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>
+        }
+        update: {
+          args: Prisma.TradingAccountUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>
+        }
+        deleteMany: {
+          args: Prisma.TradingAccountDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TradingAccountUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TradingAccountUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>[]
+        }
+        upsert: {
+          args: Prisma.TradingAccountUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TradingAccountPayload>
+        }
+        aggregate: {
+          args: Prisma.TradingAccountAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTradingAccount>
+        }
+        groupBy: {
+          args: Prisma.TradingAccountGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TradingAccountGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TradingAccountCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TradingAccountCountAggregateOutputType> | number
+        }
+      }
+    }
+    TaxSettings: {
+      payload: Prisma.$TaxSettingsPayload<ExtArgs>
+      fields: Prisma.TaxSettingsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TaxSettingsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxSettingsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TaxSettingsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxSettingsPayload>
+        }
+        findFirst: {
+          args: Prisma.TaxSettingsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxSettingsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TaxSettingsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxSettingsPayload>
+        }
+        findMany: {
+          args: Prisma.TaxSettingsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxSettingsPayload>[]
+        }
+        create: {
+          args: Prisma.TaxSettingsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxSettingsPayload>
+        }
+        createMany: {
+          args: Prisma.TaxSettingsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TaxSettingsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxSettingsPayload>[]
+        }
+        delete: {
+          args: Prisma.TaxSettingsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxSettingsPayload>
+        }
+        update: {
+          args: Prisma.TaxSettingsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxSettingsPayload>
+        }
+        deleteMany: {
+          args: Prisma.TaxSettingsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TaxSettingsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TaxSettingsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxSettingsPayload>[]
+        }
+        upsert: {
+          args: Prisma.TaxSettingsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxSettingsPayload>
+        }
+        aggregate: {
+          args: Prisma.TaxSettingsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTaxSettings>
+        }
+        groupBy: {
+          args: Prisma.TaxSettingsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TaxSettingsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TaxSettingsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TaxSettingsCountAggregateOutputType> | number
+        }
+      }
+    }
+    TaxPayout: {
+      payload: Prisma.$TaxPayoutPayload<ExtArgs>
+      fields: Prisma.TaxPayoutFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TaxPayoutFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxPayoutPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TaxPayoutFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxPayoutPayload>
+        }
+        findFirst: {
+          args: Prisma.TaxPayoutFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxPayoutPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TaxPayoutFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxPayoutPayload>
+        }
+        findMany: {
+          args: Prisma.TaxPayoutFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxPayoutPayload>[]
+        }
+        create: {
+          args: Prisma.TaxPayoutCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxPayoutPayload>
+        }
+        createMany: {
+          args: Prisma.TaxPayoutCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TaxPayoutCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxPayoutPayload>[]
+        }
+        delete: {
+          args: Prisma.TaxPayoutDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxPayoutPayload>
+        }
+        update: {
+          args: Prisma.TaxPayoutUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxPayoutPayload>
+        }
+        deleteMany: {
+          args: Prisma.TaxPayoutDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TaxPayoutUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TaxPayoutUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxPayoutPayload>[]
+        }
+        upsert: {
+          args: Prisma.TaxPayoutUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxPayoutPayload>
+        }
+        aggregate: {
+          args: Prisma.TaxPayoutAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTaxPayout>
+        }
+        groupBy: {
+          args: Prisma.TaxPayoutGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TaxPayoutGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TaxPayoutCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TaxPayoutCountAggregateOutputType> | number
+        }
+      }
+    }
+    TaxIncomeEntry: {
+      payload: Prisma.$TaxIncomeEntryPayload<ExtArgs>
+      fields: Prisma.TaxIncomeEntryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TaxIncomeEntryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxIncomeEntryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TaxIncomeEntryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxIncomeEntryPayload>
+        }
+        findFirst: {
+          args: Prisma.TaxIncomeEntryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxIncomeEntryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TaxIncomeEntryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxIncomeEntryPayload>
+        }
+        findMany: {
+          args: Prisma.TaxIncomeEntryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxIncomeEntryPayload>[]
+        }
+        create: {
+          args: Prisma.TaxIncomeEntryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxIncomeEntryPayload>
+        }
+        createMany: {
+          args: Prisma.TaxIncomeEntryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TaxIncomeEntryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxIncomeEntryPayload>[]
+        }
+        delete: {
+          args: Prisma.TaxIncomeEntryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxIncomeEntryPayload>
+        }
+        update: {
+          args: Prisma.TaxIncomeEntryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxIncomeEntryPayload>
+        }
+        deleteMany: {
+          args: Prisma.TaxIncomeEntryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TaxIncomeEntryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TaxIncomeEntryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxIncomeEntryPayload>[]
+        }
+        upsert: {
+          args: Prisma.TaxIncomeEntryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxIncomeEntryPayload>
+        }
+        aggregate: {
+          args: Prisma.TaxIncomeEntryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTaxIncomeEntry>
+        }
+        groupBy: {
+          args: Prisma.TaxIncomeEntryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TaxIncomeEntryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TaxIncomeEntryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TaxIncomeEntryCountAggregateOutputType> | number
+        }
+      }
+    }
+    TaxExpenseEntry: {
+      payload: Prisma.$TaxExpenseEntryPayload<ExtArgs>
+      fields: Prisma.TaxExpenseEntryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TaxExpenseEntryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxExpenseEntryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TaxExpenseEntryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxExpenseEntryPayload>
+        }
+        findFirst: {
+          args: Prisma.TaxExpenseEntryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxExpenseEntryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TaxExpenseEntryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxExpenseEntryPayload>
+        }
+        findMany: {
+          args: Prisma.TaxExpenseEntryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxExpenseEntryPayload>[]
+        }
+        create: {
+          args: Prisma.TaxExpenseEntryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxExpenseEntryPayload>
+        }
+        createMany: {
+          args: Prisma.TaxExpenseEntryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TaxExpenseEntryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxExpenseEntryPayload>[]
+        }
+        delete: {
+          args: Prisma.TaxExpenseEntryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxExpenseEntryPayload>
+        }
+        update: {
+          args: Prisma.TaxExpenseEntryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxExpenseEntryPayload>
+        }
+        deleteMany: {
+          args: Prisma.TaxExpenseEntryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TaxExpenseEntryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TaxExpenseEntryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxExpenseEntryPayload>[]
+        }
+        upsert: {
+          args: Prisma.TaxExpenseEntryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxExpenseEntryPayload>
+        }
+        aggregate: {
+          args: Prisma.TaxExpenseEntryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTaxExpenseEntry>
+        }
+        groupBy: {
+          args: Prisma.TaxExpenseEntryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TaxExpenseEntryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TaxExpenseEntryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TaxExpenseEntryCountAggregateOutputType> | number
+        }
+      }
+    }
+    TaxReceipt: {
+      payload: Prisma.$TaxReceiptPayload<ExtArgs>
+      fields: Prisma.TaxReceiptFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TaxReceiptFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxReceiptPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TaxReceiptFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxReceiptPayload>
+        }
+        findFirst: {
+          args: Prisma.TaxReceiptFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxReceiptPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TaxReceiptFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxReceiptPayload>
+        }
+        findMany: {
+          args: Prisma.TaxReceiptFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxReceiptPayload>[]
+        }
+        create: {
+          args: Prisma.TaxReceiptCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxReceiptPayload>
+        }
+        createMany: {
+          args: Prisma.TaxReceiptCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TaxReceiptCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxReceiptPayload>[]
+        }
+        delete: {
+          args: Prisma.TaxReceiptDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxReceiptPayload>
+        }
+        update: {
+          args: Prisma.TaxReceiptUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxReceiptPayload>
+        }
+        deleteMany: {
+          args: Prisma.TaxReceiptDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TaxReceiptUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TaxReceiptUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxReceiptPayload>[]
+        }
+        upsert: {
+          args: Prisma.TaxReceiptUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TaxReceiptPayload>
+        }
+        aggregate: {
+          args: Prisma.TaxReceiptAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTaxReceipt>
+        }
+        groupBy: {
+          args: Prisma.TaxReceiptGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TaxReceiptGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TaxReceiptCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TaxReceiptCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2562,6 +3237,10 @@ export const TradeScalarFieldEnum = {
   assetClass: 'assetClass',
   account: 'account',
   outcome: 'outcome',
+  entryModel: 'entryModel',
+  preTradeThesis: 'preTradeThesis',
+  management: 'management',
+  review: 'review',
   entryPrice: 'entryPrice',
   exitPrice: 'exitPrice',
   positionSize: 'positionSize',
@@ -2944,6 +3623,120 @@ export const EtsyConnectionScalarFieldEnum = {
 export type EtsyConnectionScalarFieldEnum = (typeof EtsyConnectionScalarFieldEnum)[keyof typeof EtsyConnectionScalarFieldEnum]
 
 
+export const MarketBiasEntryScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  session: 'session',
+  bias: 'bias',
+  points: 'points',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MarketBiasEntryScalarFieldEnum = (typeof MarketBiasEntryScalarFieldEnum)[keyof typeof MarketBiasEntryScalarFieldEnum]
+
+
+export const NewsEventScalarFieldEnum = {
+  id: 'id',
+  externalKey: 'externalKey',
+  title: 'title',
+  currency: 'currency',
+  impact: 'impact',
+  eventTime: 'eventTime',
+  forecast: 'forecast',
+  previous: 'previous',
+  syncedAt: 'syncedAt'
+} as const
+
+export type NewsEventScalarFieldEnum = (typeof NewsEventScalarFieldEnum)[keyof typeof NewsEventScalarFieldEnum]
+
+
+export const TradingAccountGroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt'
+} as const
+
+export type TradingAccountGroupScalarFieldEnum = (typeof TradingAccountGroupScalarFieldEnum)[keyof typeof TradingAccountGroupScalarFieldEnum]
+
+
+export const TradingAccountScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  status: 'status',
+  firm: 'firm',
+  groupId: 'groupId',
+  accountSize: 'accountSize',
+  startingBalance: 'startingBalance',
+  currentBalance: 'currentBalance',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TradingAccountScalarFieldEnum = (typeof TradingAccountScalarFieldEnum)[keyof typeof TradingAccountScalarFieldEnum]
+
+
+export const TaxSettingsScalarFieldEnum = {
+  id: 'id',
+  overrideRatePct: 'overrideRatePct',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TaxSettingsScalarFieldEnum = (typeof TaxSettingsScalarFieldEnum)[keyof typeof TaxSettingsScalarFieldEnum]
+
+
+export const TaxPayoutScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  accountId: 'accountId',
+  accountName: 'accountName',
+  grossAmount: 'grossAmount',
+  setAsidePct: 'setAsidePct',
+  createdAt: 'createdAt'
+} as const
+
+export type TaxPayoutScalarFieldEnum = (typeof TaxPayoutScalarFieldEnum)[keyof typeof TaxPayoutScalarFieldEnum]
+
+
+export const TaxIncomeEntryScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  category: 'category',
+  amount: 'amount',
+  description: 'description',
+  createdAt: 'createdAt'
+} as const
+
+export type TaxIncomeEntryScalarFieldEnum = (typeof TaxIncomeEntryScalarFieldEnum)[keyof typeof TaxIncomeEntryScalarFieldEnum]
+
+
+export const TaxExpenseEntryScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  category: 'category',
+  amount: 'amount',
+  description: 'description',
+  createdAt: 'createdAt'
+} as const
+
+export type TaxExpenseEntryScalarFieldEnum = (typeof TaxExpenseEntryScalarFieldEnum)[keyof typeof TaxExpenseEntryScalarFieldEnum]
+
+
+export const TaxReceiptScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  fileName: 'fileName',
+  url: 'url',
+  mimeType: 'mimeType',
+  expenseId: 'expenseId',
+  createdAt: 'createdAt'
+} as const
+
+export type TaxReceiptScalarFieldEnum = (typeof TaxReceiptScalarFieldEnum)[keyof typeof TaxReceiptScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -3258,6 +4051,76 @@ export type ListEnumEtsyAnalyticsSourceFieldRefInput<$PrismaModel> = FieldRefInp
 
 
 /**
+ * Reference to a field of type 'BiasSession'
+ */
+export type EnumBiasSessionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BiasSession'>
+    
+
+
+/**
+ * Reference to a field of type 'BiasSession[]'
+ */
+export type ListEnumBiasSessionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BiasSession[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BiasDirection'
+ */
+export type EnumBiasDirectionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BiasDirection'>
+    
+
+
+/**
+ * Reference to a field of type 'BiasDirection[]'
+ */
+export type ListEnumBiasDirectionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BiasDirection[]'>
+    
+
+
+/**
+ * Reference to a field of type 'NewsImpact'
+ */
+export type EnumNewsImpactFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NewsImpact'>
+    
+
+
+/**
+ * Reference to a field of type 'NewsImpact[]'
+ */
+export type ListEnumNewsImpactFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NewsImpact[]'>
+    
+
+
+/**
+ * Reference to a field of type 'AccountType'
+ */
+export type EnumAccountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccountType'>
+    
+
+
+/**
+ * Reference to a field of type 'AccountType[]'
+ */
+export type ListEnumAccountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccountType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'AccountStatus'
+ */
+export type EnumAccountStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccountStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'AccountStatus[]'
+ */
+export type ListEnumAccountStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccountStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -3449,6 +4312,15 @@ export type GlobalOmitConfig = {
   etsyAnalyticsRecord?: Prisma.EtsyAnalyticsRecordOmit
   etsyOpportunityScan?: Prisma.EtsyOpportunityScanOmit
   etsyConnection?: Prisma.EtsyConnectionOmit
+  marketBiasEntry?: Prisma.MarketBiasEntryOmit
+  newsEvent?: Prisma.NewsEventOmit
+  tradingAccountGroup?: Prisma.TradingAccountGroupOmit
+  tradingAccount?: Prisma.TradingAccountOmit
+  taxSettings?: Prisma.TaxSettingsOmit
+  taxPayout?: Prisma.TaxPayoutOmit
+  taxIncomeEntry?: Prisma.TaxIncomeEntryOmit
+  taxExpenseEntry?: Prisma.TaxExpenseEntryOmit
+  taxReceipt?: Prisma.TaxReceiptOmit
 }
 
 /* Types for Logging */

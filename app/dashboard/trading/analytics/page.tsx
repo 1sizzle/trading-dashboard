@@ -1,95 +1,142 @@
 import Link from "next/link";
 import { db } from "@/lib/core/db";
-import { SessionSummary } from "@/components/trading/SessionSummary";
-import { EquityCurveChart } from "@/components/trading/EquityCurveChart";
-import { PnlBreakdownChart } from "@/components/trading/PnlBreakdownChart";
+import { BreakdownCard } from "@/components/trading/BreakdownCard";
+import { RCurveChart } from "@/components/trading/RCurveChart";
 import {
-  buildEquityCurve,
-  groupPnlByDayOfWeek,
-  groupPnlBySession,
-  groupPnlByTag,
-  summarizeTrades,
-} from "@/lib/trading/analytics";
+  ANALYTICS_RANGES,
+  getAnalyticsRangeStart,
+  parseAnalyticsRange,
+  type AnalyticsRange,
+} from "@/lib/trading/analytics-range";
+import { computeAnalytics } from "@/lib/trading/analytics-stats";
 
 export const dynamic = "force-dynamic";
+
+const RANGE_LABELS: Record<AnalyticsRange, string> = {
+  daily: "Daily",
+  weekly: "Weekly",
+  monthly: "Monthly",
+  yearly: "Yearly",
+  lifetime: "Lifetime",
+};
+
+const RANGE_SUBTITLES: Record<AnalyticsRange, string> = {
+  daily: "Every trade you've logged today.",
+  weekly: "Every trade you've logged this week.",
+  monthly: "Every trade you've logged this month.",
+  yearly: "Every trade you've logged this year.",
+  lifetime: "Every trade you've ever logged.",
+};
+
+function StatCard({
+  label,
+  value,
+  valueClassName = "",
+}: {
+  label: string;
+  value: string;
+  valueClassName?: string;
+}) {
+  return (
+    <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-4">
+      <p className="text-xs uppercase tracking-wider text-neutral-500">{label}</p>
+      <p className={`mt-2 font-mono text-2xl font-semibold ${valueClassName || "text-neutral-50"}`}>{value}</p>
+    </div>
+  );
+}
 
 export default async function AnalyticsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ tab?: string }>;
+  searchParams: Promise<{ range?: string }>;
 }) {
-  const params = await searchParams;
-  const tab: "futures" | "crypto" = params.tab === "crypto" ? "crypto" : "futures";
+  const range = parseAnalyticsRange((await searchParams).range);
+  const start = getAnalyticsRangeStart(range);
 
   const trades = await db.trade.findMany({
-    where: { assetClass: tab === "crypto" ? "CRYPTO" : "FUTURES_METALS" },
-    orderBy: { entryTime: "asc" },
+    where: start ? { entryTime: { gte: start } } : {},
     include: { tags: { include: { tag: true } } },
   });
 
-  const normalized = trades.map((trade) => ({
-    pnl: Number(trade.pnl),
-    rMultiple: trade.rMultiple !== null ? Number(trade.rMultiple) : null,
-    session: trade.session,
-    entryTime: trade.entryTime,
-    tags: trade.tags,
-  }));
+  const result = computeAnalytics(
+    trades.map((t) => ({
+      outcome: t.outcome,
+      rMultiple: t.rMultiple !== null ? Number(t.rMultiple) : null,
+      entryTime: t.entryTime,
+      entryModel: t.entryModel,
+      session: t.session,
+      symbol: t.symbol,
+      tagNames: t.tags.map((tt) => tt.tag.name),
+    })),
+  );
 
-  const summary = summarizeTrades(normalized);
-  const byTag = groupPnlByTag(normalized);
-  const bySession = groupPnlBySession(normalized);
-  const byDayOfWeek = groupPnlByDayOfWeek(normalized);
-  const equityCurve = buildEquityCurve(normalized);
+  const hasTrades = result.trades > 0;
+  const signed = (value: number) => `${value > 0 ? "+" : ""}${value.toFixed(2)}R`;
+  const netClass = result.netR < 0 ? "text-red-400" : "text-emerald-400";
+  const streakText = result.streak ? `${result.streak.count}${result.streak.type}` : "—";
+  const streakClass =
+    result.streak?.type === "W" ? "text-emerald-400" : result.streak?.type === "L" ? "text-red-400" : "text-neutral-50";
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Performance Analytics</h1>
-        <p className="mt-1 text-neutral-400">
-          {tab === "crypto"
-            ? "Crypto trades only (Bitunix)."
-            : "Futures & Metals trades only (prop firm)."}
-        </p>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold">Analytics</h1>
+          <p className="mt-1 text-neutral-400">{RANGE_SUBTITLES[range]}</p>
+        </div>
+        <div className="flex gap-1 rounded-lg border border-neutral-800 bg-neutral-900/50 p-1">
+          {ANALYTICS_RANGES.map((r) => (
+            <Link
+              key={r}
+              href={`/dashboard/trading/analytics?range=${r}`}
+              className={`rounded-md px-3 py-1.5 text-sm transition ${
+                r === range ? "bg-violet-600 text-white" : "text-neutral-400 hover:text-neutral-200"
+              }`}
+            >
+              {RANGE_LABELS[r]}
+            </Link>
+          ))}
+        </div>
       </div>
 
-      <div className="flex gap-2 border-b border-neutral-800">
-        <Link
-          href="/dashboard/trading/analytics?tab=futures"
-          className={`px-4 py-2 text-sm font-medium ${
-            tab === "futures"
-              ? "border-b-2 border-violet-500 text-neutral-50"
-              : "text-neutral-400 hover:text-neutral-200"
-          }`}
-        >
-          Futures & Metals
-        </Link>
-        <Link
-          href="/dashboard/trading/analytics?tab=crypto"
-          className={`px-4 py-2 text-sm font-medium ${
-            tab === "crypto"
-              ? "border-b-2 border-violet-500 text-neutral-50"
-              : "text-neutral-400 hover:text-neutral-200"
-          }`}
-        >
-          Crypto
-        </Link>
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4 xl:grid-cols-7">
+        <StatCard label="Payouts to date" value="—" valueClassName="text-emerald-400" />
+        <StatCard
+          label="Win rate"
+          value={`${result.winRate.toFixed(1)}%`}
+          valueClassName={result.winRate >= 50 && hasTrades ? "text-emerald-400" : "text-red-400"}
+        />
+        <StatCard
+          label="Profit factor"
+          value={result.profitFactor === null ? "∞" : result.profitFactor.toFixed(2)}
+          valueClassName={result.profitFactor === null || result.profitFactor >= 1 ? "text-emerald-400" : "text-red-400"}
+        />
+        <StatCard label="Avg R:R" value={signed(result.avgRR)} valueClassName="text-emerald-400" />
+        <StatCard label="Net R" value={signed(result.netR)} valueClassName={netClass} />
+        <StatCard label="Trades" value={String(result.trades)} />
+        <StatCard label="Current streak" value={streakText} valueClassName={streakClass} />
       </div>
 
-      <SessionSummary summary={summary} />
+      <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-5">
+        <h2 className="text-xs uppercase tracking-wider text-neutral-500">Equity curve</h2>
+        <p className="mt-2 text-xs text-neutral-400">Cumulative R across every logged trade</p>
+        {hasTrades ? (
+          <div className="mt-4">
+            <RCurveChart data={result.curve} />
+          </div>
+        ) : (
+          <p className="flex h-56 items-center justify-center text-sm text-neutral-500">
+            No trades yet — the equity curve fills in as you log them.
+          </p>
+        )}
+      </div>
 
-      <EquityCurveChart data={equityCurve} />
-
-      <PnlBreakdownChart
-        title="P&L by tag"
-        hint="Tags are the closest thing to a setup type here — doubles as that breakdown."
-        data={byTag}
-      />
-      {tab === "futures" && <PnlBreakdownChart title="P&L by session" data={bySession} />}
-      <PnlBreakdownChart
-        title="P&L by day of week"
-        hint="Each bar sums every trade that ever fell on that weekday across your whole history — not a single date."
-        data={byDayOfWeek}
-      />
+      <div className="grid gap-4 lg:grid-cols-2">
+        <BreakdownCard title="Win rate by confluence" rows={result.byConfluence} />
+        <BreakdownCard title="Win rate by entry model" rows={result.byEntryModel} />
+        <BreakdownCard title="Win rate by session" rows={result.bySession} />
+        <BreakdownCard title="Win rate by pair" rows={result.byPair} />
+      </div>
     </div>
   );
 }
