@@ -274,6 +274,7 @@ export type TradingAccountWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"TradingAccount"> | Date | string
   group?: Prisma.XOR<Prisma.TradingAccountGroupNullableScalarRelationFilter, Prisma.TradingAccountGroupWhereInput> | null
   payouts?: Prisma.TaxPayoutListRelationFilter
+  trades?: Prisma.TradeListRelationFilter
 }
 
 export type TradingAccountOrderByWithRelationInput = {
@@ -290,6 +291,7 @@ export type TradingAccountOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   group?: Prisma.TradingAccountGroupOrderByWithRelationInput
   payouts?: Prisma.TaxPayoutOrderByRelationAggregateInput
+  trades?: Prisma.TradeOrderByRelationAggregateInput
 }
 
 export type TradingAccountWhereUniqueInput = Prisma.AtLeast<{
@@ -309,6 +311,7 @@ export type TradingAccountWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"TradingAccount"> | Date | string
   group?: Prisma.XOR<Prisma.TradingAccountGroupNullableScalarRelationFilter, Prisma.TradingAccountGroupWhereInput> | null
   payouts?: Prisma.TaxPayoutListRelationFilter
+  trades?: Prisma.TradeListRelationFilter
 }, "id">
 
 export type TradingAccountOrderByWithAggregationInput = {
@@ -360,6 +363,7 @@ export type TradingAccountCreateInput = {
   updatedAt?: Date | string
   group?: Prisma.TradingAccountGroupCreateNestedOneWithoutAccountsInput
   payouts?: Prisma.TaxPayoutCreateNestedManyWithoutAccountInput
+  trades?: Prisma.TradeCreateNestedManyWithoutAccountInput
 }
 
 export type TradingAccountUncheckedCreateInput = {
@@ -375,6 +379,7 @@ export type TradingAccountUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   payouts?: Prisma.TaxPayoutUncheckedCreateNestedManyWithoutAccountInput
+  trades?: Prisma.TradeUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type TradingAccountUpdateInput = {
@@ -390,6 +395,7 @@ export type TradingAccountUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   group?: Prisma.TradingAccountGroupUpdateOneWithoutAccountsNestedInput
   payouts?: Prisma.TaxPayoutUpdateManyWithoutAccountNestedInput
+  trades?: Prisma.TradeUpdateManyWithoutAccountNestedInput
 }
 
 export type TradingAccountUncheckedUpdateInput = {
@@ -405,6 +411,7 @@ export type TradingAccountUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payouts?: Prisma.TaxPayoutUncheckedUpdateManyWithoutAccountNestedInput
+  trades?: Prisma.TradeUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type TradingAccountCreateManyInput = {
@@ -446,6 +453,11 @@ export type TradingAccountUncheckedUpdateManyInput = {
   currentBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TradingAccountNullableScalarRelationFilter = {
+  is?: Prisma.TradingAccountWhereInput | null
+  isNot?: Prisma.TradingAccountWhereInput | null
 }
 
 export type TradingAccountListRelationFilter = {
@@ -512,9 +524,20 @@ export type TradingAccountSumOrderByAggregateInput = {
   currentBalance?: Prisma.SortOrder
 }
 
-export type TradingAccountNullableScalarRelationFilter = {
-  is?: Prisma.TradingAccountWhereInput | null
-  isNot?: Prisma.TradingAccountWhereInput | null
+export type TradingAccountCreateNestedOneWithoutTradesInput = {
+  create?: Prisma.XOR<Prisma.TradingAccountCreateWithoutTradesInput, Prisma.TradingAccountUncheckedCreateWithoutTradesInput>
+  connectOrCreate?: Prisma.TradingAccountCreateOrConnectWithoutTradesInput
+  connect?: Prisma.TradingAccountWhereUniqueInput
+}
+
+export type TradingAccountUpdateOneWithoutTradesNestedInput = {
+  create?: Prisma.XOR<Prisma.TradingAccountCreateWithoutTradesInput, Prisma.TradingAccountUncheckedCreateWithoutTradesInput>
+  connectOrCreate?: Prisma.TradingAccountCreateOrConnectWithoutTradesInput
+  upsert?: Prisma.TradingAccountUpsertWithoutTradesInput
+  disconnect?: Prisma.TradingAccountWhereInput | boolean
+  delete?: Prisma.TradingAccountWhereInput | boolean
+  connect?: Prisma.TradingAccountWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TradingAccountUpdateToOneWithWhereWithoutTradesInput, Prisma.TradingAccountUpdateWithoutTradesInput>, Prisma.TradingAccountUncheckedUpdateWithoutTradesInput>
 }
 
 export type TradingAccountCreateNestedManyWithoutGroupInput = {
@@ -583,6 +606,82 @@ export type TradingAccountUpdateOneWithoutPayoutsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TradingAccountUpdateToOneWithWhereWithoutPayoutsInput, Prisma.TradingAccountUpdateWithoutPayoutsInput>, Prisma.TradingAccountUncheckedUpdateWithoutPayoutsInput>
 }
 
+export type TradingAccountCreateWithoutTradesInput = {
+  id?: string
+  name: string
+  type?: $Enums.AccountType
+  status?: $Enums.AccountStatus
+  firm?: string | null
+  accountSize: runtime.Decimal | runtime.DecimalJsLike | number | string
+  startingBalance: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currentBalance: runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  group?: Prisma.TradingAccountGroupCreateNestedOneWithoutAccountsInput
+  payouts?: Prisma.TaxPayoutCreateNestedManyWithoutAccountInput
+}
+
+export type TradingAccountUncheckedCreateWithoutTradesInput = {
+  id?: string
+  name: string
+  type?: $Enums.AccountType
+  status?: $Enums.AccountStatus
+  firm?: string | null
+  groupId?: string | null
+  accountSize: runtime.Decimal | runtime.DecimalJsLike | number | string
+  startingBalance: runtime.Decimal | runtime.DecimalJsLike | number | string
+  currentBalance: runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  payouts?: Prisma.TaxPayoutUncheckedCreateNestedManyWithoutAccountInput
+}
+
+export type TradingAccountCreateOrConnectWithoutTradesInput = {
+  where: Prisma.TradingAccountWhereUniqueInput
+  create: Prisma.XOR<Prisma.TradingAccountCreateWithoutTradesInput, Prisma.TradingAccountUncheckedCreateWithoutTradesInput>
+}
+
+export type TradingAccountUpsertWithoutTradesInput = {
+  update: Prisma.XOR<Prisma.TradingAccountUpdateWithoutTradesInput, Prisma.TradingAccountUncheckedUpdateWithoutTradesInput>
+  create: Prisma.XOR<Prisma.TradingAccountCreateWithoutTradesInput, Prisma.TradingAccountUncheckedCreateWithoutTradesInput>
+  where?: Prisma.TradingAccountWhereInput
+}
+
+export type TradingAccountUpdateToOneWithWhereWithoutTradesInput = {
+  where?: Prisma.TradingAccountWhereInput
+  data: Prisma.XOR<Prisma.TradingAccountUpdateWithoutTradesInput, Prisma.TradingAccountUncheckedUpdateWithoutTradesInput>
+}
+
+export type TradingAccountUpdateWithoutTradesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  firm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accountSize?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  startingBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currentBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  group?: Prisma.TradingAccountGroupUpdateOneWithoutAccountsNestedInput
+  payouts?: Prisma.TaxPayoutUpdateManyWithoutAccountNestedInput
+}
+
+export type TradingAccountUncheckedUpdateWithoutTradesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  firm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accountSize?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  startingBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  currentBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  payouts?: Prisma.TaxPayoutUncheckedUpdateManyWithoutAccountNestedInput
+}
+
 export type TradingAccountCreateWithoutGroupInput = {
   id?: string
   name: string
@@ -595,6 +694,7 @@ export type TradingAccountCreateWithoutGroupInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   payouts?: Prisma.TaxPayoutCreateNestedManyWithoutAccountInput
+  trades?: Prisma.TradeCreateNestedManyWithoutAccountInput
 }
 
 export type TradingAccountUncheckedCreateWithoutGroupInput = {
@@ -609,6 +709,7 @@ export type TradingAccountUncheckedCreateWithoutGroupInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   payouts?: Prisma.TaxPayoutUncheckedCreateNestedManyWithoutAccountInput
+  trades?: Prisma.TradeUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type TradingAccountCreateOrConnectWithoutGroupInput = {
@@ -666,6 +767,7 @@ export type TradingAccountCreateWithoutPayoutsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   group?: Prisma.TradingAccountGroupCreateNestedOneWithoutAccountsInput
+  trades?: Prisma.TradeCreateNestedManyWithoutAccountInput
 }
 
 export type TradingAccountUncheckedCreateWithoutPayoutsInput = {
@@ -680,6 +782,7 @@ export type TradingAccountUncheckedCreateWithoutPayoutsInput = {
   currentBalance: runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  trades?: Prisma.TradeUncheckedCreateNestedManyWithoutAccountInput
 }
 
 export type TradingAccountCreateOrConnectWithoutPayoutsInput = {
@@ -710,6 +813,7 @@ export type TradingAccountUpdateWithoutPayoutsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   group?: Prisma.TradingAccountGroupUpdateOneWithoutAccountsNestedInput
+  trades?: Prisma.TradeUpdateManyWithoutAccountNestedInput
 }
 
 export type TradingAccountUncheckedUpdateWithoutPayoutsInput = {
@@ -724,6 +828,7 @@ export type TradingAccountUncheckedUpdateWithoutPayoutsInput = {
   currentBalance?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  trades?: Prisma.TradeUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type TradingAccountCreateManyGroupInput = {
@@ -751,6 +856,7 @@ export type TradingAccountUpdateWithoutGroupInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payouts?: Prisma.TaxPayoutUpdateManyWithoutAccountNestedInput
+  trades?: Prisma.TradeUpdateManyWithoutAccountNestedInput
 }
 
 export type TradingAccountUncheckedUpdateWithoutGroupInput = {
@@ -765,6 +871,7 @@ export type TradingAccountUncheckedUpdateWithoutGroupInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payouts?: Prisma.TaxPayoutUncheckedUpdateManyWithoutAccountNestedInput
+  trades?: Prisma.TradeUncheckedUpdateManyWithoutAccountNestedInput
 }
 
 export type TradingAccountUncheckedUpdateManyWithoutGroupInput = {
@@ -787,10 +894,12 @@ export type TradingAccountUncheckedUpdateManyWithoutGroupInput = {
 
 export type TradingAccountCountOutputType = {
   payouts: number
+  trades: number
 }
 
 export type TradingAccountCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   payouts?: boolean | TradingAccountCountOutputTypeCountPayoutsArgs
+  trades?: boolean | TradingAccountCountOutputTypeCountTradesArgs
 }
 
 /**
@@ -810,6 +919,13 @@ export type TradingAccountCountOutputTypeCountPayoutsArgs<ExtArgs extends runtim
   where?: Prisma.TaxPayoutWhereInput
 }
 
+/**
+ * TradingAccountCountOutputType without action
+ */
+export type TradingAccountCountOutputTypeCountTradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TradeWhereInput
+}
+
 
 export type TradingAccountSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -825,6 +941,7 @@ export type TradingAccountSelect<ExtArgs extends runtime.Types.Extensions.Intern
   updatedAt?: boolean
   group?: boolean | Prisma.TradingAccount$groupArgs<ExtArgs>
   payouts?: boolean | Prisma.TradingAccount$payoutsArgs<ExtArgs>
+  trades?: boolean | Prisma.TradingAccount$tradesArgs<ExtArgs>
   _count?: boolean | Prisma.TradingAccountCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tradingAccount"]>
 
@@ -876,6 +993,7 @@ export type TradingAccountOmit<ExtArgs extends runtime.Types.Extensions.Internal
 export type TradingAccountInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   group?: boolean | Prisma.TradingAccount$groupArgs<ExtArgs>
   payouts?: boolean | Prisma.TradingAccount$payoutsArgs<ExtArgs>
+  trades?: boolean | Prisma.TradingAccount$tradesArgs<ExtArgs>
   _count?: boolean | Prisma.TradingAccountCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TradingAccountIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -890,6 +1008,7 @@ export type $TradingAccountPayload<ExtArgs extends runtime.Types.Extensions.Inte
   objects: {
     group: Prisma.$TradingAccountGroupPayload<ExtArgs> | null
     payouts: Prisma.$TaxPayoutPayload<ExtArgs>[]
+    trades: Prisma.$TradePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1299,6 +1418,7 @@ export interface Prisma__TradingAccountClient<T, Null = never, ExtArgs extends r
   readonly [Symbol.toStringTag]: "PrismaPromise"
   group<T extends Prisma.TradingAccount$groupArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradingAccount$groupArgs<ExtArgs>>): Prisma.Prisma__TradingAccountGroupClient<runtime.Types.Result.GetResult<Prisma.$TradingAccountGroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   payouts<T extends Prisma.TradingAccount$payoutsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradingAccount$payoutsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaxPayoutPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  trades<T extends Prisma.TradingAccount$tradesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradingAccount$tradesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1780,6 +1900,30 @@ export type TradingAccount$payoutsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.TaxPayoutScalarFieldEnum | Prisma.TaxPayoutScalarFieldEnum[]
+}
+
+/**
+ * TradingAccount.trades
+ */
+export type TradingAccount$tradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Trade
+   */
+  select?: Prisma.TradeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Trade
+   */
+  omit?: Prisma.TradeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TradeInclude<ExtArgs> | null
+  where?: Prisma.TradeWhereInput
+  orderBy?: Prisma.TradeOrderByWithRelationInput | Prisma.TradeOrderByWithRelationInput[]
+  cursor?: Prisma.TradeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TradeScalarFieldEnum | Prisma.TradeScalarFieldEnum[]
 }
 
 /**

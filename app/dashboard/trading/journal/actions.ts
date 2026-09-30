@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/core/db";
 import type {
   AssetClass,
-  TradeAccount,
   TradeDirection,
   TradeOutcome,
   TradingSession,
@@ -129,21 +128,34 @@ function buildTradeData(formData: FormData, existingAssetClass: AssetClass) {
 
 export async function saveTrade(formData: FormData) {
   const id = formData.get("id")?.toString() || null;
-  const accounts = formData.getAll("accounts").map(String) as TradeAccount[];
+  const accountIds = formData.getAll("accountIds").map(String).filter(Boolean);
   const existing = id ? await db.trade.findUnique({ where: { id } }) : null;
   const base = buildTradeData(formData, existing?.assetClass ?? "FUTURES_METALS");
 
   // One trade per selected account (logging across several firms at once);
   // editing always updates the single trade, using its selected account.
-  const targets: TradeAccount[] = id
-    ? [accounts[0] ?? existing?.account ?? "LIVE"]
-    : accounts.length > 0
-      ? accounts
-      : ["LIVE"];
+  const targets: (string | null)[] = id
+    ? [accountIds[0] ?? existing?.accountId ?? null]
+    : accountIds.length > 0
+      ? accountIds
+      : [null];
+
+  const accountRows = await db.tradingAccount.findMany({
+    where: { id: { in: targets.filter((t): t is string => t !== null) } },
+    select: { id: true, name: true },
+  });
+  const accountNameById = new Map(accountRows.map((a) => [a.id, a.name]));
 
   let screenshotsSkipped = 0;
-  for (const account of targets) {
-    const data = { ...base, account };
+  for (const accountId of targets) {
+    const data = {
+      ...base,
+      accountId,
+      // A real linked account always gets a fresh name snapshot; with no account
+      // selected, keep whatever snapshot already existed (e.g. from a deleted
+      // account) rather than wiping it on an unrelated edit save.
+      accountName: accountId ? (accountNameById.get(accountId) ?? null) : (existing?.accountName ?? null),
+    };
     const trade = id
       ? await db.trade.update({ where: { id }, data })
       : await db.trade.create({ data });
@@ -192,7 +204,8 @@ export async function importTradovateCsv(formData: FormData) {
     symbol: trade.symbol,
     direction: trade.direction,
     assetClass: "FUTURES_METALS" as const,
-    account: "LIVE" as const,
+    accountId: null,
+    accountName: null,
     outcome: trade.pnl > 0 ? ("WIN" as const) : trade.pnl < 0 ? ("LOSS" as const) : ("BREAKEVEN" as const),
     entryPrice: trade.entryPrice,
     exitPrice: trade.exitPrice,
@@ -244,7 +257,8 @@ export async function importBitunixCsv(formData: FormData) {
     symbol: trade.symbol,
     direction: trade.direction,
     assetClass: "CRYPTO" as const,
-    account: "LIVE" as const,
+    accountId: null,
+    accountName: null,
     outcome: trade.pnl > 0 ? ("WIN" as const) : trade.pnl < 0 ? ("LOSS" as const) : ("BREAKEVEN" as const),
     entryPrice: null,
     exitPrice: null,

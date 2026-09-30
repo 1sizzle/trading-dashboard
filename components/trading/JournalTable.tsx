@@ -11,12 +11,6 @@ const SESSION_LABELS: Record<string, string> = {
   OTHER: "Other",
 };
 
-const ACCOUNT_LABELS: Record<string, string> = {
-  LIVE: "Live",
-  EVAL: "Eval",
-  FUNDED: "Funded",
-};
-
 const OUTCOME_STYLES: Record<string, string> = {
   WIN: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
   LOSS: "border-red-500/30 bg-red-500/10 text-red-300",
@@ -25,7 +19,7 @@ const OUTCOME_STYLES: Record<string, string> = {
 
 const OUTCOME_LABELS: Record<string, string> = { WIN: "Win", LOSS: "Loss", BREAKEVEN: "Breakeven" };
 
-type TradeWithTags = Trade & { tags: (TradeTag & { tag: Tag })[] };
+type TradeWithTags = Trade & { tags: (TradeTag & { tag: Tag })[]; account: { name: string } | null };
 
 const headClass = "px-4 py-3 text-xs font-medium uppercase tracking-wider text-neutral-500";
 
@@ -69,7 +63,7 @@ export function JournalTable({ trades }: { trades: TradeWithTags[] }) {
                     {formatNewYorkDateTime(trade.entryTime)}
                   </td>
                   <td className="px-4 py-2.5 text-neutral-300">
-                    {ACCOUNT_LABELS[trade.account] ?? trade.account}
+                    {trade.account?.name ?? trade.accountName ?? "—"}
                   </td>
                   <td className="px-4 py-2.5 font-medium">{trade.symbol ?? "—"}</td>
                   <td className="px-4 py-2.5 text-neutral-300">{trade.entryModel ?? "—"}</td>

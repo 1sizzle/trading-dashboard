@@ -44,12 +44,6 @@ enum TradeSource {
   CSV_IMPORT
 }
 
-enum TradeAccount {
-  LIVE
-  EVAL
-  FUNDED
-}
-
 enum TradeOutcome {
   WIN
   LOSS
@@ -61,7 +55,9 @@ model Trade {
   symbol          String? // nullable — the manual-entry form no longer collects an instrument; a dedicated "pair" field replaces this later
   direction       TradeDirection
   assetClass      AssetClass
-  account         TradeAccount   @default(LIVE)
+  accountId       String? // links to a real TradingAccount (Accounts tab); null for CSV imports and trades predating this link
+  account         TradingAccount? @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  accountName     String? // snapshot of the account's name at save time, so the journal still reads sensibly if the account is later deleted
   outcome         TradeOutcome? // nullable only so existing rows can be backfilled from pnl sign; the form always requires it going forward
   entryModel      String? // free-text entry model (e.g. FVG, Golden Pocket)
   preTradeThesis  String?
@@ -91,6 +87,7 @@ model Trade {
   @@index([entryTime])
   @@index([session])
   @@index([assetClass])
+  @@index([accountId])
 }
 
 model TradeScreenshot {
@@ -570,6 +567,7 @@ model TradingAccount {
   groupId        String?
   group          TradingAccountGroup? @relation(fields: [groupId], references: [id], onDelete: SetNull)
   payouts        TaxPayout[]
+  trades         Trade[]
   accountSize    Decimal
   startingBalance Decimal
   currentBalance Decimal

@@ -2,9 +2,11 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Field } from "@/components/ui/Field";
-import type { TradeWithExtras } from "@/components/trading/TradeTagsAndPsychologyFields";
 
-export function TradeScreenshotFields({ trade }: { trade?: TradeWithExtras }) {
+// Takes just the screenshot rows (not the whole Trade) — a Server Component can't
+// pass a Trade prop into a Client Component as-is, since its Decimal fields
+// (pnl, rMultiple, ...) aren't plain-object-serializable across that boundary.
+export function TradeScreenshotFields({ screenshots }: { screenshots?: { id: string }[] }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
 
@@ -102,9 +104,9 @@ export function TradeScreenshotFields({ trade }: { trade?: TradeWithExtras }) {
         </div>
       )}
 
-      {trade && trade.screenshots.length > 0 && (
+      {screenshots && screenshots.length > 0 && (
         <div className="grid grid-cols-4 gap-3">
-          {trade.screenshots.map((screenshot) => (
+          {screenshots.map((screenshot) => (
             <div key={screenshot.id} className="space-y-1">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

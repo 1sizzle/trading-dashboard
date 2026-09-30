@@ -3,9 +3,17 @@
 import { useState } from "react";
 import { inputClass } from "@/components/ui/Field";
 
+export type ChipOption = string | { value: string; label: string };
+
+function normalize(option: ChipOption): { value: string; label: string } {
+  return typeof option === "string" ? { value: option, label: option } : option;
+}
+
 // Pick-from-chips control with an "add your own" box. `multiple` allows several
 // selections; `joined` submits them as one comma-separated value, otherwise each
-// selected value is submitted under the same name.
+// selected value is submitted under the same name. `options` accepts plain
+// strings (value == label) or `{value, label}` pairs when the submitted value
+// (e.g. a database id) shouldn't be the same as the displayed text.
 export function ChipPicker({
   name,
   label,
@@ -20,7 +28,7 @@ export function ChipPicker({
 }: {
   name: string;
   label: string;
-  options: string[];
+  options: ChipOption[];
   initialSelected?: string[];
   multiple?: boolean;
   joined?: boolean;
@@ -29,9 +37,12 @@ export function ChipPicker({
   addPlaceholder?: string;
   uppercase?: boolean;
 }) {
-  const [items, setItems] = useState(() =>
-    Array.from(new Set([...options, ...initialSelected])),
-  );
+  const [items, setItems] = useState(() => {
+    const normalized = options.map(normalize);
+    const known = new Set(normalized.map((o) => o.value));
+    const extra = initialSelected.filter((v) => !known.has(v)).map((v) => ({ value: v, label: v }));
+    return [...normalized, ...extra];
+  });
   const [selected, setSelected] = useState<string[]>(initialSelected);
   const [draft, setDraft] = useState("");
 
@@ -46,7 +57,7 @@ export function ChipPicker({
     const raw = draft.trim();
     const value = uppercase ? raw.toUpperCase() : raw;
     if (!value) return;
-    setItems((prev) => (prev.includes(value) ? prev : [...prev, value]));
+    setItems((prev) => (prev.some((i) => i.value === value) ? prev : [...prev, { value, label: value }]));
     setSelected((prev) => (multiple ? (prev.includes(value) ? prev : [...prev, value]) : [value]));
     setDraft("");
   }
@@ -66,19 +77,19 @@ export function ChipPicker({
           <span className="text-xs text-neutral-500">{emptyText}</span>
         ) : (
           items.map((item) => {
-            const active = selected.includes(item);
+            const active = selected.includes(item.value);
             return (
               <button
-                key={item}
+                key={item.value}
                 type="button"
-                onClick={() => toggle(item)}
+                onClick={() => toggle(item.value)}
                 className={`rounded-full border px-3 py-1 text-xs transition ${
                   active
                     ? "border-violet-500 bg-violet-500/20 text-violet-200"
                     : "border-neutral-700 text-neutral-300 hover:border-neutral-500"
                 }`}
               >
-                {item}
+                {item.label}
               </button>
             );
           })

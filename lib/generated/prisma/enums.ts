@@ -45,15 +45,6 @@ export const TradeSource = {
 export type TradeSource = (typeof TradeSource)[keyof typeof TradeSource]
 
 
-export const TradeAccount = {
-  LIVE: 'LIVE',
-  EVAL: 'EVAL',
-  FUNDED: 'FUNDED'
-} as const
-
-export type TradeAccount = (typeof TradeAccount)[keyof typeof TradeAccount]
-
-
 export const TradeOutcome = {
   WIN: 'WIN',
   LOSS: 'LOSS',

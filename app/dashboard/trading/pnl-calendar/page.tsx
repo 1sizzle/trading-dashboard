@@ -4,12 +4,6 @@ import { getNewYorkDateValue, getNewYorkDayRangeUtc, getTodayNewYorkDateValue } 
 
 export const dynamic = "force-dynamic";
 
-const ACCOUNTS = [
-  { value: "LIVE", label: "Live" },
-  { value: "EVAL", label: "Eval" },
-  { value: "FUNDED", label: "Funded" },
-] as const;
-
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
@@ -34,14 +28,14 @@ function shiftMonth(year: number, month: number, delta: number) {
   return { year: Math.floor(index / 12), month: (index % 12) + 1 };
 }
 
-function parseAccounts(value: string | undefined): string[] {
-  if (value === undefined) return ACCOUNTS.map((a) => a.value);
+function parseAccounts(value: string | undefined, allIds: string[]): string[] {
+  if (value === undefined) return allIds;
   if (value === "none") return [];
-  return value.split(",").filter((v) => ACCOUNTS.some((a) => a.value === v));
+  return value.split(",").filter((v) => allIds.includes(v));
 }
 
-function accountsParam(selected: string[]) {
-  if (selected.length === ACCOUNTS.length) return "";
+function accountsParam(selected: string[], allIds: string[]) {
+  if (selected.length === allIds.length) return "";
   return `&accounts=${selected.length === 0 ? "none" : selected.join(",")}`;
 }
 
@@ -66,8 +60,14 @@ export default async function PnlCalendarPage({
 }) {
   const params = await searchParams;
   const { year, month } = parseMonth(params.month);
-  const selected = parseAccounts(params.accounts);
-  const allSelected = selected.length === ACCOUNTS.length;
+
+  const accounts = await db.tradingAccount.findMany({
+    orderBy: [{ createdAt: "asc" }, { name: "asc" }],
+    select: { id: true, name: true },
+  });
+  const allIds = accounts.map((a) => a.id);
+  const selected = parseAccounts(params.accounts, allIds);
+  const allSelected = selected.length === allIds.length;
 
   const prev = shiftMonth(year, month, -1);
   const next = shiftMonth(year, month, 1);
@@ -79,7 +79,7 @@ export default async function PnlCalendarPage({
       ? []
       : await db.trade.findMany({
           where: {
-            account: { in: selected as ("LIVE" | "EVAL" | "FUNDED")[] },
+            accountId: { in: selected },
             entryTime: { gte: getNewYorkDayRangeUtc(first).start, lt: getNewYorkDayRangeUtc(nextFirst).start },
           },
           select: { entryTime: true, outcome: true, rMultiple: true },
@@ -110,10 +110,10 @@ export default async function PnlCalendarPage({
 
   const today = getTodayNewYorkDateValue();
   const monthHref = (m: { year: number; month: number }) =>
-    `/dashboard/trading/pnl-calendar?month=${monthValue(m.year, m.month)}${accountsParam(selected)}`;
+    `/dashboard/trading/pnl-calendar?month=${monthValue(m.year, m.month)}${accountsParam(selected, allIds)}`;
   const toggleHref = (value: string) => {
     const nextSelected = selected.includes(value) ? selected.filter((v) => v !== value) : [...selected, value];
-    return `/dashboard/trading/pnl-calendar?month=${monthValue(year, month)}${accountsParam(nextSelected)}`;
+    return `/dashboard/trading/pnl-calendar?month=${monthValue(year, month)}${accountsParam(nextSelected, allIds)}`;
   };
   const allHref = `/dashboard/trading/pnl-calendar?month=${monthValue(year, month)}${
     allSelected ? "&accounts=none" : ""
@@ -149,9 +149,9 @@ export default async function PnlCalendarPage({
           <Link href={allHref} className={pill(allSelected)}>
             All accounts
           </Link>
-          {ACCOUNTS.map((a) => (
-            <Link key={a.value} href={toggleHref(a.value)} className={pill(selected.includes(a.value) && !allSelected)}>
-              {a.label}
+          {accounts.map((a) => (
+            <Link key={a.id} href={toggleHref(a.id)} className={pill(selected.includes(a.id) && !allSelected)}>
+              {a.name}
             </Link>
           ))}
         </div>
@@ -165,7 +165,15 @@ export default async function PnlCalendarPage({
         <StatCard label="Red days" value={String(redDays)} className="text-red-400" />
       </div>
 
-      {selected.length === 0 ? (
+      {accounts.length === 0 ? (
+        <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6 text-sm text-neutral-500">
+          No accounts yet —{" "}
+          <Link href="/dashboard/trading/accounts" className="text-violet-400 hover:text-violet-300">
+            add one in the Accounts tab
+          </Link>{" "}
+          to see its calendar here.
+        </div>
+      ) : selected.length === 0 ? (
         <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6 text-sm text-neutral-500">
           No accounts selected — pick at least one above to see its calendar.
         </div>

@@ -58,13 +58,6 @@ export type EnumAssetClassFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumAssetClassFilter<$PrismaModel> | $Enums.AssetClass
 }
 
-export type EnumTradeAccountFilter<$PrismaModel = never> = {
-  equals?: $Enums.TradeAccount | Prisma.EnumTradeAccountFieldRefInput<$PrismaModel>
-  in?: $Enums.TradeAccount[] | Prisma.ListEnumTradeAccountFieldRefInput<$PrismaModel>
-  notIn?: $Enums.TradeAccount[] | Prisma.ListEnumTradeAccountFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumTradeAccountFilter<$PrismaModel> | $Enums.TradeAccount
-}
-
 export type EnumTradeOutcomeNullableFilter<$PrismaModel = never> = {
   equals?: $Enums.TradeOutcome | Prisma.EnumTradeOutcomeFieldRefInput<$PrismaModel> | null
   in?: $Enums.TradeOutcome[] | Prisma.ListEnumTradeOutcomeFieldRefInput<$PrismaModel> | null
@@ -200,16 +193,6 @@ export type EnumAssetClassWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumAssetClassFilter<$PrismaModel>
   _max?: Prisma.NestedEnumAssetClassFilter<$PrismaModel>
-}
-
-export type EnumTradeAccountWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.TradeAccount | Prisma.EnumTradeAccountFieldRefInput<$PrismaModel>
-  in?: $Enums.TradeAccount[] | Prisma.ListEnumTradeAccountFieldRefInput<$PrismaModel>
-  notIn?: $Enums.TradeAccount[] | Prisma.ListEnumTradeAccountFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumTradeAccountWithAggregatesFilter<$PrismaModel> | $Enums.TradeAccount
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumTradeAccountFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumTradeAccountFilter<$PrismaModel>
 }
 
 export type EnumTradeOutcomeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -706,13 +689,6 @@ export type NestedEnumAssetClassFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumAssetClassFilter<$PrismaModel> | $Enums.AssetClass
 }
 
-export type NestedEnumTradeAccountFilter<$PrismaModel = never> = {
-  equals?: $Enums.TradeAccount | Prisma.EnumTradeAccountFieldRefInput<$PrismaModel>
-  in?: $Enums.TradeAccount[] | Prisma.ListEnumTradeAccountFieldRefInput<$PrismaModel>
-  notIn?: $Enums.TradeAccount[] | Prisma.ListEnumTradeAccountFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumTradeAccountFilter<$PrismaModel> | $Enums.TradeAccount
-}
-
 export type NestedEnumTradeOutcomeNullableFilter<$PrismaModel = never> = {
   equals?: $Enums.TradeOutcome | Prisma.EnumTradeOutcomeFieldRefInput<$PrismaModel> | null
   in?: $Enums.TradeOutcome[] | Prisma.ListEnumTradeOutcomeFieldRefInput<$PrismaModel> | null
@@ -852,16 +828,6 @@ export type NestedEnumAssetClassWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumAssetClassFilter<$PrismaModel>
   _max?: Prisma.NestedEnumAssetClassFilter<$PrismaModel>
-}
-
-export type NestedEnumTradeAccountWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.TradeAccount | Prisma.EnumTradeAccountFieldRefInput<$PrismaModel>
-  in?: $Enums.TradeAccount[] | Prisma.ListEnumTradeAccountFieldRefInput<$PrismaModel>
-  notIn?: $Enums.TradeAccount[] | Prisma.ListEnumTradeAccountFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumTradeAccountWithAggregatesFilter<$PrismaModel> | $Enums.TradeAccount
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumTradeAccountFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumTradeAccountFilter<$PrismaModel>
 }
 
 export type NestedEnumTradeOutcomeNullableWithAggregatesFilter<$PrismaModel = never> = {

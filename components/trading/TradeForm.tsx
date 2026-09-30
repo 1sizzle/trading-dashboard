@@ -6,12 +6,6 @@ import { TradeScreenshotFields } from "@/components/trading/TradeScreenshotField
 import type { TradeWithExtras } from "@/components/trading/TradeTagsAndPsychologyFields";
 import { utcToNewYorkDateTimeLocalValue } from "@/lib/trading/calc";
 
-const ACCOUNT_OPTIONS = [
-  { value: "LIVE", label: "Live" },
-  { value: "EVAL", label: "Eval" },
-  { value: "FUNDED", label: "Funded" },
-];
-
 const sectionLabel = "text-xs uppercase tracking-wider text-neutral-500";
 
 export function TradeForm({
@@ -19,12 +13,21 @@ export function TradeForm({
   pairOptions = [],
   entryModelOptions = [],
   setupOptions = [],
+  accountOptions = [],
 }: {
   trade?: TradeWithExtras;
   pairOptions?: string[];
   entryModelOptions?: string[];
   setupOptions?: string[];
+  accountOptions?: { id: string; name: string }[];
 }) {
+  // Editing a trade whose account is no longer in the active list (failed/closed,
+  // or deleted) — keep it selectable/shown rather than silently dropping it.
+  const linkedAccountMissing = Boolean(trade?.accountId) && !accountOptions.some((a) => a.id === trade?.accountId);
+  const fullAccountOptions =
+    linkedAccountMissing && trade
+      ? [...accountOptions, { id: trade.accountId!, name: trade.accountName ?? "Unnamed account" }]
+      : accountOptions;
   const dateValue = utcToNewYorkDateTimeLocalValue(trade ? trade.entryTime : new Date());
   const pnlValue = trade && Number(trade.pnl) !== 0 ? trade.pnl.toString() : "";
 
@@ -105,14 +108,19 @@ export function TradeForm({
           </p>
 
           <ChipPicker
-            name="accounts"
+            name="accountIds"
             label={trade ? "Account" : "Account(s) — select one or more to log this trade across several accounts"}
-            options={ACCOUNT_OPTIONS.map((a) => a.value)}
-            initialSelected={trade ? [trade.account] : []}
+            options={fullAccountOptions.map((a) => ({ value: a.id, label: a.name }))}
+            initialSelected={trade?.accountId ? [trade.accountId] : []}
             multiple={!trade}
             allowAdd={false}
-            emptyText=""
+            emptyText="No accounts yet — add one in the Accounts tab first."
           />
+          {!trade?.accountId && trade?.accountName && (
+            <p className="text-xs text-neutral-500">
+              Originally logged against &ldquo;{trade.accountName}&rdquo;, which has since been deleted.
+            </p>
+          )}
 
           <ChipPicker
             name="pair"
@@ -144,7 +152,7 @@ export function TradeForm({
             addPlaceholder="New confluence / strategy name"
           />
 
-          <TradeScreenshotFields trade={trade} />
+          <TradeScreenshotFields screenshots={trade?.screenshots} />
         </div>
       </Card>
 

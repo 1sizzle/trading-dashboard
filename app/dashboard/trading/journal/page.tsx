@@ -30,7 +30,7 @@ export default async function JournalPage({
     tab === "trades"
       ? db.trade.findMany({
           orderBy: { entryTime: "desc" },
-          include: { tags: { include: { tag: true } } },
+          include: { tags: { include: { tag: true } }, account: { select: { name: true } } },
         })
       : Promise.resolve([]),
     tab === "potential" ? db.missedSetup.findMany({ orderBy: { seenAt: "desc" } }) : Promise.resolve([]),
