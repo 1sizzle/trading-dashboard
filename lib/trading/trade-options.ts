@@ -1,14 +1,20 @@
 import { db } from "@/lib/core/db";
 import { ACTIVE_STATUSES } from "@/lib/trading/accounts";
 
-// Previously used values that feed the Add/Edit trade chip pickers. Pairs are
-// deliberately not listed — the Pair picker starts empty and you add your own.
+// Previously used values that feed the Add/Edit trade chip pickers. Only pairs
+// you've actually traded appear (no seeded examples), so a new pair saved on a
+// trade is offered again next time.
 export async function getTradeFormOptions() {
-  const [models, tags, accounts] = await Promise.all([
+  const [models, pairs, tags, accounts] = await Promise.all([
     db.trade.findMany({
       where: { entryModel: { not: null } },
       distinct: ["entryModel"],
       select: { entryModel: true },
+    }),
+    db.trade.findMany({
+      where: { symbol: { not: null } },
+      distinct: ["symbol"],
+      select: { symbol: true },
     }),
     db.tag.findMany({ orderBy: { name: "asc" } }),
     // Only accounts still being traded — a failed/closed one isn't a sensible
@@ -22,6 +28,7 @@ export async function getTradeFormOptions() {
   ]);
 
   return {
+    pairOptions: pairs.map((p) => p.symbol!).sort(),
     entryModelOptions: models.map((m) => m.entryModel!).sort(),
     setupOptions: tags.map((t) => t.name),
     accountOptions: accounts,
