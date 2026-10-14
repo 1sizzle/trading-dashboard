@@ -1,33 +1,35 @@
 import { Card } from "@/components/ui/Card";
 import { Field, inputClass, primaryButtonClass } from "@/components/ui/Field";
-import { utcMidnightToDateInputValue } from "@/lib/life/dates";
+import { utcMidnightToDateInputValue } from "@/lib/finances/dates";
 
-export function EditMoneyEntryForm({
-  kind,
+export function EditSubscriptionForm({
   id,
+  name,
   amount,
-  label,
+  cycle,
   type,
+  category,
   note,
-  date,
+  nextBillingDate,
   action,
 }: {
-  kind: "expense" | "income";
   id: string;
+  name: string;
   amount: number;
-  label: string;
+  cycle: "MONTHLY" | "YEARLY";
   type: "PERSONAL" | "BUSINESS";
+  category: string | null;
   note: string | null;
-  date: Date;
+  nextBillingDate: Date | null;
   action: (formData: FormData) => Promise<void>;
 }) {
-  const fieldName = kind === "expense" ? "category" : "source";
-  const labelText = kind === "expense" ? "Category" : "Source";
-
   return (
     <Card className="max-w-md">
       <form action={action} className="space-y-4">
         <input type="hidden" name="id" value={id} />
+        <Field label="Name">
+          <input type="text" name="name" defaultValue={name} required className={inputClass} />
+        </Field>
         <Field label="Amount">
           <input
             type="number"
@@ -39,25 +41,32 @@ export function EditMoneyEntryForm({
             className={inputClass}
           />
         </Field>
+        <Field label="Cycle">
+          <select name="cycle" defaultValue={cycle} className={inputClass}>
+            <option value="MONTHLY">Monthly</option>
+            <option value="YEARLY">Yearly</option>
+          </select>
+        </Field>
         <Field label="Type">
           <select name="type" defaultValue={type} className={inputClass}>
             <option value="PERSONAL">Personal</option>
             <option value="BUSINESS">Business</option>
           </select>
         </Field>
-        <Field label={labelText}>
-          <input type="text" name={fieldName} defaultValue={label} required className={inputClass} />
+        <Field label="Category" hint="Optional">
+          <input type="text" name="category" defaultValue={category ?? ""} className={inputClass} />
+        </Field>
+        <Field label="Next billing date" hint="Auto-posts as an expense on this date, then rolls forward a cycle">
+          <input
+            type="date"
+            name="nextBillingDate"
+            defaultValue={nextBillingDate ? utcMidnightToDateInputValue(nextBillingDate) : ""}
+            required
+            className={inputClass}
+          />
         </Field>
         <Field label="Note" hint="Optional">
           <input type="text" name="note" defaultValue={note ?? ""} className={inputClass} />
-        </Field>
-        <Field label="Date">
-          <input
-            type="date"
-            name="date"
-            defaultValue={utcMidnightToDateInputValue(date)}
-            className={inputClass}
-          />
         </Field>
         <div className="flex justify-end">
           <button type="submit" className={primaryButtonClass}>

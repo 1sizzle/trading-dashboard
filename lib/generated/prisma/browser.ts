@@ -98,6 +98,11 @@ export type Expense = Prisma.ExpenseModel
  */
 export type IncomeEntry = Prisma.IncomeEntryModel
 /**
+ * Model Subscription
+ * 
+ */
+export type Subscription = Prisma.SubscriptionModel
+/**
  * Model EtsySettings
  * 
  */

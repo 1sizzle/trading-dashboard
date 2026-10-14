@@ -101,6 +101,53 @@ export async function getMonthlyIncomeVsExpense(
   return points;
 }
 
+export type OptionsByType = { personal: string[]; business: string[] };
+
+// Custom values the user types in should stick around as suggestions next
+// time — same "grows from usage" behavior as the trade journal's tags.
+function mergeOptions(base: string[], used: (string | null)[]): string[] {
+  const seen = new Set(base);
+  const extra: string[] = [];
+  for (const value of used) {
+    if (value && !seen.has(value)) {
+      seen.add(value);
+      extra.push(value);
+    }
+  }
+  return [...base, ...extra];
+}
+
+export async function getExpenseCategoryOptions(personalBase: string[], businessBase: string[]): Promise<OptionsByType> {
+  const rows = await db.expense.findMany({ distinct: ["category", "type"], select: { category: true, type: true } });
+  return {
+    personal: mergeOptions(personalBase, rows.filter((r) => r.type === "PERSONAL").map((r) => r.category)),
+    business: mergeOptions(businessBase, rows.filter((r) => r.type === "BUSINESS").map((r) => r.category)),
+  };
+}
+
+export async function getIncomeSourceOptions(personalBase: string[], businessBase: string[]): Promise<OptionsByType> {
+  const rows = await db.incomeEntry.findMany({ distinct: ["source", "type"], select: { source: true, type: true } });
+  return {
+    personal: mergeOptions(personalBase, rows.filter((r) => r.type === "PERSONAL").map((r) => r.source)),
+    business: mergeOptions(businessBase, rows.filter((r) => r.type === "BUSINESS").map((r) => r.source)),
+  };
+}
+
+export async function getSubscriptionCategoryOptions(
+  personalBase: string[],
+  businessBase: string[],
+): Promise<OptionsByType> {
+  const rows = await db.subscription.findMany({
+    distinct: ["category", "type"],
+    select: { category: true, type: true },
+    where: { category: { not: null } },
+  });
+  return {
+    personal: mergeOptions(personalBase, rows.filter((r) => r.type === "PERSONAL").map((r) => r.category)),
+    business: mergeOptions(businessBase, rows.filter((r) => r.type === "BUSINESS").map((r) => r.category)),
+  };
+}
+
 export async function getBusinessNetThisMonth(): Promise<number> {
   const month = getThisMonthRange();
   const [expenseResult, incomeResult] = await Promise.all([

@@ -1,26 +1,32 @@
 import Link from "next/link";
 import { db } from "@/lib/core/db";
-import { QuickAddMoneyForm } from "@/components/life/QuickAddMoneyForm";
-import { MoneyEntryTable, type MoneyEntryRow } from "@/components/life/MoneyEntryTable";
-import { CategoryBreakdownChart } from "@/components/life/CategoryBreakdownChart";
-import { IncomeVsExpenseChart } from "@/components/life/IncomeVsExpenseChart";
-import { StatTile } from "@/components/ui/StatTile";
+import { QuickAddMoneyForm } from "@/components/finances/QuickAddMoneyForm";
+import { MoneyEntryTable, type MoneyEntryRow } from "@/components/finances/MoneyEntryTable";
+import { CategoryBreakdownChart } from "@/components/finances/CategoryBreakdownChart";
+import { IncomeVsExpenseChart } from "@/components/finances/IncomeVsExpenseChart";
+import { SubscriptionsCard } from "@/components/finances/SubscriptionsCard";
+import { Card } from "@/components/ui/Card";
 import {
   PERSONAL_EXPENSE_CATEGORIES,
   BUSINESS_EXPENSE_CATEGORIES,
   PERSONAL_INCOME_SOURCES,
   BUSINESS_INCOME_SOURCES,
-} from "@/lib/life/categories";
+  PERSONAL_SUBSCRIPTION_CATEGORIES,
+  BUSINESS_SUBSCRIPTION_CATEGORIES,
+} from "@/lib/finances/categories";
 import {
   parseView,
   getPeriodTotals,
   getExpenseCategoryBreakdown,
   getMonthlyIncomeVsExpense,
   getBusinessNetThisMonth,
+  getExpenseCategoryOptions,
+  getIncomeSourceOptions,
+  getSubscriptionCategoryOptions,
   type LifeView,
-} from "@/lib/life/aggregate";
-import { formatCurrency } from "@/lib/life/format";
-import { addExpense, addIncome } from "./actions";
+} from "@/lib/finances/aggregate";
+import { formatCurrency } from "@/lib/finances/format";
+import { addExpense, addIncome, addSubscription, deleteSubscription } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -32,7 +38,24 @@ const VIEW_TABS: { value: LifeView; label: string }[] = [
   { value: "business", label: "Business" },
 ];
 
-export default async function LifePage({
+function StatCard({
+  label,
+  value,
+  valueClassName = "",
+}: {
+  label: string;
+  value: string;
+  valueClassName?: string;
+}) {
+  return (
+    <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-5">
+      <p className="text-xs uppercase tracking-wider text-neutral-500">{label}</p>
+      <p className={`mt-2 font-mono text-2xl font-semibold text-neutral-50 ${valueClassName}`}>{value}</p>
+    </div>
+  );
+}
+
+export default async function FinancesPage({
   searchParams,
 }: {
   searchParams: Promise<{ view?: string }>;
@@ -41,13 +64,28 @@ export default async function LifePage({
   const view = parseView(params.view);
   const typeWhere = view === "all" ? {} : { type: view.toUpperCase() as "PERSONAL" | "BUSINESS" };
 
-  const [expenses, income, totals, categoryBreakdown, monthlySeries, businessNet] = await Promise.all([
+  const [
+    expenses,
+    income,
+    subscriptions,
+    totals,
+    categoryBreakdown,
+    monthlySeries,
+    businessNet,
+    expenseCategoryOptions,
+    incomeSourceOptions,
+    subscriptionCategoryOptions,
+  ] = await Promise.all([
     db.expense.findMany({ where: typeWhere, orderBy: { date: "desc" }, take: RECENT_LIMIT }),
     db.incomeEntry.findMany({ where: typeWhere, orderBy: { date: "desc" }, take: RECENT_LIMIT }),
+    db.subscription.findMany({ orderBy: { name: "asc" } }),
     getPeriodTotals(view),
     getExpenseCategoryBreakdown(view),
     getMonthlyIncomeVsExpense(view),
     view === "business" ? getBusinessNetThisMonth() : Promise.resolve(null),
+    getExpenseCategoryOptions(PERSONAL_EXPENSE_CATEGORIES, BUSINESS_EXPENSE_CATEGORIES),
+    getIncomeSourceOptions(PERSONAL_INCOME_SOURCES, BUSINESS_INCOME_SOURCES),
+    getSubscriptionCategoryOptions(PERSONAL_SUBSCRIPTION_CATEGORIES, BUSINESS_SUBSCRIPTION_CATEGORIES),
   ]);
 
   const entries: MoneyEntryRow[] = [
@@ -73,33 +111,36 @@ export default async function LifePage({
     .sort((a, b) => b.date.getTime() - a.date.getTime())
     .slice(0, RECENT_LIMIT);
 
+  const subscriptionRows = subscriptions.map((s) => ({
+    id: s.id,
+    name: s.name,
+    amount: Number(s.amount),
+    cycle: s.cycle,
+    type: s.type,
+    category: s.category,
+    nextBillingDate: s.nextBillingDate,
+    note: s.note,
+  }));
+
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold">Life</h1>
+        <h1 className="text-2xl font-semibold">Finances</h1>
         <p className="mt-1 text-neutral-400">Income, expenses, and monthly outgoings.</p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <QuickAddMoneyForm
-          kind="expense"
-          personalOptions={PERSONAL_EXPENSE_CATEGORIES}
-          businessOptions={BUSINESS_EXPENSE_CATEGORIES}
-          action={addExpense}
-        />
-        <QuickAddMoneyForm
-          kind="income"
-          personalOptions={PERSONAL_INCOME_SOURCES}
-          businessOptions={BUSINESS_INCOME_SOURCES}
-          action={addIncome}
-        />
-      </div>
+      <QuickAddMoneyForm
+        expenseOptions={expenseCategoryOptions}
+        incomeOptions={incomeSourceOptions}
+        addExpense={addExpense}
+        addIncome={addIncome}
+      />
 
       <div className="flex gap-2 border-b border-neutral-800">
         {VIEW_TABS.map((t) => (
           <Link
             key={t.value}
-            href={t.value === "all" ? "/dashboard/life" : `/dashboard/life?view=${t.value}`}
+            href={t.value === "all" ? "/dashboard/finances" : `/dashboard/finances?view=${t.value}`}
             className={`px-4 py-2 text-sm font-medium ${
               view === t.value
                 ? "border-b-2 border-violet-500 text-neutral-50"
@@ -111,21 +152,21 @@ export default async function LifePage({
         ))}
       </div>
 
-      <div className="grid grid-cols-3 gap-4 sm:grid-cols-6">
-        <StatTile label="Spent today" value={formatCurrency(totals.spentToday)} />
-        <StatTile label="Spent this week" value={formatCurrency(totals.spentWeek)} />
-        <StatTile label="Spent this month" value={formatCurrency(totals.spentMonth)} />
-        <StatTile
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <StatCard label="Spent today" value={formatCurrency(totals.spentToday)} valueClassName="text-red-400" />
+        <StatCard label="Spent this week" value={formatCurrency(totals.spentWeek)} valueClassName="text-red-400" />
+        <StatCard label="Spent this month" value={formatCurrency(totals.spentMonth)} valueClassName="text-red-400" />
+        <StatCard
           label="Income today"
           value={formatCurrency(totals.incomeToday)}
           valueClassName="text-emerald-400"
         />
-        <StatTile
+        <StatCard
           label="Income this week"
           value={formatCurrency(totals.incomeWeek)}
           valueClassName="text-emerald-400"
         />
-        <StatTile
+        <StatCard
           label="Income this month"
           value={formatCurrency(totals.incomeMonth)}
           valueClassName="text-emerald-400"
@@ -153,10 +194,18 @@ export default async function LifePage({
 
       <CategoryBreakdownChart data={categoryBreakdown} />
 
-      <div className="space-y-3">
-        <h2 className="text-lg font-semibold">Recent entries</h2>
+      <Card>
+        <h2 className="mb-4 text-lg font-semibold">Recent entries</h2>
         <MoneyEntryTable entries={entries} />
-      </div>
+      </Card>
+
+      <SubscriptionsCard
+        subscriptions={subscriptionRows}
+        personalCategories={subscriptionCategoryOptions.personal}
+        businessCategories={subscriptionCategoryOptions.business}
+        addSubscription={addSubscription}
+        deleteSubscription={deleteSubscription}
+      />
     </div>
   );
 }

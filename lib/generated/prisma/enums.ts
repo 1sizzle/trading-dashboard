@@ -90,6 +90,14 @@ export const LifeEntryType = {
 export type LifeEntryType = (typeof LifeEntryType)[keyof typeof LifeEntryType]
 
 
+export const BillingCycle = {
+  MONTHLY: 'MONTHLY',
+  YEARLY: 'YEARLY'
+} as const
+
+export type BillingCycle = (typeof BillingCycle)[keyof typeof BillingCycle]
+
+
 export const EtsyProductStatus = {
   WORKING: 'WORKING',
   REVIEW: 'REVIEW',

@@ -413,6 +413,7 @@ export const ModelName = {
   SignalLogEntry: 'SignalLogEntry',
   Expense: 'Expense',
   IncomeEntry: 'IncomeEntry',
+  Subscription: 'Subscription',
   EtsySettings: 'EtsySettings',
   EtsyProduct: 'EtsyProduct',
   EtsyPromptWorkspace: 'EtsyPromptWorkspace',
@@ -449,7 +450,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "trade" | "tradeScreenshot" | "tag" | "tradeTag" | "psychologyEntry" | "missedSetup" | "missedSetupScreenshot" | "playbookRule" | "setupOccurrence" | "marketBreakdownPost" | "premarketChecklist" | "riskSettings" | "tradingRulesNote" | "signalLogEntry" | "expense" | "incomeEntry" | "etsySettings" | "etsyProduct" | "etsyPromptWorkspace" | "etsyPrompt" | "etsyListingDraft" | "etsyArtworkAsset" | "etsyKeyword" | "etsyBundle" | "etsyBundleProduct" | "etsyAnalyticsRecord" | "etsyOpportunityScan" | "etsyConnection" | "marketBiasEntry" | "newsEvent" | "tradingAccountGroup" | "tradingAccount" | "taxSettings" | "taxPayout" | "taxIncomeEntry" | "taxExpenseEntry" | "taxReceipt"
+    modelProps: "trade" | "tradeScreenshot" | "tag" | "tradeTag" | "psychologyEntry" | "missedSetup" | "missedSetupScreenshot" | "playbookRule" | "setupOccurrence" | "marketBreakdownPost" | "premarketChecklist" | "riskSettings" | "tradingRulesNote" | "signalLogEntry" | "expense" | "incomeEntry" | "subscription" | "etsySettings" | "etsyProduct" | "etsyPromptWorkspace" | "etsyPrompt" | "etsyListingDraft" | "etsyArtworkAsset" | "etsyKeyword" | "etsyBundle" | "etsyBundleProduct" | "etsyAnalyticsRecord" | "etsyOpportunityScan" | "etsyConnection" | "marketBiasEntry" | "newsEvent" | "tradingAccountGroup" | "tradingAccount" | "taxSettings" | "taxPayout" | "taxIncomeEntry" | "taxExpenseEntry" | "taxReceipt"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1634,6 +1635,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.IncomeEntryCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.IncomeEntryCountAggregateOutputType> | number
+        }
+      }
+    }
+    Subscription: {
+      payload: Prisma.$SubscriptionPayload<ExtArgs>
+      fields: Prisma.SubscriptionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SubscriptionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SubscriptionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+        }
+        findFirst: {
+          args: Prisma.SubscriptionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SubscriptionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+        }
+        findMany: {
+          args: Prisma.SubscriptionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPayload>[]
+        }
+        create: {
+          args: Prisma.SubscriptionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+        }
+        createMany: {
+          args: Prisma.SubscriptionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SubscriptionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPayload>[]
+        }
+        delete: {
+          args: Prisma.SubscriptionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+        }
+        update: {
+          args: Prisma.SubscriptionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+        }
+        deleteMany: {
+          args: Prisma.SubscriptionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SubscriptionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SubscriptionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPayload>[]
+        }
+        upsert: {
+          args: Prisma.SubscriptionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPayload>
+        }
+        aggregate: {
+          args: Prisma.SubscriptionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSubscription>
+        }
+        groupBy: {
+          args: Prisma.SubscriptionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SubscriptionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SubscriptionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SubscriptionCountAggregateOutputType> | number
         }
       }
     }
@@ -3463,6 +3538,22 @@ export const IncomeEntryScalarFieldEnum = {
 export type IncomeEntryScalarFieldEnum = (typeof IncomeEntryScalarFieldEnum)[keyof typeof IncomeEntryScalarFieldEnum]
 
 
+export const SubscriptionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  amount: 'amount',
+  cycle: 'cycle',
+  type: 'type',
+  category: 'category',
+  nextBillingDate: 'nextBillingDate',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
+
+
 export const EtsySettingsScalarFieldEnum = {
   id: 'id',
   currency: 'currency',
@@ -3989,6 +4080,20 @@ export type ListEnumLifeEntryTypeFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'BillingCycle'
+ */
+export type EnumBillingCycleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BillingCycle'>
+    
+
+
+/**
+ * Reference to a field of type 'BillingCycle[]'
+ */
+export type ListEnumBillingCycleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BillingCycle[]'>
+    
+
+
+/**
  * Reference to a field of type 'EtsyProductStatus'
  */
 export type EnumEtsyProductStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EtsyProductStatus'>
@@ -4287,6 +4392,7 @@ export type GlobalOmitConfig = {
   signalLogEntry?: Prisma.SignalLogEntryOmit
   expense?: Prisma.ExpenseOmit
   incomeEntry?: Prisma.IncomeEntryOmit
+  subscription?: Prisma.SubscriptionOmit
   etsySettings?: Prisma.EtsySettingsOmit
   etsyProduct?: Prisma.EtsyProductOmit
   etsyPromptWorkspace?: Prisma.EtsyPromptWorkspaceOmit

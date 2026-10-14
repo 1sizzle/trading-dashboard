@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { db } from "@/lib/core/db";
-import { EditMoneyEntryForm } from "@/components/life/EditMoneyEntryForm";
+import { EditMoneyEntryForm } from "@/components/finances/EditMoneyEntryForm";
 import { updateIncome } from "../../../actions";
 
 export const dynamic = "force-dynamic";

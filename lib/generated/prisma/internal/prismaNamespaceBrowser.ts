@@ -67,6 +67,7 @@ export const ModelName = {
   SignalLogEntry: 'SignalLogEntry',
   Expense: 'Expense',
   IncomeEntry: 'IncomeEntry',
+  Subscription: 'Subscription',
   EtsySettings: 'EtsySettings',
   EtsyProduct: 'EtsyProduct',
   EtsyPromptWorkspace: 'EtsyPromptWorkspace',
@@ -337,6 +338,22 @@ export const IncomeEntryScalarFieldEnum = {
 } as const
 
 export type IncomeEntryScalarFieldEnum = (typeof IncomeEntryScalarFieldEnum)[keyof typeof IncomeEntryScalarFieldEnum]
+
+
+export const SubscriptionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  amount: 'amount',
+  cycle: 'cycle',
+  type: 'type',
+  category: 'category',
+  nextBillingDate: 'nextBillingDate',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
 
 
 export const EtsySettingsScalarFieldEnum = {

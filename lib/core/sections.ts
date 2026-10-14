@@ -5,10 +5,10 @@ export type Section = {
   icon: string;
 };
 
-// Adding a future section (Etsy, Life) is appending an entry here — the
+// Adding a future section (Etsy, Finances) is appending an entry here — the
 // dashboard shell and nav render entirely from this list.
 export const sections: Section[] = [
   { key: "trading", label: "Trading", href: "/dashboard/trading", icon: "📈" },
-  { key: "life", label: "Life", href: "/dashboard/life", icon: "💰" },
+  { key: "finances", label: "Finances", href: "/dashboard/finances", icon: "💰" },
   { key: "etsy", label: "Etsy", href: "/dashboard/etsy", icon: "🎨" },
 ];

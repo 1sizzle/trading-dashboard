@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { deleteExpense, deleteIncome } from "@/app/dashboard/life/actions";
-import { formatCurrency, formatDateOnly } from "@/lib/life/format";
+import { deleteExpense, deleteIncome } from "@/app/dashboard/finances/actions";
+import { formatCurrency, formatDateOnly } from "@/lib/finances/format";
 
 export type MoneyEntryRow = {
   id: string;
@@ -69,7 +69,7 @@ export function MoneyEntryTable({ entries }: { entries: MoneyEntryRow[] }) {
               <td className="px-4 py-2">
                 <div className="flex items-center gap-3">
                   <Link
-                    href={`/dashboard/life/${entry.kind === "expense" ? "expenses" : "income"}/${entry.id}/edit`}
+                    href={`/dashboard/finances/${entry.kind === "expense" ? "expenses" : "income"}/${entry.id}/edit`}
                     className="text-neutral-400 hover:text-neutral-50"
                   >
                     Edit
