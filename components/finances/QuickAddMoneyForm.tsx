@@ -162,6 +162,12 @@ export function QuickAddMoneyForm({
             </div>
           </div>
 
+          <div className="w-40">
+            <Field label="Date">
+              <input ref={dateInputRef} type="date" name="date" required className={inputClass} />
+            </Field>
+          </div>
+
           <div className="min-w-[180px] flex-1">
             <Field label={labelText}>
               <div className="relative">
@@ -228,12 +234,9 @@ export function QuickAddMoneyForm({
 
         <details className="text-sm text-neutral-400">
           <summary className="cursor-pointer select-none">More options</summary>
-          <div className="mt-2 grid grid-cols-2 gap-3">
+          <div className="mt-2">
             <Field label="Note" hint="Optional">
               <input type="text" name="note" className={inputClass} />
-            </Field>
-            <Field label="Date">
-              <input ref={dateInputRef} type="date" name="date" className={inputClass} />
             </Field>
           </div>
         </details>
