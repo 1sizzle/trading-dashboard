@@ -24,6 +24,12 @@ function parseCycle(formData: FormData): "MONTHLY" | "YEARLY" {
   return String(formData.get("cycle")) === "YEARLY" ? "YEARLY" : "MONTHLY";
 }
 
+// The main finances page and the full entry list both show expenses and income.
+function revalidateEntries() {
+  revalidatePath("/dashboard/finances");
+  revalidatePath("/dashboard/finances/entries");
+}
+
 export async function addExpense(formData: FormData) {
   const amount = Number(formData.get("amount"));
   const category = String(formData.get("category") ?? "").trim();
@@ -35,7 +41,7 @@ export async function addExpense(formData: FormData) {
     data: { amount, category, type: parseType(formData), note, date: parseDate(formData) },
   });
 
-  revalidatePath("/dashboard/finances");
+  revalidateEntries();
 }
 
 export async function addIncome(formData: FormData) {
@@ -49,19 +55,19 @@ export async function addIncome(formData: FormData) {
     data: { amount, source, type: parseType(formData), note, date: parseDate(formData) },
   });
 
-  revalidatePath("/dashboard/finances");
+  revalidateEntries();
 }
 
 export async function deleteExpense(formData: FormData) {
   const id = String(formData.get("id"));
   await db.expense.delete({ where: { id } });
-  revalidatePath("/dashboard/finances");
+  revalidateEntries();
 }
 
 export async function deleteIncome(formData: FormData) {
   const id = String(formData.get("id"));
   await db.incomeEntry.delete({ where: { id } });
-  revalidatePath("/dashboard/finances");
+  revalidateEntries();
 }
 
 export async function updateExpense(formData: FormData) {
@@ -75,7 +81,7 @@ export async function updateExpense(formData: FormData) {
     data: { amount, category, type: parseType(formData), note, date: parseDate(formData) },
   });
 
-  revalidatePath("/dashboard/finances");
+  revalidateEntries();
   redirect("/dashboard/finances");
 }
 
@@ -90,7 +96,7 @@ export async function updateIncome(formData: FormData) {
     data: { amount, source, type: parseType(formData), note, date: parseDate(formData) },
   });
 
-  revalidatePath("/dashboard/finances");
+  revalidateEntries();
   redirect("/dashboard/finances");
 }
 

@@ -22,10 +22,12 @@ export function QuickAddMoneyForm({
   const [type, setType] = useState<EntryType>("PERSONAL");
   const [filterText, setFilterText] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [selected, setSelected] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
   const amountInputRef = useRef<HTMLInputElement>(null);
   const labelInputRef = useRef<HTMLInputElement>(null);
   const dateInputRef = useRef<HTMLInputElement>(null);
+  const submitButtonRef = useRef<HTMLButtonElement>(null);
 
   // Set directly on the DOM node (not via setState) so today's date is
   // computed in the browser's own timezone, without a hydration mismatch
@@ -62,16 +64,16 @@ export function QuickAddMoneyForm({
   const showAddNew =
     trimmedFilter.length > 0 && !options.some((opt) => opt.toLowerCase() === trimmedFilter.toLowerCase());
 
-  // Writes straight to the DOM (not via setState) so the value is already
-  // there the instant requestSubmit reads the form — logging a common entry
-  // is then just "type amount, pick a category," no extra Add click.
+  // Only fills in the field — nothing is saved until Add is clicked. Focus
+  // moves to Amount if it's still empty, otherwise to Add so Enter saves.
   function selectOption(value: string) {
     if (labelInputRef.current) labelInputRef.current.value = value;
+    setSelected(value);
     setFilterText("");
     setDropdownOpen(false);
     const amount = Number(amountInputRef.current?.value);
     if (amount > 0) {
-      formRef.current?.requestSubmit();
+      submitButtonRef.current?.focus();
     } else {
       amountInputRef.current?.focus();
     }
@@ -81,6 +83,7 @@ export function QuickAddMoneyForm({
     await (kind === "expense" ? addExpense : addIncome)(formData);
     formRef.current?.reset();
     setFilterText("");
+    setSelected("");
     if (dateInputRef.current) {
       dateInputRef.current.value = new Date().toLocaleDateString("en-CA");
     }
@@ -178,7 +181,10 @@ export function QuickAddMoneyForm({
                   autoComplete="off"
                   required
                   defaultValue=""
-                  onChange={(e) => setFilterText(e.target.value)}
+                  onChange={(e) => {
+                    setFilterText(e.target.value);
+                    setSelected(e.target.value.trim());
+                  }}
                   onFocus={() => {
                     setFilterText("");
                     setDropdownOpen(true);
@@ -214,7 +220,7 @@ export function QuickAddMoneyForm({
             </Field>
           </div>
 
-          <button type="submit" className={primaryButtonClass}>
+          <button ref={submitButtonRef} type="submit" className={primaryButtonClass}>
             Add
           </button>
         </div>
@@ -225,7 +231,11 @@ export function QuickAddMoneyForm({
               key={opt}
               type="button"
               onClick={() => selectOption(opt)}
-              className="rounded-full border border-neutral-800 px-3 py-1 text-xs text-neutral-300 transition hover:border-violet-500 hover:text-violet-300"
+              className={`rounded-full border px-3 py-1 text-xs transition ${
+                selected.toLowerCase() === opt.toLowerCase()
+                  ? "border-violet-500 bg-violet-500/15 text-violet-200"
+                  : "border-neutral-800 text-neutral-300 hover:border-violet-500 hover:text-violet-300"
+              }`}
             >
               {opt}
             </button>

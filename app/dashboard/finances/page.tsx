@@ -195,7 +195,15 @@ export default async function FinancesPage({
       <CategoryBreakdownChart data={categoryBreakdown} />
 
       <Card>
-        <h2 className="mb-4 text-lg font-semibold">Recent entries</h2>
+        <div className="mb-4 flex items-baseline justify-between gap-2">
+          <h2 className="text-lg font-semibold">Recent entries</h2>
+          <Link
+            href={view === "all" ? "/dashboard/finances/entries" : `/dashboard/finances/entries?view=${view}`}
+            className="text-sm text-violet-300 hover:text-violet-200"
+          >
+            View all →
+          </Link>
+        </div>
         <MoneyEntryTable entries={entries} />
       </Card>
 
