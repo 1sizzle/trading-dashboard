@@ -11,4 +11,5 @@ export const sections: Section[] = [
   { key: "trading", label: "Trading", href: "/dashboard/trading", icon: "📈" },
   { key: "finances", label: "Finances", href: "/dashboard/finances", icon: "💰" },
   { key: "etsy", label: "Etsy", href: "/dashboard/etsy", icon: "🎨" },
+  { key: "timetable", label: "Timetable", href: "/dashboard/timetable", icon: "🗓️" },
 ];

@@ -207,3 +207,8 @@ export type TaxExpenseEntry = Prisma.TaxExpenseEntryModel
  * 
  */
 export type TaxReceipt = Prisma.TaxReceiptModel
+/**
+ * Model TimetableBlock
+ * 
+ */
+export type TimetableBlock = Prisma.TimetableBlockModel

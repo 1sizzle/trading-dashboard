@@ -88,7 +88,8 @@ export const ModelName = {
   TaxPayout: 'TaxPayout',
   TaxIncomeEntry: 'TaxIncomeEntry',
   TaxExpenseEntry: 'TaxExpenseEntry',
-  TaxReceipt: 'TaxReceipt'
+  TaxReceipt: 'TaxReceipt',
+  TimetableBlock: 'TimetableBlock'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -629,6 +630,22 @@ export const TaxReceiptScalarFieldEnum = {
 } as const
 
 export type TaxReceiptScalarFieldEnum = (typeof TaxReceiptScalarFieldEnum)[keyof typeof TaxReceiptScalarFieldEnum]
+
+
+export const TimetableBlockScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  days: 'days',
+  date: 'date',
+  color: 'color',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TimetableBlockScalarFieldEnum = (typeof TimetableBlockScalarFieldEnum)[keyof typeof TimetableBlockScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -434,7 +434,8 @@ export const ModelName = {
   TaxPayout: 'TaxPayout',
   TaxIncomeEntry: 'TaxIncomeEntry',
   TaxExpenseEntry: 'TaxExpenseEntry',
-  TaxReceipt: 'TaxReceipt'
+  TaxReceipt: 'TaxReceipt',
+  TimetableBlock: 'TimetableBlock'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -450,7 +451,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "trade" | "tradeScreenshot" | "tag" | "tradeTag" | "psychologyEntry" | "missedSetup" | "missedSetupScreenshot" | "playbookRule" | "setupOccurrence" | "marketBreakdownPost" | "premarketChecklist" | "riskSettings" | "tradingRulesNote" | "signalLogEntry" | "expense" | "incomeEntry" | "subscription" | "etsySettings" | "etsyProduct" | "etsyPromptWorkspace" | "etsyPrompt" | "etsyListingDraft" | "etsyArtworkAsset" | "etsyKeyword" | "etsyBundle" | "etsyBundleProduct" | "etsyAnalyticsRecord" | "etsyOpportunityScan" | "etsyConnection" | "marketBiasEntry" | "newsEvent" | "tradingAccountGroup" | "tradingAccount" | "taxSettings" | "taxPayout" | "taxIncomeEntry" | "taxExpenseEntry" | "taxReceipt"
+    modelProps: "trade" | "tradeScreenshot" | "tag" | "tradeTag" | "psychologyEntry" | "missedSetup" | "missedSetupScreenshot" | "playbookRule" | "setupOccurrence" | "marketBreakdownPost" | "premarketChecklist" | "riskSettings" | "tradingRulesNote" | "signalLogEntry" | "expense" | "incomeEntry" | "subscription" | "etsySettings" | "etsyProduct" | "etsyPromptWorkspace" | "etsyPrompt" | "etsyListingDraft" | "etsyArtworkAsset" | "etsyKeyword" | "etsyBundle" | "etsyBundleProduct" | "etsyAnalyticsRecord" | "etsyOpportunityScan" | "etsyConnection" | "marketBiasEntry" | "newsEvent" | "tradingAccountGroup" | "tradingAccount" | "taxSettings" | "taxPayout" | "taxIncomeEntry" | "taxExpenseEntry" | "taxReceipt" | "timetableBlock"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3266,6 +3267,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TimetableBlock: {
+      payload: Prisma.$TimetableBlockPayload<ExtArgs>
+      fields: Prisma.TimetableBlockFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TimetableBlockFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableBlockPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TimetableBlockFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableBlockPayload>
+        }
+        findFirst: {
+          args: Prisma.TimetableBlockFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableBlockPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TimetableBlockFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableBlockPayload>
+        }
+        findMany: {
+          args: Prisma.TimetableBlockFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableBlockPayload>[]
+        }
+        create: {
+          args: Prisma.TimetableBlockCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableBlockPayload>
+        }
+        createMany: {
+          args: Prisma.TimetableBlockCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TimetableBlockCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableBlockPayload>[]
+        }
+        delete: {
+          args: Prisma.TimetableBlockDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableBlockPayload>
+        }
+        update: {
+          args: Prisma.TimetableBlockUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableBlockPayload>
+        }
+        deleteMany: {
+          args: Prisma.TimetableBlockDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TimetableBlockUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TimetableBlockUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableBlockPayload>[]
+        }
+        upsert: {
+          args: Prisma.TimetableBlockUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableBlockPayload>
+        }
+        aggregate: {
+          args: Prisma.TimetableBlockAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTimetableBlock>
+        }
+        groupBy: {
+          args: Prisma.TimetableBlockGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TimetableBlockGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TimetableBlockCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TimetableBlockCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -3827,6 +3902,22 @@ export const TaxReceiptScalarFieldEnum = {
 } as const
 
 export type TaxReceiptScalarFieldEnum = (typeof TaxReceiptScalarFieldEnum)[keyof typeof TaxReceiptScalarFieldEnum]
+
+
+export const TimetableBlockScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  days: 'days',
+  date: 'date',
+  color: 'color',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TimetableBlockScalarFieldEnum = (typeof TimetableBlockScalarFieldEnum)[keyof typeof TimetableBlockScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -4414,6 +4505,7 @@ export type GlobalOmitConfig = {
   taxIncomeEntry?: Prisma.TaxIncomeEntryOmit
   taxExpenseEntry?: Prisma.TaxExpenseEntryOmit
   taxReceipt?: Prisma.TaxReceiptOmit
+  timetableBlock?: Prisma.TimetableBlockOmit
 }
 
 /* Types for Logging */

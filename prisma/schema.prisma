@@ -658,3 +658,27 @@ model TaxReceipt {
   @@index([date])
 }
 
+// ---------------------------------------------------------------------------
+// Timetable section models.
+// A weekly schedule plus one-off plans. A block without a `date` repeats on
+// the weekdays listed in `days` (0 = Sunday … 6 = Saturday, matching JS
+// Date#getDay). A block with a `date` happens once, on that calendar day
+// (stored as UTC midnight, like the finances dates), and `days` is empty.
+// Times are "HH:MM" wall-clock strings, read in the phone's own timezone by
+// the lock screen widget, so no timezone is stored.
+// ---------------------------------------------------------------------------
+
+model TimetableBlock {
+  id        String    @id @default(cuid())
+  title     String
+  startTime String
+  endTime   String
+  days      Int[]
+  date      DateTime? @db.Date
+  color     String    @default("violet")
+  note      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([date])
+}

@@ -4,8 +4,12 @@ import { SidebarNav } from "@/components/core/SidebarNav";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen flex-1 bg-neutral-950 text-neutral-50">
-      <aside className="flex w-60 shrink-0 flex-col border-r border-neutral-800">
+    <div className="flex min-h-screen flex-1 flex-col bg-neutral-950 text-neutral-50 md:flex-row">
+      {/* Phones get a scrollable top bar instead of the sidebar. */}
+      <div className="border-b border-neutral-800 md:hidden">
+        <SidebarNav sections={sections} orientation="horizontal" />
+      </div>
+      <aside className="hidden w-60 shrink-0 flex-col border-r border-neutral-800 md:flex">
         <div className="px-5 py-5 text-lg font-semibold">Dashboard</div>
         <SidebarNav sections={sections} />
         <form action={logout} className="p-3">
@@ -17,7 +21,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </button>
         </form>
       </aside>
-      <main className="flex-1 p-8">{children}</main>
+      <main className="min-w-0 flex-1 p-4 md:p-8">{children}</main>
     </div>
   );
 }
