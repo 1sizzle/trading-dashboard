@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { marked } from "marked";
 import { Card } from "@/components/ui/Card";
 import { deleteChecklist } from "@/app/dashboard/trading/premarket/actions";
 import { formatDateOnly } from "@/lib/trading/calc";
@@ -10,9 +11,11 @@ export function PremarketChecklistCard({ checklist }: { checklist: PremarketChec
       <div className="mb-2 flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
           <h3 className="font-medium">{formatDateOnly(checklist.date)}</h3>
-          <span className="rounded-full border border-violet-500/30 bg-violet-500/10 px-2.5 py-0.5 text-xs font-medium text-violet-300">
-            {checklist.bias}
-          </span>
+          {checklist.bias && (
+            <span className="rounded-full border border-violet-500/30 bg-violet-500/10 px-2.5 py-0.5 text-xs font-medium text-violet-300">
+              {checklist.bias}
+            </span>
+          )}
         </div>
         <div className="flex shrink-0 items-center gap-3 text-sm">
           <Link
@@ -32,6 +35,15 @@ export function PremarketChecklistCard({ checklist }: { checklist: PremarketChec
       <p className="whitespace-pre-wrap text-sm text-neutral-300">{checklist.keyLevels}</p>
       {checklist.notes && (
         <p className="mt-2 whitespace-pre-wrap text-sm text-neutral-500">{checklist.notes}</p>
+      )}
+      {checklist.mentorPlan && (
+        <div className="mt-4 border-t border-neutral-800 pt-4">
+          <p className="mb-2 text-xs uppercase tracking-wider text-violet-300">Mentor plan</p>
+          <div
+            className="prose prose-invert prose-sm max-w-none prose-p:text-neutral-300 prose-li:text-neutral-300"
+            dangerouslySetInnerHTML={{ __html: marked.parse(checklist.mentorPlan, { async: false }) as string }}
+          />
+        </div>
       )}
     </Card>
   );

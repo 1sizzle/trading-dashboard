@@ -30,6 +30,7 @@ export type PremarketChecklistMinAggregateOutputType = {
   bias: string | null
   keyLevels: string | null
   notes: string | null
+  mentorPlan: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -40,6 +41,7 @@ export type PremarketChecklistMaxAggregateOutputType = {
   bias: string | null
   keyLevels: string | null
   notes: string | null
+  mentorPlan: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -50,6 +52,7 @@ export type PremarketChecklistCountAggregateOutputType = {
   bias: number
   keyLevels: number
   notes: number
+  mentorPlan: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -62,6 +65,7 @@ export type PremarketChecklistMinAggregateInputType = {
   bias?: true
   keyLevels?: true
   notes?: true
+  mentorPlan?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -72,6 +76,7 @@ export type PremarketChecklistMaxAggregateInputType = {
   bias?: true
   keyLevels?: true
   notes?: true
+  mentorPlan?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -82,6 +87,7 @@ export type PremarketChecklistCountAggregateInputType = {
   bias?: true
   keyLevels?: true
   notes?: true
+  mentorPlan?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -165,6 +171,7 @@ export type PremarketChecklistGroupByOutputType = {
   bias: string
   keyLevels: string
   notes: string | null
+  mentorPlan: string | null
   createdAt: Date
   updatedAt: Date
   _count: PremarketChecklistCountAggregateOutputType | null
@@ -196,6 +203,7 @@ export type PremarketChecklistWhereInput = {
   bias?: Prisma.StringFilter<"PremarketChecklist"> | string
   keyLevels?: Prisma.StringFilter<"PremarketChecklist"> | string
   notes?: Prisma.StringNullableFilter<"PremarketChecklist"> | string | null
+  mentorPlan?: Prisma.StringNullableFilter<"PremarketChecklist"> | string | null
   createdAt?: Prisma.DateTimeFilter<"PremarketChecklist"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PremarketChecklist"> | Date | string
 }
@@ -206,6 +214,7 @@ export type PremarketChecklistOrderByWithRelationInput = {
   bias?: Prisma.SortOrder
   keyLevels?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  mentorPlan?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -219,6 +228,7 @@ export type PremarketChecklistWhereUniqueInput = Prisma.AtLeast<{
   bias?: Prisma.StringFilter<"PremarketChecklist"> | string
   keyLevels?: Prisma.StringFilter<"PremarketChecklist"> | string
   notes?: Prisma.StringNullableFilter<"PremarketChecklist"> | string | null
+  mentorPlan?: Prisma.StringNullableFilter<"PremarketChecklist"> | string | null
   createdAt?: Prisma.DateTimeFilter<"PremarketChecklist"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PremarketChecklist"> | Date | string
 }, "id" | "date">
@@ -229,6 +239,7 @@ export type PremarketChecklistOrderByWithAggregationInput = {
   bias?: Prisma.SortOrder
   keyLevels?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  mentorPlan?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PremarketChecklistCountOrderByAggregateInput
@@ -245,6 +256,7 @@ export type PremarketChecklistScalarWhereWithAggregatesInput = {
   bias?: Prisma.StringWithAggregatesFilter<"PremarketChecklist"> | string
   keyLevels?: Prisma.StringWithAggregatesFilter<"PremarketChecklist"> | string
   notes?: Prisma.StringNullableWithAggregatesFilter<"PremarketChecklist"> | string | null
+  mentorPlan?: Prisma.StringNullableWithAggregatesFilter<"PremarketChecklist"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"PremarketChecklist"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"PremarketChecklist"> | Date | string
 }
@@ -255,6 +267,7 @@ export type PremarketChecklistCreateInput = {
   bias: string
   keyLevels: string
   notes?: string | null
+  mentorPlan?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -265,6 +278,7 @@ export type PremarketChecklistUncheckedCreateInput = {
   bias: string
   keyLevels: string
   notes?: string | null
+  mentorPlan?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -275,6 +289,7 @@ export type PremarketChecklistUpdateInput = {
   bias?: Prisma.StringFieldUpdateOperationsInput | string
   keyLevels?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mentorPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -285,6 +300,7 @@ export type PremarketChecklistUncheckedUpdateInput = {
   bias?: Prisma.StringFieldUpdateOperationsInput | string
   keyLevels?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mentorPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -295,6 +311,7 @@ export type PremarketChecklistCreateManyInput = {
   bias: string
   keyLevels: string
   notes?: string | null
+  mentorPlan?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -305,6 +322,7 @@ export type PremarketChecklistUpdateManyMutationInput = {
   bias?: Prisma.StringFieldUpdateOperationsInput | string
   keyLevels?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mentorPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -315,6 +333,7 @@ export type PremarketChecklistUncheckedUpdateManyInput = {
   bias?: Prisma.StringFieldUpdateOperationsInput | string
   keyLevels?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mentorPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -325,6 +344,7 @@ export type PremarketChecklistCountOrderByAggregateInput = {
   bias?: Prisma.SortOrder
   keyLevels?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  mentorPlan?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -335,6 +355,7 @@ export type PremarketChecklistMaxOrderByAggregateInput = {
   bias?: Prisma.SortOrder
   keyLevels?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  mentorPlan?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -345,6 +366,7 @@ export type PremarketChecklistMinOrderByAggregateInput = {
   bias?: Prisma.SortOrder
   keyLevels?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  mentorPlan?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -357,6 +379,7 @@ export type PremarketChecklistSelect<ExtArgs extends runtime.Types.Extensions.In
   bias?: boolean
   keyLevels?: boolean
   notes?: boolean
+  mentorPlan?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["premarketChecklist"]>
@@ -367,6 +390,7 @@ export type PremarketChecklistSelectCreateManyAndReturn<ExtArgs extends runtime.
   bias?: boolean
   keyLevels?: boolean
   notes?: boolean
+  mentorPlan?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["premarketChecklist"]>
@@ -377,6 +401,7 @@ export type PremarketChecklistSelectUpdateManyAndReturn<ExtArgs extends runtime.
   bias?: boolean
   keyLevels?: boolean
   notes?: boolean
+  mentorPlan?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["premarketChecklist"]>
@@ -387,11 +412,12 @@ export type PremarketChecklistSelectScalar = {
   bias?: boolean
   keyLevels?: boolean
   notes?: boolean
+  mentorPlan?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PremarketChecklistOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "bias" | "keyLevels" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["premarketChecklist"]>
+export type PremarketChecklistOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "bias" | "keyLevels" | "notes" | "mentorPlan" | "createdAt" | "updatedAt", ExtArgs["result"]["premarketChecklist"]>
 
 export type $PremarketChecklistPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PremarketChecklist"
@@ -402,6 +428,7 @@ export type $PremarketChecklistPayload<ExtArgs extends runtime.Types.Extensions.
     bias: string
     keyLevels: string
     notes: string | null
+    mentorPlan: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["premarketChecklist"]>
@@ -832,6 +859,7 @@ export interface PremarketChecklistFieldRefs {
   readonly bias: Prisma.FieldRef<"PremarketChecklist", 'String'>
   readonly keyLevels: Prisma.FieldRef<"PremarketChecklist", 'String'>
   readonly notes: Prisma.FieldRef<"PremarketChecklist", 'String'>
+  readonly mentorPlan: Prisma.FieldRef<"PremarketChecklist", 'String'>
   readonly createdAt: Prisma.FieldRef<"PremarketChecklist", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"PremarketChecklist", 'DateTime'>
 }

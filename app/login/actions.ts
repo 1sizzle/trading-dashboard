@@ -13,7 +13,11 @@ import {
 export async function login(formData: FormData) {
   const password = String(formData.get("password") ?? "");
   const code = String(formData.get("code") ?? "").trim();
-  const redirectTo = String(formData.get("redirectTo") ?? "/dashboard");
+  const requested = String(formData.get("redirectTo") ?? "/dashboard");
+  // Only ever return to a page on this site (not "//evil.com" or an absolute URL).
+  const redirectTo = requested.startsWith("/") && !requested.startsWith("//") && !requested.startsWith("/\\")
+    ? requested
+    : "/dashboard";
 
   if (!checkPassword(password)) {
     redirect(`/login?error=password&from=${encodeURIComponent(redirectTo)}`);

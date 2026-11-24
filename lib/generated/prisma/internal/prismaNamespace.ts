@@ -408,6 +408,9 @@ export const ModelName = {
   SetupOccurrence: 'SetupOccurrence',
   MarketBreakdownPost: 'MarketBreakdownPost',
   PremarketChecklist: 'PremarketChecklist',
+  DailyReview: 'DailyReview',
+  WeeklyReview: 'WeeklyReview',
+  MentorMemory: 'MentorMemory',
   RiskSettings: 'RiskSettings',
   TradingRulesNote: 'TradingRulesNote',
   SignalLogEntry: 'SignalLogEntry',
@@ -435,6 +438,8 @@ export const ModelName = {
   TaxIncomeEntry: 'TaxIncomeEntry',
   TaxExpenseEntry: 'TaxExpenseEntry',
   TaxReceipt: 'TaxReceipt',
+  MentorNote: 'MentorNote',
+  MentorNoteScreenshot: 'MentorNoteScreenshot',
   TimetableBlock: 'TimetableBlock'
 } as const
 
@@ -451,7 +456,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "trade" | "tradeScreenshot" | "tag" | "tradeTag" | "psychologyEntry" | "missedSetup" | "missedSetupScreenshot" | "playbookRule" | "setupOccurrence" | "marketBreakdownPost" | "premarketChecklist" | "riskSettings" | "tradingRulesNote" | "signalLogEntry" | "expense" | "incomeEntry" | "subscription" | "etsySettings" | "etsyProduct" | "etsyPromptWorkspace" | "etsyPrompt" | "etsyListingDraft" | "etsyArtworkAsset" | "etsyKeyword" | "etsyBundle" | "etsyBundleProduct" | "etsyAnalyticsRecord" | "etsyOpportunityScan" | "etsyConnection" | "marketBiasEntry" | "newsEvent" | "tradingAccountGroup" | "tradingAccount" | "taxSettings" | "taxPayout" | "taxIncomeEntry" | "taxExpenseEntry" | "taxReceipt" | "timetableBlock"
+    modelProps: "trade" | "tradeScreenshot" | "tag" | "tradeTag" | "psychologyEntry" | "missedSetup" | "missedSetupScreenshot" | "playbookRule" | "setupOccurrence" | "marketBreakdownPost" | "premarketChecklist" | "dailyReview" | "weeklyReview" | "mentorMemory" | "riskSettings" | "tradingRulesNote" | "signalLogEntry" | "expense" | "incomeEntry" | "subscription" | "etsySettings" | "etsyProduct" | "etsyPromptWorkspace" | "etsyPrompt" | "etsyListingDraft" | "etsyArtworkAsset" | "etsyKeyword" | "etsyBundle" | "etsyBundleProduct" | "etsyAnalyticsRecord" | "etsyOpportunityScan" | "etsyConnection" | "marketBiasEntry" | "newsEvent" | "tradingAccountGroup" | "tradingAccount" | "taxSettings" | "taxPayout" | "taxIncomeEntry" | "taxExpenseEntry" | "taxReceipt" | "mentorNote" | "mentorNoteScreenshot" | "timetableBlock"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1266,6 +1271,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.PremarketChecklistCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.PremarketChecklistCountAggregateOutputType> | number
+        }
+      }
+    }
+    DailyReview: {
+      payload: Prisma.$DailyReviewPayload<ExtArgs>
+      fields: Prisma.DailyReviewFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DailyReviewFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReviewPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DailyReviewFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReviewPayload>
+        }
+        findFirst: {
+          args: Prisma.DailyReviewFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReviewPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DailyReviewFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReviewPayload>
+        }
+        findMany: {
+          args: Prisma.DailyReviewFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReviewPayload>[]
+        }
+        create: {
+          args: Prisma.DailyReviewCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReviewPayload>
+        }
+        createMany: {
+          args: Prisma.DailyReviewCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DailyReviewCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReviewPayload>[]
+        }
+        delete: {
+          args: Prisma.DailyReviewDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReviewPayload>
+        }
+        update: {
+          args: Prisma.DailyReviewUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReviewPayload>
+        }
+        deleteMany: {
+          args: Prisma.DailyReviewDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DailyReviewUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DailyReviewUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReviewPayload>[]
+        }
+        upsert: {
+          args: Prisma.DailyReviewUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyReviewPayload>
+        }
+        aggregate: {
+          args: Prisma.DailyReviewAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDailyReview>
+        }
+        groupBy: {
+          args: Prisma.DailyReviewGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyReviewGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DailyReviewCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyReviewCountAggregateOutputType> | number
+        }
+      }
+    }
+    WeeklyReview: {
+      payload: Prisma.$WeeklyReviewPayload<ExtArgs>
+      fields: Prisma.WeeklyReviewFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WeeklyReviewFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyReviewPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WeeklyReviewFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyReviewPayload>
+        }
+        findFirst: {
+          args: Prisma.WeeklyReviewFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyReviewPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WeeklyReviewFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyReviewPayload>
+        }
+        findMany: {
+          args: Prisma.WeeklyReviewFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyReviewPayload>[]
+        }
+        create: {
+          args: Prisma.WeeklyReviewCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyReviewPayload>
+        }
+        createMany: {
+          args: Prisma.WeeklyReviewCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.WeeklyReviewCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyReviewPayload>[]
+        }
+        delete: {
+          args: Prisma.WeeklyReviewDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyReviewPayload>
+        }
+        update: {
+          args: Prisma.WeeklyReviewUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyReviewPayload>
+        }
+        deleteMany: {
+          args: Prisma.WeeklyReviewDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WeeklyReviewUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.WeeklyReviewUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyReviewPayload>[]
+        }
+        upsert: {
+          args: Prisma.WeeklyReviewUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyReviewPayload>
+        }
+        aggregate: {
+          args: Prisma.WeeklyReviewAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWeeklyReview>
+        }
+        groupBy: {
+          args: Prisma.WeeklyReviewGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WeeklyReviewGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WeeklyReviewCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WeeklyReviewCountAggregateOutputType> | number
+        }
+      }
+    }
+    MentorMemory: {
+      payload: Prisma.$MentorMemoryPayload<ExtArgs>
+      fields: Prisma.MentorMemoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MentorMemoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorMemoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MentorMemoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorMemoryPayload>
+        }
+        findFirst: {
+          args: Prisma.MentorMemoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorMemoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MentorMemoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorMemoryPayload>
+        }
+        findMany: {
+          args: Prisma.MentorMemoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorMemoryPayload>[]
+        }
+        create: {
+          args: Prisma.MentorMemoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorMemoryPayload>
+        }
+        createMany: {
+          args: Prisma.MentorMemoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MentorMemoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorMemoryPayload>[]
+        }
+        delete: {
+          args: Prisma.MentorMemoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorMemoryPayload>
+        }
+        update: {
+          args: Prisma.MentorMemoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorMemoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.MentorMemoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MentorMemoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MentorMemoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorMemoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.MentorMemoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorMemoryPayload>
+        }
+        aggregate: {
+          args: Prisma.MentorMemoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMentorMemory>
+        }
+        groupBy: {
+          args: Prisma.MentorMemoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MentorMemoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MentorMemoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MentorMemoryCountAggregateOutputType> | number
         }
       }
     }
@@ -3267,6 +3494,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    MentorNote: {
+      payload: Prisma.$MentorNotePayload<ExtArgs>
+      fields: Prisma.MentorNoteFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MentorNoteFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNotePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MentorNoteFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNotePayload>
+        }
+        findFirst: {
+          args: Prisma.MentorNoteFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNotePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MentorNoteFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNotePayload>
+        }
+        findMany: {
+          args: Prisma.MentorNoteFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNotePayload>[]
+        }
+        create: {
+          args: Prisma.MentorNoteCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNotePayload>
+        }
+        createMany: {
+          args: Prisma.MentorNoteCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MentorNoteCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNotePayload>[]
+        }
+        delete: {
+          args: Prisma.MentorNoteDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNotePayload>
+        }
+        update: {
+          args: Prisma.MentorNoteUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNotePayload>
+        }
+        deleteMany: {
+          args: Prisma.MentorNoteDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MentorNoteUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MentorNoteUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNotePayload>[]
+        }
+        upsert: {
+          args: Prisma.MentorNoteUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNotePayload>
+        }
+        aggregate: {
+          args: Prisma.MentorNoteAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMentorNote>
+        }
+        groupBy: {
+          args: Prisma.MentorNoteGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MentorNoteGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MentorNoteCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MentorNoteCountAggregateOutputType> | number
+        }
+      }
+    }
+    MentorNoteScreenshot: {
+      payload: Prisma.$MentorNoteScreenshotPayload<ExtArgs>
+      fields: Prisma.MentorNoteScreenshotFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MentorNoteScreenshotFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNoteScreenshotPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MentorNoteScreenshotFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNoteScreenshotPayload>
+        }
+        findFirst: {
+          args: Prisma.MentorNoteScreenshotFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNoteScreenshotPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MentorNoteScreenshotFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNoteScreenshotPayload>
+        }
+        findMany: {
+          args: Prisma.MentorNoteScreenshotFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNoteScreenshotPayload>[]
+        }
+        create: {
+          args: Prisma.MentorNoteScreenshotCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNoteScreenshotPayload>
+        }
+        createMany: {
+          args: Prisma.MentorNoteScreenshotCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MentorNoteScreenshotCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNoteScreenshotPayload>[]
+        }
+        delete: {
+          args: Prisma.MentorNoteScreenshotDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNoteScreenshotPayload>
+        }
+        update: {
+          args: Prisma.MentorNoteScreenshotUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNoteScreenshotPayload>
+        }
+        deleteMany: {
+          args: Prisma.MentorNoteScreenshotDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MentorNoteScreenshotUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MentorNoteScreenshotUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNoteScreenshotPayload>[]
+        }
+        upsert: {
+          args: Prisma.MentorNoteScreenshotUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MentorNoteScreenshotPayload>
+        }
+        aggregate: {
+          args: Prisma.MentorNoteScreenshotAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMentorNoteScreenshot>
+        }
+        groupBy: {
+          args: Prisma.MentorNoteScreenshotGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MentorNoteScreenshotGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MentorNoteScreenshotCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MentorNoteScreenshotCountAggregateOutputType> | number
+        }
+      }
+    }
     TimetableBlock: {
       payload: Prisma.$TimetableBlockPayload<ExtArgs>
       fields: Prisma.TimetableBlockFieldRefs
@@ -3547,11 +3922,47 @@ export const PremarketChecklistScalarFieldEnum = {
   bias: 'bias',
   keyLevels: 'keyLevels',
   notes: 'notes',
+  mentorPlan: 'mentorPlan',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type PremarketChecklistScalarFieldEnum = (typeof PremarketChecklistScalarFieldEnum)[keyof typeof PremarketChecklistScalarFieldEnum]
+
+
+export const DailyReviewScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  reflection: 'reflection',
+  aiCommentary: 'aiCommentary',
+  mentorReview: 'mentorReview',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DailyReviewScalarFieldEnum = (typeof DailyReviewScalarFieldEnum)[keyof typeof DailyReviewScalarFieldEnum]
+
+
+export const WeeklyReviewScalarFieldEnum = {
+  id: 'id',
+  weekStart: 'weekStart',
+  reflection: 'reflection',
+  aiCommentary: 'aiCommentary',
+  mentorReview: 'mentorReview',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WeeklyReviewScalarFieldEnum = (typeof WeeklyReviewScalarFieldEnum)[keyof typeof WeeklyReviewScalarFieldEnum]
+
+
+export const MentorMemoryScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MentorMemoryScalarFieldEnum = (typeof MentorMemoryScalarFieldEnum)[keyof typeof MentorMemoryScalarFieldEnum]
 
 
 export const RiskSettingsScalarFieldEnum = {
@@ -3902,6 +4313,27 @@ export const TaxReceiptScalarFieldEnum = {
 } as const
 
 export type TaxReceiptScalarFieldEnum = (typeof TaxReceiptScalarFieldEnum)[keyof typeof TaxReceiptScalarFieldEnum]
+
+
+export const MentorNoteScalarFieldEnum = {
+  id: 'id',
+  note: 'note',
+  postedAt: 'postedAt',
+  analysis: 'analysis',
+  createdAt: 'createdAt'
+} as const
+
+export type MentorNoteScalarFieldEnum = (typeof MentorNoteScalarFieldEnum)[keyof typeof MentorNoteScalarFieldEnum]
+
+
+export const MentorNoteScreenshotScalarFieldEnum = {
+  id: 'id',
+  mentorNoteId: 'mentorNoteId',
+  url: 'url',
+  createdAt: 'createdAt'
+} as const
+
+export type MentorNoteScreenshotScalarFieldEnum = (typeof MentorNoteScreenshotScalarFieldEnum)[keyof typeof MentorNoteScreenshotScalarFieldEnum]
 
 
 export const TimetableBlockScalarFieldEnum = {
@@ -4478,6 +4910,9 @@ export type GlobalOmitConfig = {
   setupOccurrence?: Prisma.SetupOccurrenceOmit
   marketBreakdownPost?: Prisma.MarketBreakdownPostOmit
   premarketChecklist?: Prisma.PremarketChecklistOmit
+  dailyReview?: Prisma.DailyReviewOmit
+  weeklyReview?: Prisma.WeeklyReviewOmit
+  mentorMemory?: Prisma.MentorMemoryOmit
   riskSettings?: Prisma.RiskSettingsOmit
   tradingRulesNote?: Prisma.TradingRulesNoteOmit
   signalLogEntry?: Prisma.SignalLogEntryOmit
@@ -4505,6 +4940,8 @@ export type GlobalOmitConfig = {
   taxIncomeEntry?: Prisma.TaxIncomeEntryOmit
   taxExpenseEntry?: Prisma.TaxExpenseEntryOmit
   taxReceipt?: Prisma.TaxReceiptOmit
+  mentorNote?: Prisma.MentorNoteOmit
+  mentorNoteScreenshot?: Prisma.MentorNoteScreenshotOmit
   timetableBlock?: Prisma.TimetableBlockOmit
 }
 

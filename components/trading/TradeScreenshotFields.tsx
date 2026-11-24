@@ -6,7 +6,15 @@ import { Field } from "@/components/ui/Field";
 // Takes just the screenshot rows (not the whole Trade) — a Server Component can't
 // pass a Trade prop into a Client Component as-is, since its Decimal fields
 // (pnl, rMultiple, ...) aren't plain-object-serializable across that boundary.
-export function TradeScreenshotFields({ screenshots }: { screenshots?: { id: string }[] }) {
+// `imageBaseUrl` lets this be reused for other screenshot kinds (e.g. mentor
+// notes) that proxy through a different authenticated route.
+export function TradeScreenshotFields({
+  screenshots,
+  imageBaseUrl = "/api/screenshots",
+}: {
+  screenshots?: { id: string }[];
+  imageBaseUrl?: string;
+}) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
 
@@ -110,7 +118,7 @@ export function TradeScreenshotFields({ screenshots }: { screenshots?: { id: str
             <div key={screenshot.id} className="space-y-1">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={`/api/screenshots/${screenshot.id}`}
+                src={`${imageBaseUrl}/${screenshot.id}`}
                 alt=""
                 className="aspect-video w-full rounded-lg border border-neutral-800 object-cover"
               />

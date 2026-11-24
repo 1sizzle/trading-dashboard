@@ -62,6 +62,9 @@ export const ModelName = {
   SetupOccurrence: 'SetupOccurrence',
   MarketBreakdownPost: 'MarketBreakdownPost',
   PremarketChecklist: 'PremarketChecklist',
+  DailyReview: 'DailyReview',
+  WeeklyReview: 'WeeklyReview',
+  MentorMemory: 'MentorMemory',
   RiskSettings: 'RiskSettings',
   TradingRulesNote: 'TradingRulesNote',
   SignalLogEntry: 'SignalLogEntry',
@@ -89,6 +92,8 @@ export const ModelName = {
   TaxIncomeEntry: 'TaxIncomeEntry',
   TaxExpenseEntry: 'TaxExpenseEntry',
   TaxReceipt: 'TaxReceipt',
+  MentorNote: 'MentorNote',
+  MentorNoteScreenshot: 'MentorNoteScreenshot',
   TimetableBlock: 'TimetableBlock'
 } as const
 
@@ -275,11 +280,47 @@ export const PremarketChecklistScalarFieldEnum = {
   bias: 'bias',
   keyLevels: 'keyLevels',
   notes: 'notes',
+  mentorPlan: 'mentorPlan',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type PremarketChecklistScalarFieldEnum = (typeof PremarketChecklistScalarFieldEnum)[keyof typeof PremarketChecklistScalarFieldEnum]
+
+
+export const DailyReviewScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  reflection: 'reflection',
+  aiCommentary: 'aiCommentary',
+  mentorReview: 'mentorReview',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DailyReviewScalarFieldEnum = (typeof DailyReviewScalarFieldEnum)[keyof typeof DailyReviewScalarFieldEnum]
+
+
+export const WeeklyReviewScalarFieldEnum = {
+  id: 'id',
+  weekStart: 'weekStart',
+  reflection: 'reflection',
+  aiCommentary: 'aiCommentary',
+  mentorReview: 'mentorReview',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WeeklyReviewScalarFieldEnum = (typeof WeeklyReviewScalarFieldEnum)[keyof typeof WeeklyReviewScalarFieldEnum]
+
+
+export const MentorMemoryScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MentorMemoryScalarFieldEnum = (typeof MentorMemoryScalarFieldEnum)[keyof typeof MentorMemoryScalarFieldEnum]
 
 
 export const RiskSettingsScalarFieldEnum = {
@@ -630,6 +671,27 @@ export const TaxReceiptScalarFieldEnum = {
 } as const
 
 export type TaxReceiptScalarFieldEnum = (typeof TaxReceiptScalarFieldEnum)[keyof typeof TaxReceiptScalarFieldEnum]
+
+
+export const MentorNoteScalarFieldEnum = {
+  id: 'id',
+  note: 'note',
+  postedAt: 'postedAt',
+  analysis: 'analysis',
+  createdAt: 'createdAt'
+} as const
+
+export type MentorNoteScalarFieldEnum = (typeof MentorNoteScalarFieldEnum)[keyof typeof MentorNoteScalarFieldEnum]
+
+
+export const MentorNoteScreenshotScalarFieldEnum = {
+  id: 'id',
+  mentorNoteId: 'mentorNoteId',
+  url: 'url',
+  createdAt: 'createdAt'
+} as const
+
+export type MentorNoteScreenshotScalarFieldEnum = (typeof MentorNoteScreenshotScalarFieldEnum)[keyof typeof MentorNoteScreenshotScalarFieldEnum]
 
 
 export const TimetableBlockScalarFieldEnum = {

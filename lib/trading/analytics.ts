@@ -52,6 +52,20 @@ export function groupPnlByTag(
   return toBucketList(map).sort((a, b) => b.pnl - a.pnl);
 }
 
+// Entry model (e.g. FVG, Golden Pocket) is the closest field to "strategy"
+// on a Trade — skips trades where it's unset rather than bucketing them
+// under a misleading label.
+export function groupPnlByEntryModel(
+  trades: { pnl: number; entryModel: string | null }[],
+): PnlBucket[] {
+  const map = new Map<string, { pnl: number; count: number }>();
+  for (const trade of trades) {
+    if (!trade.entryModel) continue;
+    addToBucket(map, trade.entryModel, trade.pnl);
+  }
+  return toBucketList(map).sort((a, b) => b.pnl - a.pnl);
+}
+
 const SESSION_ORDER = ["NEW_YORK_AM", "NEW_YORK_PM", "LONDON", "ASIA", "OTHER"];
 const SESSION_LABELS: Record<string, string> = {
   NEW_YORK_AM: "New York AM",

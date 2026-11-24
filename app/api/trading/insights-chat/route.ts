@@ -44,6 +44,10 @@ export async function POST(request: NextRequest) {
       session: t.session,
       tags: t.tags,
       notes: t.notes,
+      entryModel: t.entryModel,
+      preTradeThesis: t.preTradeThesis,
+      management: t.management,
+      review: t.review,
       psychology: t.psychology,
     })),
   );

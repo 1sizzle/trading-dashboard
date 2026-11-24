@@ -19,13 +19,15 @@ const TABS: Tab[] = [
     match: (p) => p.startsWith(`${BASE}/journal`) && !p.startsWith(`${BASE}/journal/new`),
   },
   { label: "Add Trade", href: `${BASE}/journal/new`, match: (p) => p.startsWith(`${BASE}/journal/new`) },
+  { label: "Review", href: `${BASE}/session-review` },
   { label: "Analytics", href: `${BASE}/analytics` },
   { label: "PnL Calendar", href: `${BASE}/pnl-calendar` },
   { label: "Market Bias", href: `${BASE}/market-bias` },
   { label: "News", href: `${BASE}/news` },
   { label: "Accounts", href: `${BASE}/accounts` },
   { label: "Budgeting & Tax", href: `${BASE}/budgeting-tax` },
-  { label: "EV Calculator", href: `${BASE}/ev-calculator`, divider: true },
+  { label: "EV Calculator", href: `${BASE}/ev-calculator` },
+  { label: "Mentor Calls", href: `${BASE}/mentor-notes`, divider: true },
 ];
 
 export function TradingNav() {

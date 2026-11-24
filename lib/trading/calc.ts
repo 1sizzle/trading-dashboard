@@ -166,6 +166,22 @@ export function shiftDateValue(dateValue: string, days: number): string {
   return shifted.toISOString().slice(0, 10);
 }
 
+// Monday-Sunday NY calendar week — not the futures exchange week — so a
+// Saturday/Sunday review covers the week that just finished.
+export function getNewYorkWeekStartDateValue(dateValue: string): string {
+  const [year, month, day] = dateValue.split("-").map(Number);
+  const weekday = new Date(Date.UTC(year, month - 1, day)).getUTCDay(); // 0=Sun..6=Sat
+  const diffToMonday = weekday === 0 ? -6 : 1 - weekday;
+  return shiftDateValue(dateValue, diffToMonday);
+}
+
+export function getNewYorkWeekRangeUtc(dateValue: string): { start: Date; end: Date } {
+  const weekStart = getNewYorkWeekStartDateValue(dateValue);
+  const { start } = getNewYorkDayRangeUtc(weekStart);
+  const { start: end } = getNewYorkDayRangeUtc(shiftDateValue(weekStart, 7));
+  return { start, end };
+}
+
 export function formatDateOnly(date: Date): string {
   return new Intl.DateTimeFormat("en-US", { timeZone: "UTC", dateStyle: "medium" }).format(date);
 }

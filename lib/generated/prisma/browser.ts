@@ -73,6 +73,21 @@ export type MarketBreakdownPost = Prisma.MarketBreakdownPostModel
  */
 export type PremarketChecklist = Prisma.PremarketChecklistModel
 /**
+ * Model DailyReview
+ * 
+ */
+export type DailyReview = Prisma.DailyReviewModel
+/**
+ * Model WeeklyReview
+ * 
+ */
+export type WeeklyReview = Prisma.WeeklyReviewModel
+/**
+ * Model MentorMemory
+ * 
+ */
+export type MentorMemory = Prisma.MentorMemoryModel
+/**
  * Model RiskSettings
  * 
  */
@@ -207,6 +222,16 @@ export type TaxExpenseEntry = Prisma.TaxExpenseEntryModel
  * 
  */
 export type TaxReceipt = Prisma.TaxReceiptModel
+/**
+ * Model MentorNote
+ * 
+ */
+export type MentorNote = Prisma.MentorNoteModel
+/**
+ * Model MentorNoteScreenshot
+ * 
+ */
+export type MentorNoteScreenshot = Prisma.MentorNoteScreenshotModel
 /**
  * Model TimetableBlock
  * 

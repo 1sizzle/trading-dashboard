@@ -1,5 +1,6 @@
 import {
   groupPnlByDayOfWeek,
+  groupPnlByEntryModel,
   groupPnlBySession,
   groupPnlByTag,
   groupPnlByTimeWindow,
@@ -26,11 +27,12 @@ Rules:
    session, or day), say that plainly instead of guessing or extrapolating.
 4. Prefer correlational language ("trades tagged X tended to lose") over causal
    claims ("X causes losses").
-5. Stay scoped to analyzing this trader's performance data — tags, sessions, time
-   of day, day of week, P&L, R-multiple, notes, and pre/post-trade psychology.
-   Politely decline unrelated requests (general trading advice not grounded in this
-   data, unrelated chit-chat, coding help, etc.) and redirect back to what the data
-   shows.
+5. Stay scoped to analyzing this trader's performance data — entry model/strategy,
+   tags, sessions, time of day, day of week, P&L, R-multiple, notes, pre-trade
+   thesis, trade management notes, post-trade review notes, and pre/post-trade
+   psychology. Politely decline unrelated requests (general trading advice not
+   grounded in this data, unrelated chit-chat, coding help, etc.) and redirect
+   back to what the data shows.
 6. Be concise and direct — this is a working analysis tool, not a conversation
    partner. Use short paragraphs or bullet points, and markdown where it aids
    scanning.
@@ -62,6 +64,10 @@ export interface ChatTrade {
   session: string;
   tags: { tag: { name: string } }[];
   notes: string | null;
+  entryModel: string | null;
+  preTradeThesis: string | null;
+  management: string | null;
+  review: string | null;
   psychology: { preEmotion: string | null; postEmotion: string | null; notes: string | null } | null;
 }
 
@@ -72,6 +78,7 @@ export function buildTradeContext(trades: ChatTrade[]): string {
     session: t.session,
     entryTime: t.entryTime,
     tags: t.tags,
+    entryModel: t.entryModel,
   }));
 
   const summary = summarizeTrades(normalized);
@@ -79,6 +86,7 @@ export function buildTradeContext(trades: ChatTrade[]): string {
   const byTime = rankBuckets(groupPnlByTimeWindow(normalized));
   const byTag = rankBuckets(groupPnlByTag(normalized));
   const bySession = rankBuckets(groupPnlBySession(normalized));
+  const byEntryModel = rankBuckets(groupPnlByEntryModel(normalized));
 
   let scoped = trades;
   let cappedNote = "";
@@ -96,7 +104,11 @@ export function buildTradeContext(trades: ChatTrade[]): string {
     pnl: t.pnl,
     rMultiple: t.rMultiple,
     tags: t.tags.map((tt) => tt.tag.name),
+    entryModel: t.entryModel,
     notes: truncate(t.notes),
+    preTradeThesis: truncate(t.preTradeThesis),
+    management: truncate(t.management),
+    review: truncate(t.review),
     preEmotion: t.psychology?.preEmotion ?? null,
     postEmotion: t.psychology?.postEmotion ?? null,
     psychologyNotes: truncate(t.psychology?.notes),
@@ -117,6 +129,9 @@ ${formatBuckets(byTime)}
 
 P&L by tag / setup (worst to best avg):
 ${formatBuckets(byTag)}
+
+P&L by entry model / strategy (worst to best avg):
+${formatBuckets(byEntryModel)}
 
 P&L by session (worst to best avg):
 ${formatBuckets(bySession)}
