@@ -4,7 +4,7 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { db } from "@/lib/core/db";
 import { getNewYorkDayRangeUtc, shiftDateValue, wallTimeComponentsToUtc } from "@/lib/trading/calc";
-import { ANGUS_RULES, COACHING } from "@/lib/mentor/brief";
+import { ANGUS_RECAPS, ANGUS_RULES, COACHING } from "@/lib/mentor/brief";
 import { getBars, getLevels, MarketDataError, nyParts, tradeDate } from "@/lib/mentor/market-data";
 
 const DATE = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "YYYY-MM-DD");
@@ -81,6 +81,7 @@ export function registerMentorTools(server: McpServer) {
       const now = new Date();
       const sections = [
         COACHING,
+        ANGUS_RECAPS,
         ANGUS_RULES,
         `# The trader's playbook\n${playbook
           .map((r) => `## ${r.title} (${r.setupGrade})\n${plain(r.content)}`)
