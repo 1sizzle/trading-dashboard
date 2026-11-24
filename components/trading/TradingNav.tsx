@@ -19,6 +19,7 @@ const TABS: Tab[] = [
     match: (p) => p.startsWith(`${BASE}/journal`) && !p.startsWith(`${BASE}/journal/new`),
   },
   { label: "Add Trade", href: `${BASE}/journal/new`, match: (p) => p.startsWith(`${BASE}/journal/new`) },
+  { label: "Premarket", href: `${BASE}/premarket` },
   { label: "Review", href: `${BASE}/session-review` },
   { label: "Analytics", href: `${BASE}/analytics` },
   { label: "PnL Calendar", href: `${BASE}/pnl-calendar` },
