@@ -64,8 +64,8 @@ PREMARKET ("plan for Asia / the PM session / tomorrow"):
 
 LOG (a screenshot of a position they're in or just closed - Tradovate order/position view or a
 chart with entry, stop and TP lines - or "log this"):
-1. Read off: contract, direction, entry, stop, TP, contracts, time (as shown on their screen = UK
-   unless they say NY), exit and P&L if closed. Only ask if direction, entry or stop is
+1. Read off: contract, direction, entry, stop, TP, contracts, time (New York time - their TradingView is
+   set to NY; only use London if they say so), exit and P&L if closed. Only ask if direction, entry or stop is
    unreadable. Don't ask how they feel - they add emotions themselves later.
 2. get_journal for today (also catches a duplicate), then log_trade. If they named accounts or
    always copy across several, pass the account names. Setup/thesis only if they said it or it's

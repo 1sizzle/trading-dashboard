@@ -403,7 +403,7 @@ export function registerMentorTools(server: McpServer, origin: string) {
         "Add a trade to the trader's journal from what they send you (usually a position/chart screenshot " +
         "showing entry, stop and take-profit). Fills the numbers, the plan line, setup and thesis; leaves " +
         "emotions for the trader to add. Exit/outcome are optional - log at entry and use update_trade " +
-        "when it closes. Times are as shown on their screen (UK by default). One trade per account " +
+        "when it closes. Times are New York time by default (their TradingView is set to NY). One trade per account " +
         "listed. Returns the trade id and an edit link (they attach the screenshot and feelings there). " +
         "Refuses a likely duplicate unless force is true.",
       inputSchema: {
@@ -411,7 +411,7 @@ export function registerMentorTools(server: McpServer, origin: string) {
         direction: z.enum(["LONG", "SHORT"]),
         date: DATE.describe("Calendar date of the entry, in the zone below"),
         time: TIME.describe("Entry time HH:MM, in the zone below"),
-        timezone: z.enum(["London", "New_York"]).default("London"),
+        timezone: z.enum(["London", "New_York"]).default("New_York"),
         entry: PRICE,
         stop: PRICE,
         target: PRICE.optional().describe("Take-profit (first target if several)"),
@@ -536,7 +536,7 @@ export function registerMentorTools(server: McpServer, origin: string) {
         exit: PRICE.optional(),
         exitDate: DATE.optional().describe("Defaults to the entry date in the zone below"),
         exitTime: TIME.optional(),
-        timezone: z.enum(["London", "New_York"]).default("London"),
+        timezone: z.enum(["London", "New_York"]).default("New_York"),
         stop: PRICE.optional(),
         entry: PRICE.optional(),
         target: PRICE.optional(),
