@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     { name: "trading-dashboard-mentor", title: "Trading mentor", version: "1.0.0" },
     { instructions: SERVER_INSTRUCTIONS },
   );
-  registerMentorTools(server);
+  registerMentorTools(server, origin);
   const transport = new WebStandardStreamableHTTPServerTransport({
     sessionIdGenerator: undefined,
     enableJsonResponse: true,

@@ -3,9 +3,11 @@ import sharp from "sharp";
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { db } from "@/lib/core/db";
-import { getNewYorkDayRangeUtc, shiftDateValue, wallTimeComponentsToUtc } from "@/lib/trading/calc";
+import { calculateDurationMinutes, detectSession, getNewYorkDayRangeUtc, shiftDateValue, wallTimeComponentsToUtc } from "@/lib/trading/calc";
+import { revalidatePath } from "next/cache";
 import { ANGUS_RECAPS, ANGUS_RULES, COACHING } from "@/lib/mentor/brief";
 import { getBars, getLevels, MarketDataError, nyParts, tradeDate } from "@/lib/mentor/market-data";
+import { isFutures, outcomeFromR, planLine, tradeMaths } from "@/lib/mentor/log-trade";
 
 const DATE = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "YYYY-MM-DD");
 const TIME = z.string().regex(/^\d{2}:\d{2}$/, "HH:MM (New York)");
@@ -60,7 +62,7 @@ async function loadImage(url: string): Promise<Content | null> {
   return { type: "image", data: jpeg.toString("base64"), mimeType: "image/jpeg" };
 }
 
-export function registerMentorTools(server: McpServer) {
+export function registerMentorTools(server: McpServer, origin: string) {
   server.registerTool(
     "mentor_brief",
     {
@@ -375,6 +377,238 @@ export function registerMentorTools(server: McpServer) {
         await db.mentorMemory.create({ data: { content } });
       }
       return text("Pattern notes saved.");
+    },
+  );
+
+  const editLink = (id: string) => `${origin}/dashboard/trading/journal/${id}/edit`;
+  const toUtc = (date: string, time: string, zone: "London" | "New_York") => {
+    const [y, m, d] = date.split("-").map(Number);
+    const [h, mi] = time.split(":").map(Number);
+    return wallTimeComponentsToUtc(y, m, d, h, mi, 0, zone === "London" ? "Europe/London" : "America/New_York");
+  };
+  const PRICE = z.number().positive();
+  const refreshJournal = () => {
+    try {
+      revalidatePath("/dashboard/trading/journal");
+    } catch {
+      // Outside a Next request (scripts/tests) there is no cache to refresh.
+    }
+  };
+
+  server.registerTool(
+    "log_trade",
+    {
+      title: "Log a trade to the journal",
+      description:
+        "Add a trade to the trader's journal from what they send you (usually a position/chart screenshot " +
+        "showing entry, stop and take-profit). Fills the numbers, the plan line, setup and thesis; leaves " +
+        "emotions for the trader to add. Exit/outcome are optional - log at entry and use update_trade " +
+        "when it closes. Times are as shown on their screen (UK by default). One trade per account " +
+        "listed. Returns the trade id and an edit link (they attach the screenshot and feelings there). " +
+        "Refuses a likely duplicate unless force is true.",
+      inputSchema: {
+        symbol: z.string().default("MNQ").describe("Contract, e.g. MNQ, NQ, MES"),
+        direction: z.enum(["LONG", "SHORT"]),
+        date: DATE.describe("Calendar date of the entry, in the zone below"),
+        time: TIME.describe("Entry time HH:MM, in the zone below"),
+        timezone: z.enum(["London", "New_York"]).default("London"),
+        entry: PRICE,
+        stop: PRICE,
+        target: PRICE.optional().describe("Take-profit (first target if several)"),
+        contracts: z.number().int().positive().optional(),
+        exit: PRICE.optional().describe("Exit price, if already closed"),
+        exitTime: TIME.optional().describe("Exit time HH:MM, same date and zone"),
+        outcome: z.enum(["WIN", "LOSS", "BREAKEVEN"]).optional().describe("Defaults from exit vs entry"),
+        pnl: z.number().optional().describe("Dollar P&L if shown (signed); otherwise worked out from contracts"),
+        setup: z.string().max(200).optional().describe("Entry model, e.g. Golden Pocket, IB rejection"),
+        thesis: z.string().max(5000).optional().describe("Why they took it, as they told you"),
+        management: z.string().max(5000).optional().describe("Anything about management beyond the plan line"),
+        accounts: z.array(z.string()).optional().describe("Account names to log it on (case-insensitive)"),
+        tags: z.array(z.string()).optional(),
+        force: z.boolean().default(false),
+      },
+      annotations: { destructiveHint: false, idempotentHint: false },
+    },
+    async (a) => {
+      const symbol = a.symbol.trim().toUpperCase();
+      if ((a.direction === "LONG") !== (a.stop < a.entry)) {
+        return failure(
+          `A ${a.direction.toLowerCase()} needs the stop ${a.direction === "LONG" ? "below" : "above"} entry - check direction, entry and stop.`,
+        );
+      }
+      const entryTime = toUtc(a.date, a.time, a.timezone);
+      let exitTime = a.exitTime ? toUtc(a.date, a.exitTime, a.timezone) : null;
+      if (exitTime && exitTime < entryTime) exitTime = new Date(exitTime.getTime() + 86_400_000); // closed after midnight
+
+      const wanted = (a.accounts ?? []).map((n) => n.trim().toLowerCase()).filter(Boolean);
+      let accounts: { id: string; name: string }[] = [];
+      if (wanted.length) {
+        const all = await db.tradingAccount.findMany({ select: { id: true, name: true } });
+        const missing = wanted.filter((n) => !all.some((acc) => acc.name.toLowerCase() === n));
+        if (missing.length) {
+          return failure(`No account called ${missing.join(", ")}. Accounts: ${all.map((x) => x.name).join(", ") || "none"}.`);
+        }
+        accounts = all.filter((acc) => wanted.includes(acc.name.toLowerCase()));
+      }
+
+      if (!a.force) {
+        const dupe = await db.trade.findFirst({
+          where: {
+            direction: a.direction,
+            entryTime: { gte: new Date(entryTime.getTime() - 5 * 60_000), lte: new Date(entryTime.getTime() + 5 * 60_000) },
+          },
+        });
+        if (dupe) {
+          return failure(
+            `Looks already logged: trade ${dupe.id} (${a.direction} at ${nyTime(dupe.entryTime)} NY). Use update_trade on it, or force=true if it's a separate trade.`,
+          );
+        }
+      }
+
+      const levels = { symbol, direction: a.direction, entry: a.entry, stop: a.stop, target: a.target, exit: a.exit, contracts: a.contracts };
+      const m = tradeMaths(levels);
+      const outcome = a.outcome ?? (m.resultR != null ? outcomeFromR(m.resultR) : null);
+      const pnl = a.pnl ?? m.pnl ?? 0;
+      const plan = planLine(levels);
+      const session = detectSession(entryTime);
+
+      const tagIds: string[] = [];
+      for (const name of [...new Set((a.tags ?? []).map((t) => t.trim()).filter(Boolean))]) {
+        tagIds.push((await db.tag.upsert({ where: { name }, update: {}, create: { name } })).id);
+      }
+
+      const created = [];
+      for (const acc of accounts.length ? accounts : [null]) {
+        const trade = await db.trade.create({
+          data: {
+            symbol,
+            direction: a.direction,
+            assetClass: isFutures(symbol) ? "FUTURES_METALS" : "CRYPTO",
+            accountId: acc?.id ?? null,
+            accountName: acc?.name ?? null,
+            outcome,
+            entryModel: a.setup?.trim() || null,
+            preTradeThesis: a.thesis?.trim() || null,
+            management: [plan, a.management?.trim()].filter(Boolean).join("\n"),
+            entryPrice: a.entry,
+            stopLoss: a.stop,
+            exitPrice: a.exit ?? null,
+            positionSize: a.contracts ?? null,
+            riskDollars: m.riskDollars,
+            entryTime,
+            exitTime,
+            durationMinutes: exitTime ? calculateDurationMinutes(entryTime, exitTime) : null,
+            pnl,
+            rMultiple: m.resultR != null ? Math.abs(m.resultR) : null, // stored positive; outcome gives the sign
+            session,
+            notes: "Logged by the mentor from a screenshot.",
+            tags: { create: tagIds.map((tagId) => ({ tagId })) },
+          },
+        });
+        created.push({ id: trade.id, account: acc?.name ?? null, edit: editLink(trade.id) });
+      }
+      refreshJournal();
+
+      return text({
+        logged: created,
+        plan,
+        session,
+        entryNY: nyTime(entryTime),
+        entryUK: ukTime(entryTime),
+        outcome: outcome ?? "open (no exit yet)",
+        resultR: m.resultR,
+        pnl,
+        stillToAdd: "screenshot and emotions (pre/post) - on the edit link",
+      });
+    },
+  );
+
+  server.registerTool(
+    "update_trade",
+    {
+      title: "Update a journal trade",
+      description:
+        "Add the result or fix numbers on a trade already in the journal (id from log_trade or " +
+        "get_journal): exit, outcome, P&L, stop, target, setup, thesis, management, review. Recomputes R " +
+        "and the plan line. Never touches emotions or screenshots.",
+      inputSchema: {
+        id: z.string().min(1),
+        exit: PRICE.optional(),
+        exitDate: DATE.optional().describe("Defaults to the entry date in the zone below"),
+        exitTime: TIME.optional(),
+        timezone: z.enum(["London", "New_York"]).default("London"),
+        stop: PRICE.optional(),
+        entry: PRICE.optional(),
+        target: PRICE.optional(),
+        contracts: z.number().int().positive().optional(),
+        outcome: z.enum(["WIN", "LOSS", "BREAKEVEN"]).optional(),
+        pnl: z.number().optional(),
+        setup: z.string().max(200).optional(),
+        thesis: z.string().max(5000).optional(),
+        management: z.string().max(5000).optional().describe("Extra management notes (kept under the plan line)"),
+        review: z.string().max(10000).optional(),
+      },
+      annotations: { destructiveHint: false, idempotentHint: true },
+    },
+    async (a) => {
+      const trade = await db.trade.findUnique({ where: { id: a.id } });
+      if (!trade) return failure(`No trade with id ${a.id}. Use get_journal to find it.`);
+
+      const symbol = trade.symbol ?? "MNQ";
+      const entry = a.entry ?? num(trade.entryPrice);
+      const stop = a.stop ?? num(trade.stopLoss);
+      const exit = a.exit ?? num(trade.exitPrice);
+      const contracts = a.contracts ?? num(trade.positionSize);
+      const oldTarget = trade.management?.split("\n")[0].match(/TP ([\d.]+)/)?.[1];
+      const target = a.target ?? (oldTarget ? Number(oldTarget) : null);
+      const hasPlanLine = trade.notes?.startsWith("Logged by the mentor") ?? false;
+      const oldExtra = (hasPlanLine ? trade.management?.split("\n").slice(1).join("\n") : trade.management)?.trim() || null;
+
+      const data: Record<string, unknown> = {};
+      if (a.setup !== undefined) data.entryModel = a.setup.trim() || null;
+      if (a.thesis !== undefined) data.preTradeThesis = a.thesis.trim() || null;
+      if (a.review !== undefined) data.review = a.review.trim() || null;
+      if (a.entry !== undefined) data.entryPrice = a.entry;
+      if (a.stop !== undefined) data.stopLoss = a.stop;
+      if (a.exit !== undefined) data.exitPrice = a.exit;
+      if (a.contracts !== undefined) data.positionSize = a.contracts;
+
+      if (a.exitTime) {
+        const zone = a.timezone === "London" ? "Europe/London" : "America/New_York";
+        const entryDate = new Intl.DateTimeFormat("en-CA", { timeZone: zone }).format(trade.entryTime);
+        let exitTime = toUtc(a.exitDate ?? entryDate, a.exitTime, a.timezone);
+        if (!a.exitDate && exitTime < trade.entryTime) exitTime = new Date(exitTime.getTime() + 86_400_000);
+        data.exitTime = exitTime;
+        data.durationMinutes = calculateDurationMinutes(trade.entryTime, exitTime);
+      }
+
+      let resultR: number | null = null;
+      if (entry != null && stop != null) {
+        const levels = { symbol, direction: trade.direction, entry, stop, target, exit, contracts };
+        const m = tradeMaths(levels);
+        resultR = m.resultR;
+        data.management = [planLine(levels), a.management?.trim() ?? oldExtra].filter(Boolean).join("\n");
+        data.riskDollars = m.riskDollars;
+        if (m.resultR != null) data.rMultiple = Math.abs(m.resultR);
+        if (a.pnl === undefined && m.pnl != null && (a.exit !== undefined || a.contracts !== undefined)) data.pnl = m.pnl;
+        if (a.outcome === undefined && m.resultR != null && a.exit !== undefined) data.outcome = outcomeFromR(m.resultR);
+        if (!hasPlanLine) data.notes = [trade.notes, "Logged by the mentor from a screenshot."].filter(Boolean).join("\n");
+      } else if (a.management !== undefined) {
+        data.management = a.management.trim() || null;
+      }
+      if (a.pnl !== undefined) data.pnl = a.pnl;
+      if (a.outcome !== undefined) data.outcome = a.outcome;
+
+      const updated = await db.trade.update({ where: { id: a.id }, data });
+      refreshJournal();
+      return text({
+        updated: a.id,
+        management: updated.management,
+        outcome: updated.outcome,
+        resultR,
+        pnl: num(updated.pnl),
+        edit: editLink(a.id),
+      });
     },
   );
 }
