@@ -8,6 +8,7 @@ import { revalidatePath } from "next/cache";
 import { ANGUS_RECAPS, ANGUS_RULES, COACHING } from "@/lib/mentor/brief";
 import { getBars, getLevels, MarketDataError, nyParts, tradeDate } from "@/lib/mentor/market-data";
 import { isFutures, outcomeFromR, planLine, tradeMaths } from "@/lib/mentor/log-trade";
+import { LESSONS_ID, PATTERNS_WHERE } from "@/lib/mentor/memory";
 
 const DATE = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "YYYY-MM-DD");
 const TIME = z.string().regex(/^\d{2}:\d{2}$/, "HH:MM (New York)");
@@ -70,19 +71,21 @@ export function registerMentorTools(server: McpServer, origin: string) {
       description:
         "Call this first in every conversation. Coaching rules and workflows (premarket / check / review / " +
         "week), the trader's schedule, Angus' rules, the trader's own playbook, trading rules and risk " +
-        "settings, their recurring-pattern notes, and the current time and trade date.",
+        "settings, the lessons they've taught you, their recurring-pattern notes, and the current time and trade date.",
       annotations: { readOnlyHint: true },
     },
     async () => {
-      const [playbook, rules, risk, memory] = await Promise.all([
+      const [playbook, rules, risk, memory, lessons] = await Promise.all([
         db.playbookRule.findMany({ orderBy: { order: "asc" } }),
         db.tradingRulesNote.findFirst({ orderBy: { updatedAt: "desc" } }),
         db.riskSettings.findFirst(),
-        db.mentorMemory.findFirst({ orderBy: { updatedAt: "desc" } }),
+        db.mentorMemory.findFirst({ where: PATTERNS_WHERE, orderBy: { updatedAt: "desc" } }),
+        db.mentorMemory.findUnique({ where: { id: LESSONS_ID } }),
       ]);
       const now = new Date();
       const sections = [
         COACHING,
+        `# Lessons the trader has taught you (these override everything below)\n${lessons?.content || "(none yet)"}`,
         ANGUS_RECAPS,
         ANGUS_RULES,
         `# The trader's playbook\n${playbook
@@ -370,13 +373,52 @@ export function registerMentorTools(server: McpServer, origin: string) {
       annotations: { destructiveHint: false, idempotentHint: true },
     },
     async ({ content }) => {
-      const existing = await db.mentorMemory.findFirst({ orderBy: { updatedAt: "desc" } });
+      const existing = await db.mentorMemory.findFirst({ where: PATTERNS_WHERE, orderBy: { updatedAt: "desc" } });
       if (existing) {
         await db.mentorMemory.update({ where: { id: existing.id }, data: { content } });
       } else {
         await db.mentorMemory.create({ data: { content } });
       }
       return text("Pattern notes saved.");
+    },
+  );
+
+
+  server.registerTool(
+    "remember_lesson",
+    {
+      title: "Remember a lesson",
+      description:
+        "Save a lesson the trader teaches you (a correction to how you coach, grade or read Angus' method, " +
+        "or a preference) so every future chat follows it. One short, specific rule per call, written as an " +
+        "instruction to yourself. It's added to the lessons in mentor_brief, which override the rest of the brief.",
+      inputSchema: { lesson: z.string().min(3).max(1000) },
+      annotations: { destructiveHint: false, idempotentHint: false },
+    },
+    async ({ lesson }) => {
+      const existing = await db.mentorMemory.findUnique({ where: { id: LESSONS_ID } });
+      const line = `- (${ukToday()}) ${lesson.trim().replace(/\s*\n\s*/g, " ")}`;
+      const content = existing?.content ? `${existing.content.trimEnd()}\n${line}` : line;
+      if (content.length > 20000) return failure("The lessons note is full - tidy it with update_lessons first.");
+      await db.mentorMemory.upsert({ where: { id: LESSONS_ID }, update: { content }, create: { id: LESSONS_ID, content } });
+      return text(`Saved. Lessons now:\n${content}`);
+    },
+  );
+
+  server.registerTool(
+    "update_lessons",
+    {
+      title: "Rewrite lessons",
+      description:
+        "Rewrite the whole lessons note (markdown list, one lesson per line with its date) - to merge " +
+        "duplicates, fix one, or remove one the trader says no longer applies. Read it in mentor_brief first " +
+        "and never drop a lesson unless the trader asked.",
+      inputSchema: { content: z.string().max(20000) },
+      annotations: { destructiveHint: false, idempotentHint: true },
+    },
+    async ({ content }) => {
+      await db.mentorMemory.upsert({ where: { id: LESSONS_ID }, update: { content }, create: { id: LESSONS_ID, content } });
+      return text("Lessons saved.");
     },
   );
 

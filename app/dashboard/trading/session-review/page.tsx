@@ -17,6 +17,7 @@ import {
   shiftDateValue,
 } from "@/lib/trading/calc";
 import { summarizeTrades } from "@/lib/trading/analytics";
+import { LESSONS_ID, PATTERNS_WHERE } from "@/lib/mentor/memory";
 import {
   generateDailyCommentary,
   generateWeeklyCommentary,
@@ -111,7 +112,7 @@ async function WeekView({ anchorDate, aiError }: { anchorDate: string; aiError: 
   const weekEndValue = shiftDateValue(weekStartValue, 6);
   const { start, end } = getNewYorkWeekRangeUtc(weekStartValue);
 
-  const [trades, review, dailyReviews, patterns] = await Promise.all([
+  const [trades, review, dailyReviews, patterns, lessons] = await Promise.all([
     db.trade.findMany({
       where: { entryTime: { gte: start, lt: end } },
       orderBy: { entryTime: "asc" },
@@ -123,7 +124,8 @@ async function WeekView({ anchorDate, aiError }: { anchorDate: string; aiError: 
       where: { date: { gte: start, lt: end } },
       orderBy: { date: "asc" },
     }),
-    db.mentorMemory.findFirst({ orderBy: { updatedAt: "desc" } }),
+    db.mentorMemory.findFirst({ where: PATTERNS_WHERE, orderBy: { updatedAt: "desc" } }),
+    db.mentorMemory.findUnique({ where: { id: LESSONS_ID } }),
   ]);
 
   const summary = summarizeTrades(
@@ -205,6 +207,7 @@ async function WeekView({ anchorDate, aiError }: { anchorDate: string; aiError: 
 
       {review?.mentorReview && <MentorCard title="Mentor review" markdown={review.mentorReview} />}
       {patterns && <MentorCard title="Mentor's notes on your patterns" markdown={patterns.content} />}
+      {lessons?.content && <MentorCard title="Lessons you've taught the mentor" markdown={lessons.content} />}
     </div>
   );
 }
